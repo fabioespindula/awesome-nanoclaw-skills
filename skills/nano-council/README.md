@@ -1,4 +1,4 @@
-# NanoClaw Skills
+# Awesome NanoClaw Skills
 
 ```txt
 ███╗   ██╗ █████╗ ███╗   ██╗ ██████╗  ██████╗██╗      █████╗ ██╗    ██╗
@@ -10,9 +10,9 @@
                          S K I L L S
 ```
 
-Reusable AI skills for NanoClaw.
+Curated, security-conscious AI skills for NanoClaw.
 
-NanoClaw Skills is a growing collection of modular skills for building sharper, more useful AI agents. Each skill is a small, portable bundle of instructions, prompts, references, and templates that gives an agent a specific capability.
+This repository curates modular skills for building sharper, more useful AI agents. Each skill is a small, portable bundle of instructions, prompts, references, and templates that gives an agent a specific capability.
 
 Start small. Compose capabilities. Ship better agents.
 
@@ -55,7 +55,7 @@ Skills are prompt-native. No compilation step is required.
 ## Repository Structure
 
 ```txt
-nanoclaw-skills/
+awesome-nanoclaw-skills/
   README.md
   LICENSE
   skills/
@@ -86,10 +86,10 @@ Install this as a container skill so the NanoClaw agent can use it from Telegram
 
 ```bash
 cd /path/to/nanoclaw
-rm -rf /tmp/nanoclaw-skills
-git clone git@github.com:fabioespindula/nanoclaw-skills.git /tmp/nanoclaw-skills
+rm -rf /tmp/awesome-nanoclaw-skills
+git clone git@github.com:fabioespindula/awesome-nanoclaw-skills.git /tmp/awesome-nanoclaw-skills
 mkdir -p container/skills
-rsync -a --delete /tmp/nanoclaw-skills/skills/nano-council/ container/skills/nano-council/
+rsync -a --delete /tmp/awesome-nanoclaw-skills/skills/nano-council/ container/skills/nano-council/
 git add container/skills/nano-council
 git commit -m "add nano council skill"
 ```
@@ -114,7 +114,7 @@ Expected output:
 
 Good agents do not need one giant prompt. They need focused capabilities with clear boundaries.
 
-NanoClaw Skills is built around a few principles:
+The collection is built around a few principles:
 
 - small skills over monolithic agents
 - explicit workflows over vague instructions
