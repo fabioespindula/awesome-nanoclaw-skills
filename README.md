@@ -20,6 +20,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 
 | Skill | Description |
 | --- | --- |
+| [`awesome-updater`](skills/awesome-updater) | Central installer and default-on auto-updater for managed Awesome NanoClaw Skills. |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Local audio/video transcription with faster-whisper and txt/srt/vtt output. |
 
@@ -97,6 +98,7 @@ Current examples:
 
 | Skill | Requirements |
 | --- | --- |
+| [`awesome-updater`](skills/awesome-updater) | Python 3.10+ and `git`. Network access is needed when checking GitHub for updates. |
 | [`nano-council`](skills/nano-council) | NanoClaw agent runtime with skill loading. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
 
@@ -105,6 +107,45 @@ Current examples:
 Review each `SKILL.md` before installing it. Skills may instruct agents to use tools, read files, run scripts, or follow workflows depending on your NanoClaw setup.
 
 For production runtimes, install only the skills the agent needs and test each one before adding more.
+
+## Auto Updates
+
+Install skills through [`awesome-updater`](skills/awesome-updater) when you want managed updates. Managed skills get a `.awesome-skill.json` metadata file with update checks and auto-upgrade enabled by default.
+
+Default behavior:
+
+| Setting | Default | Effect |
+| --- | --- | --- |
+| `update_check` | `true` | Checks for newer commits, throttled to once per hour per skill. |
+| `auto_upgrade` | `true` | Applies available updates without asking, after validation and backup. |
+| `throttle_seconds` | `3600` | Avoids repeated network checks during frequent skill use. |
+
+Bootstrap the updater first. This makes the central updater managed too, so it can update itself:
+
+```bash
+SKILLS_DIR=/path/to/nanoclaw/container/skills
+python3 skills/awesome-updater/scripts/awesome_skills.py install awesome-updater \
+  --source-dir "$PWD" \
+  --skills-dir "$SKILLS_DIR"
+```
+
+Then install any managed skill through the updater:
+
+```bash
+python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" install nano-council \
+  --source-dir "$PWD" \
+  --skills-dir "$SKILLS_DIR"
+```
+
+Check and auto-upgrade an installed skill:
+
+```bash
+python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" check nano-council \
+  --skills-dir "$SKILLS_DIR" \
+  --auto
+```
+
+Managed skills should check `awesome-updater` first, then themselves. The updater validates the source skill, backs up the installed copy under `.awesome-backups/`, replaces the skill, and restores the backup if replacement fails.
 
 ## Skill Backlog
 
@@ -130,6 +171,10 @@ awesome-nanoclaw-skills/
   README.md
   LICENSE
   skills/
+    awesome-updater/
+      SKILL.md
+      scripts/
+      tests/
     nano-council/
       SKILL.md
       references/

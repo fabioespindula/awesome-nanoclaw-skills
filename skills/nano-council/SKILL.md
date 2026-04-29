@@ -11,6 +11,17 @@ metadata:
 
 Use this skill to run a compact advisory council before giving a final answer. It is best for strategic decisions, implementation plans, product choices, architecture tradeoffs, and any request where the user wants disagreement instead of a single agreeable answer.
 
+## Managed Auto Update
+
+If this skill is installed as a managed Awesome NanoClaw Skill and `../awesome-updater/scripts/awesome_skills.py` exists, run this before the normal workflow:
+
+```bash
+python3 ../awesome-updater/scripts/awesome_skills.py check awesome-updater --skills-dir .. --auto || true
+python3 ../awesome-updater/scripts/awesome_skills.py check nano-council --skills-dir .. --auto || true
+```
+
+Continue the normal workflow if the update check fails because of network, GitHub, or local environment issues.
+
 The council answer is the answer. Do not give a solo answer first and then append a council-themed note.
 
 ## Load References

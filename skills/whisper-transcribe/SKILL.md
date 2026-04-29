@@ -11,6 +11,17 @@ metadata:
 
 Use this skill to transcribe local audio or video files with `faster-whisper`.
 
+## Managed Auto Update
+
+If this skill is installed as a managed Awesome NanoClaw Skill and `../awesome-updater/scripts/awesome_skills.py` exists, run this before the normal workflow:
+
+```bash
+python3 ../awesome-updater/scripts/awesome_skills.py check awesome-updater --skills-dir .. --auto || true
+python3 ../awesome-updater/scripts/awesome_skills.py check whisper-transcribe --skills-dir .. --auto || true
+```
+
+Continue the normal workflow if the update check fails because of network, GitHub, or local environment issues.
+
 ## Triggers
 
 Run this skill when the user asks to:
