@@ -21,6 +21,7 @@ Start small. Compose capabilities. Ship better agents.
 | Skill | Status | Description |
 | --- | --- | --- |
 | `nano-council` | alpha | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
+| `whisper-transcribe` | alpha | Local audio/video transcription with faster-whisper and txt/srt/vtt output. |
 
 ## Roadmap
 
@@ -31,7 +32,6 @@ Start small. Compose capabilities. Ship better agents.
 | `deep-research-agent` | Performs academic-style research with source tracking and APA citations. |
 | `humanize-ai-text` | Rewrites AI-generated text to sound more natural and human. |
 | `morning-briefing` | Generates a daily briefing from connected context and priorities. |
-| `whisper-transcribe` | Runs local audio transcription with faster-whisper. |
 | `github-manager` | Manages repositories, issues, pull requests, and reviews through chat. |
 | `obsidian-vault` | Reads, writes, searches, and organizes Obsidian notes. |
 | `web-clipper` | Saves, summarizes, and categorizes links automatically. |
