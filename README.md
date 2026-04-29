@@ -112,15 +112,16 @@ These are candidate skills. If you want one of them next, open an issue or comme
 
 | Skill | Description |
 | --- | --- |
-| `deep-research-agent` | Research workflow with source tracking and citation formatting. |
-| `github-manager` | GitHub issues, pull requests, and repository maintenance through chat. |
-| `morning-briefing` | Daily briefing from connected context and priorities. |
-| `self-improving-agent` | Logs failures, extracts lessons, and improves future behavior over time. |
-| `proactive-agent` | Anticipates needs using layered memory and context signals. |
-| `calendar-assistant` | Calendar workflows through chat. |
-| `obsidian-vault` | Reads, writes, searches, and organizes Obsidian notes. |
-| `web-clipper` | Saves, summarizes, and categorizes links automatically. |
-| `editorial-rewriter` | Rewrites drafts for clarity, tone, and plain-language readability. |
+| `skill-auditor` | Audits NanoClaw and OpenClaw skills for unsafe commands, secret exfiltration, risky install steps, and undocumented network access. |
+| `web-clipper` | Saves, summarizes, tags, and organizes links sent from chat channels such as Telegram and WhatsApp. |
+| `morning-briefing` | Generates a daily briefing from saved context, priorities, calendars, tasks, and relevant external signals. |
+| `meeting-assistant` | Turns meeting audio, transcripts, notes, and chat context into summaries, decisions, action items, and follow-ups. |
+| `firecrawl-research` | Uses Firecrawl-backed crawling and extraction to produce sourced research briefs from websites and docs. |
+| `self-improving-agent` | Captures mistakes, preferences, and lessons learned so future agent runs can improve with reviewable updates. |
+| `mcp-bridge` | Helps connect NanoClaw skills to MCP servers and external tool providers through safe setup workflows. |
+| `skill-porting-kit` | Converts or adapts OpenClaw, Claude Code, Codex, Cursor, and other `SKILL.md`-compatible skills for NanoClaw. |
+| `notion-knowledge-base` | Reads, writes, searches, and organizes Notion pages, tasks, and lightweight knowledge bases. |
+| `context7-docs` | Pulls current developer documentation into coding workflows using Context7-style doc retrieval. |
 
 ## Repository Structure
 
