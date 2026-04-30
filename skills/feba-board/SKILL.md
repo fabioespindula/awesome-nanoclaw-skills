@@ -25,7 +25,7 @@ metadata:
       - /board Quero decidir se faco launch agora ou espero melhorar onboarding.
       - me ajuda a decidir se devo aceitar esse cliente grande
     readme_include: true
-    readme_description: FEBA Board gives five VC-style perspectives for important decisions, plans, and tradeoffs.
+    readme_description: Five VC perspectives for important decisions, plans, and tradeoffs.
 ---
 
 # FEBA Board
