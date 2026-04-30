@@ -19,12 +19,15 @@ DEFAULT_THROTTLE_SECONDS = 3600
 METADATA_NAME = ".awesome-skill.json"
 BACKUP_DIR_NAME = ".awesome-backups"
 LOCK_NAME = ".awesome-update.lock"
+GLOBAL_CONFIG_SKILL = "awesome-updater"
 MANAGED_DEFAULTS = {
     "source_repo": DEFAULT_REPO,
     "branch": DEFAULT_BRANCH,
     "update_check": True,
     "auto_upgrade": True,
+    "discover_new": True,
     "throttle_seconds": DEFAULT_THROTTLE_SECONDS,
+    "discover_throttle_seconds": DEFAULT_THROTTLE_SECONDS,
 }
 
 
@@ -138,6 +141,51 @@ def validate_source_skill(source_skill: Path) -> None:
             item.relative_to(source_skill)
         except ValueError as exc:
             raise UpdaterError(f"source path escapes skill directory: {item}") from exc
+
+
+def source_skills_root(source_dir: Path) -> Path:
+    skills_root = source_dir / "skills"
+    return skills_root if skills_root.is_dir() else source_dir
+
+
+def list_source_skills(source_dir: Path) -> dict[str, Path]:
+    skills: dict[str, Path] = {}
+    for candidate in sorted(source_skills_root(source_dir).iterdir()):
+        if candidate.name.startswith(".") or not candidate.is_dir():
+            continue
+        if (candidate / "SKILL.md").is_file():
+            skills[candidate.name] = candidate
+    return skills
+
+
+def global_metadata_path(skills_dir: Path) -> Path:
+    return metadata_path(skills_dir / GLOBAL_CONFIG_SKILL)
+
+
+def load_global_metadata(skills_dir: Path) -> dict[str, Any]:
+    path = global_metadata_path(skills_dir)
+    if path.exists():
+        return {**MANAGED_DEFAULTS, **read_json(path)}
+    return {**MANAGED_DEFAULTS, "skill": GLOBAL_CONFIG_SKILL}
+
+
+def write_global_metadata(skills_dir: Path, metadata: dict[str, Any]) -> None:
+    path = global_metadata_path(skills_dir)
+    if path.exists():
+        write_json(path, metadata)
+
+
+def managed_installed_skills(skills_dir: Path) -> dict[str, dict[str, Any]]:
+    managed: dict[str, dict[str, Any]] = {}
+    if not skills_dir.exists():
+        return managed
+    for candidate in sorted(skills_dir.iterdir()):
+        if not candidate.is_dir() or candidate.name.startswith("."):
+            continue
+        metadata_file = metadata_path(candidate)
+        if metadata_file.exists():
+            managed[candidate.name] = {**MANAGED_DEFAULTS, **read_json(metadata_file)}
+    return managed
 
 
 @contextmanager
@@ -291,19 +339,119 @@ def config_skill(args: argparse.Namespace) -> dict[str, Any]:
             raise UpdaterError(f"expected key=value, got {item!r}")
         key, raw = item.split("=", 1)
         key = key.strip()
-        if key not in {"auto_upgrade", "update_check", "throttle_seconds", "branch", "source_repo"}:
+        if key not in {
+            "auto_upgrade",
+            "update_check",
+            "discover_new",
+            "throttle_seconds",
+            "discover_throttle_seconds",
+            "branch",
+            "source_repo",
+        }:
             raise UpdaterError(f"unsupported config key: {key}")
-        if key in {"auto_upgrade", "update_check"}:
+        if key in {"auto_upgrade", "update_check", "discover_new"}:
             value: Any = bool_value(raw)
-        elif key == "throttle_seconds":
+        elif key in {"throttle_seconds", "discover_throttle_seconds"}:
             value = int(raw)
             if value < 0:
-                raise UpdaterError("throttle_seconds must be >= 0")
+                raise UpdaterError(f"{key} must be >= 0")
         else:
             value = raw
         metadata[key] = value
     write_json(metadata_path(installed), metadata)
     return {"status": "configured", "skill": args.skill, "metadata": metadata}
+
+
+def discover_skills(args: argparse.Namespace) -> dict[str, Any]:
+    skills_dir = Path(args.skills_dir).resolve()
+    skills_dir.mkdir(parents=True, exist_ok=True)
+    global_metadata = load_global_metadata(skills_dir)
+
+    if not global_metadata.get("discover_new", True):
+        return {"status": "skipped", "reason": "discover_new_disabled"}
+
+    last_discover = parse_iso(global_metadata.get("last_discover_at"))
+    throttle_seconds = int(global_metadata.get("discover_throttle_seconds", DEFAULT_THROTTLE_SECONDS))
+    if last_discover and not args.force:
+        elapsed = (utc_now() - last_discover).total_seconds()
+        if elapsed < throttle_seconds:
+            return {
+                "status": "throttled",
+                "seconds_until_next_discover": int(throttle_seconds - elapsed),
+            }
+
+    repo = args.repo or global_metadata.get("source_repo", DEFAULT_REPO)
+    branch = args.branch or global_metadata.get("branch", DEFAULT_BRANCH)
+    source_dir_arg = Path(args.source_dir).resolve() if args.source_dir else None
+
+    with tempfile.TemporaryDirectory(prefix="awesome-skills-discover-") as tmp:
+        tmp_root = Path(tmp)
+        repo_dir = source_dir_arg or clone_source(repo, branch, tmp_root)
+        latest_commit = source_commit(repo_dir, repo, branch)
+        source_skills = list_source_skills(repo_dir)
+        managed = managed_installed_skills(skills_dir)
+        installed: list[str] = []
+        check_results: list[dict[str, Any]] = []
+        skipped_existing_unmanaged: list[str] = []
+        skipped_different_source: list[str] = []
+        errors: list[dict[str, str]] = []
+
+        for name, metadata in managed.items():
+            if name not in source_skills:
+                continue
+            if metadata.get("source_repo", DEFAULT_REPO) != repo or metadata.get("branch", DEFAULT_BRANCH) != branch:
+                skipped_different_source.append(name)
+                continue
+            check_args = argparse.Namespace(
+                skill=name,
+                skills_dir=str(skills_dir),
+                source_dir=str(repo_dir),
+                repo=repo,
+                branch=branch,
+                auto=args.auto,
+                force=True,
+            )
+            try:
+                check_results.append(check_skill(check_args))
+            except Exception as exc:
+                errors.append({"skill": name, "error": str(exc)})
+
+        with lock(skills_dir):
+            for name, source_skill in source_skills.items():
+                target = skill_dir(skills_dir, name)
+                if target.exists():
+                    if not metadata_path(target).exists():
+                        skipped_existing_unmanaged.append(name)
+                    continue
+                try:
+                    validate_source_skill(source_skill)
+                    metadata = {
+                        **MANAGED_DEFAULTS,
+                        "source_repo": repo,
+                        "branch": branch,
+                        "skill": name,
+                    }
+                    replace_skill(target, source_skill, metadata, latest_commit)
+                    installed.append(name)
+                except Exception as exc:
+                    errors.append({"skill": name, "error": str(exc)})
+
+        latest_global_metadata = load_global_metadata(skills_dir)
+        latest_global_metadata["last_discover_at"] = iso_now()
+        latest_global_metadata["last_seen_commit"] = latest_commit
+        write_global_metadata(skills_dir, latest_global_metadata)
+
+    return {
+        "status": "partial" if errors else "discovered",
+        "source_repo": repo,
+        "branch": branch,
+        "commit": latest_commit,
+        "installed": installed,
+        "checked": check_results,
+        "skipped_existing_unmanaged": skipped_existing_unmanaged,
+        "skipped_different_source": skipped_different_source,
+        "errors": errors,
+    }
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -328,6 +476,15 @@ def build_parser() -> argparse.ArgumentParser:
     check.add_argument("--auto", action="store_true", help="allow upgrade when an update is available")
     check.add_argument("--force", action="store_true", help="ignore update-check throttle")
     check.set_defaults(func=check_skill)
+
+    discover = subcommands.add_parser("discover", help="sync new and existing skills from the trusted package source")
+    discover.add_argument("--skills-dir", required=True)
+    discover.add_argument("--source-dir")
+    discover.add_argument("--repo")
+    discover.add_argument("--branch")
+    discover.add_argument("--auto", action="store_true", help="allow upgrades when updates are available")
+    discover.add_argument("--force", action="store_true", help="ignore discover throttle")
+    discover.set_defaults(func=discover_skills)
 
     config = subcommands.add_parser("config", help="change managed skill updater config")
     config.add_argument("skill")

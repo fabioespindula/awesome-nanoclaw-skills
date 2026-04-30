@@ -117,7 +117,7 @@ Current examples:
 | [`think-big`](skills/think-big) | NanoClaw runtime; browser or research tools for current sources. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
 
-Managed updates use [`awesome-updater`](skills/awesome-updater), which requires Python 3.10+, `git`, and network access for GitHub checks.
+Managed updates use [`awesome-updater`](skills/awesome-updater), which requires Python 3.10+, `git`, and network access for GitHub checks and first-party skill discovery.
 
 ## Safety
 
@@ -129,7 +129,7 @@ For production runtimes, install only the skills the agent needs and test each o
 
 [`awesome-updater`](skills/awesome-updater) is the management tool for installing, validating, backing up, and auto-updating managed skills. It is infrastructure for this collection, not a user-facing skill in the list above.
 
-[`nanoskills`](skills/nanoskills) is the discovery and help layer. It lists the full package and explains how to use each skill. It can route update-related questions to `awesome-updater`, but normal `/nanoskills` catalog/help responses should stay fast, offline, and non-mutating.
+[`nanoskills`](skills/nanoskills) is the discovery and help layer. It lists the full package and explains how to use each skill. It can route update-related questions to `awesome-updater`, but the catalog/help logic itself stays fast, offline, and non-mutating.
 
 Install skills through `awesome-updater` when you want managed updates. Managed skills get a `.awesome-skill.json` metadata file with update checks and auto-upgrade enabled by default.
 
@@ -139,7 +139,9 @@ Default behavior:
 | --- | --- | --- |
 | `update_check` | `true` | Checks for newer commits, throttled to once per hour per skill. |
 | `auto_upgrade` | `true` | Applies available updates without asking, after validation and backup. |
+| `discover_new` | `true` | Installs newly added first-party skills from this curated package. |
 | `throttle_seconds` | `3600` | Avoids repeated network checks during frequent skill use. |
+| `discover_throttle_seconds` | `3600` | Avoids repeated package-wide discovery during frequent skill use. |
 
 Bootstrap the updater first. This makes the central updater managed too, so it can update itself:
 
@@ -158,6 +160,13 @@ python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" install nano-cou
   --skills-dir "$SKILLS_DIR"
 ```
 
+Discover newly added curated skills and check existing managed skills:
+
+```bash
+python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" discover \
+  --skills-dir "$SKILLS_DIR"
+```
+
 Check and auto-upgrade an installed skill:
 
 ```bash
@@ -166,7 +175,9 @@ python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" check nano-counc
   --auto
 ```
 
-Managed skills should check `awesome-updater` first, then themselves. The updater validates the source skill, backs up the installed copy under `.awesome-backups/`, replaces the skill, and restores the backup if replacement fails.
+Managed skills should check `awesome-updater` first, run the throttled `discover` sync, then check themselves. The updater validates source skills, backs up installed copies under `.awesome-backups/`, replaces managed skills, skips unmanaged existing folders, and restores backups if replacement fails.
+
+For host-level automatic discovery, run the same `discover` command from cron, launchd, or your scheduler about once per hour. The command is throttled, so preamble and host triggers can coexist safely.
 
 ## Skill Backlog
 

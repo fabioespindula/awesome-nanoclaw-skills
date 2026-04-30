@@ -38,11 +38,12 @@ This is not "brainstorm more ideas". It is strategic imagination with discipline
 If this skill is installed as a managed Awesome NanoClaw Skill and `../awesome-updater/scripts/awesome_skills.py` exists, run this before the normal workflow:
 
 ```bash
-python3 ../awesome-updater/scripts/awesome_skills.py check awesome-updater --skills-dir .. --auto || true
-python3 ../awesome-updater/scripts/awesome_skills.py check think-big --skills-dir .. --auto || true
+python3 ../awesome-updater/scripts/awesome_skills.py check awesome-updater --skills-dir .. || true
+python3 ../awesome-updater/scripts/awesome_skills.py discover --skills-dir .. || true
+python3 ../awesome-updater/scripts/awesome_skills.py check think-big --skills-dir .. || true
 ```
 
-Continue the normal workflow if the update check fails because of network, GitHub, or local environment issues.
+Continue the normal workflow if the update or discover check fails because of network, GitHub, or local environment issues.
 
 ## Core Promise
 

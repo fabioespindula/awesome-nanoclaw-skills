@@ -1,6 +1,6 @@
 ---
 name: awesome-updater
-description: Use when installing, checking, configuring, or auto-updating Awesome NanoClaw Skills. Provides safe default-on auto-upgrades with metadata, throttling, backups, validation, and rollback.
+description: Use when installing, discovering, checking, configuring, or auto-updating Awesome NanoClaw Skills. Provides safe default-on auto-upgrades and first-party skill discovery with metadata, throttling, backups, validation, and rollback.
 user-invocable: true
 metadata:
   slash-command: /awesome-updater
@@ -13,16 +13,18 @@ metadata:
 
 Use this skill to install and keep Awesome NanoClaw Skills up to date.
 
-The updater is intentionally central: individual skills should not each reimplement update logic. Installed skills carry a `.awesome-skill.json` metadata file, and this skill's script reads that metadata to check for new versions, apply updates, and preserve rollback backups.
+The updater is intentionally central: individual skills should not each reimplement update logic. Installed skills carry a `.awesome-skill.json` metadata file, and this skill's script reads that metadata to check for new versions, discover newly added first-party skills, apply updates, and preserve rollback backups.
 
 ## Defaults
 
 - `update_check`: `true`
 - `auto_upgrade`: `true`
+- `discover_new`: `true`
 - `branch`: `main`
-- throttle: one update check per skill per hour unless `--force` is used
+- update throttle: one update check per skill per hour unless `--force` is used
+- discover throttle: one package-wide discover per hour unless `--force` is used
 
-Auto-upgrade is on by default for security: fixes to unsafe instructions, dependencies, validation logic, or install procedures should reach installed agents without requiring manual action.
+Auto-upgrade and first-party discovery are on by default for security: fixes to unsafe instructions, dependencies, validation logic, install procedures, or newly published curated skills should reach installed agents without requiring manual action.
 
 ## Help Mode
 
@@ -33,7 +35,7 @@ The help response should include:
 - what Awesome Updater does;
 - when to use it;
 - what it can modify;
-- command forms for install, check, config, and `/nanoskills updates`;
+- command forms for install, discover, check, config, and `/nanoskills updates`;
 - what input the user should provide;
 - what output the user gets;
 - curated examples;
@@ -43,6 +45,7 @@ Curated examples:
 
 - `/awesome-updater help`
 - `/nanoskills updates`
+- `/awesome-updater discover`
 - `/awesome-updater check nano-council`
 
 ## Safety Model
@@ -59,6 +62,8 @@ Before replacing a skill, the updater:
 
 The updater only manages skills that contain `.awesome-skill.json`. If a skill has no metadata, do not auto-update it; install it through this updater first.
 
+Discovery follows the gstack-style trusted package model: it syncs skills that are present in the configured Awesome NanoClaw Skills source repository. It does not install arbitrary third-party skills from unknown sources. Existing unmanaged skill folders are skipped instead of overwritten.
+
 ## Command Patterns
 
 Bootstrap the updater into a NanoClaw runtime:
@@ -71,6 +76,12 @@ Install a skill into a NanoClaw runtime:
 
 ```bash
 python3 scripts/awesome_skills.py install nano-council   --source-dir /path/to/awesome-nanoclaw-skills   --skills-dir /path/to/nanoclaw/container/skills
+```
+
+Discover newly added curated skills and check existing managed skills:
+
+```bash
+python3 scripts/awesome_skills.py discover   --skills-dir /path/to/nanoclaw/container/skills
 ```
 
 Check and auto-upgrade one installed skill:
@@ -91,20 +102,27 @@ Change config for one installed skill:
 python3 scripts/awesome_skills.py config nano-council   --skills-dir /path/to/nanoclaw/container/skills   --set auto_upgrade=false
 ```
 
+Disable first-party skill discovery from the package config stored on `awesome-updater`:
+
+```bash
+python3 scripts/awesome_skills.py config awesome-updater   --skills-dir /path/to/nanoclaw/container/skills   --set discover_new=false
+```
+
 ## Preamble For Managed Skills
 
 Managed skills can include this lightweight preamble before their normal workflow:
 
 ```bash
-python3 /path/to/container/skills/awesome-updater/scripts/awesome_skills.py check awesome-updater   --skills-dir /path/to/container/skills   --auto || true
-python3 /path/to/container/skills/awesome-updater/scripts/awesome_skills.py check <skill-name>   --skills-dir /path/to/container/skills   --auto || true
+python3 /path/to/container/skills/awesome-updater/scripts/awesome_skills.py check awesome-updater   --skills-dir /path/to/container/skills || true
+python3 /path/to/container/skills/awesome-updater/scripts/awesome_skills.py discover   --skills-dir /path/to/container/skills || true
+python3 /path/to/container/skills/awesome-updater/scripts/awesome_skills.py check <skill-name>   --skills-dir /path/to/container/skills || true
 ```
 
-If the check fails because of network or GitHub availability, continue the original skill workflow. Update failures should not block normal use unless the user explicitly asked to update.
+If the check or discover step fails because of network or GitHub availability, continue the original skill workflow. Update failures should not block normal use unless the user explicitly asked to update.
 
 ## Output Rules
 
 - Return the JSON summary from the script when the user asks for update status.
-- Mention whether the skill was already current, upgraded, throttled, skipped by config, or restored from backup.
+- Mention whether skills were discovered, already current, upgraded, throttled, skipped by config, skipped because unmanaged, or restored from backup.
 - Do not expose tokens or environment variables.
 - Do not auto-update skills without `.awesome-skill.json` metadata.

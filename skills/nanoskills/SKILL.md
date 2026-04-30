@@ -18,13 +18,14 @@ Use this skill as the package-level catalog and help system for Awesome NanoClaw
 If this skill is installed as a managed Awesome NanoClaw Skill and `../awesome-updater/scripts/awesome_skills.py` exists, run this before the normal workflow:
 
 ```bash
-python3 ../awesome-updater/scripts/awesome_skills.py check awesome-updater --skills-dir .. --auto || true
-python3 ../awesome-updater/scripts/awesome_skills.py check nanoskills --skills-dir .. --auto || true
+python3 ../awesome-updater/scripts/awesome_skills.py check awesome-updater --skills-dir .. || true
+python3 ../awesome-updater/scripts/awesome_skills.py discover --skills-dir .. || true
+python3 ../awesome-updater/scripts/awesome_skills.py check nanoskills --skills-dir .. || true
 ```
 
-Continue the normal workflow if the update check fails because of network, GitHub, or local environment issues.
+Continue the normal workflow if the update or discover check fails because of network, GitHub, or local environment issues.
 
-Do not run package-wide update checks during normal catalog or help responses. Listing skills should not modify files, depend on network access, or surprise the user.
+Do not run extra package-wide update checks during normal catalog or help responses beyond the shared managed preamble above. Listing skills should be based on local catalog files and should not require network access to produce the answer.
 
 ## Triggers
 
@@ -62,7 +63,7 @@ Choose the response from the user's command:
 | `/nanoskills list` or `/nanoskills lista` | Show the full package catalog. |
 | `/nanoskills help` or `/nanoskills ajuda` | Explain how to use `/nanoskills` itself and show how to request help for one skill. |
 | `/nanoskills help <skill-or-command>` | Show detailed help for the requested skill. |
-| `/nanoskills updates` or `/nanoskills status` | Explain the relationship with `awesome-updater` and show safe update/status commands. Use updater tooling only when the user clearly asks to check, install, configure, or upgrade. |
+| `/nanoskills updates` or `/nanoskills status` | Explain the relationship with `awesome-updater` and show safe update/status commands. Use updater tooling only when the user clearly asks to discover, check, install, configure, or upgrade. |
 
 Accept skill names, aliases, and slash commands when resolving help:
 
@@ -129,8 +130,8 @@ Examples:
 `/nanoskills` is not the updater. It should explain and route update-related intent without merging responsibilities.
 
 - Use `/nanoskills` and `/nanoskills help <skill>` for discovery and usage help.
-- Use `awesome-updater` for install, check, config, backup, rollback, and auto-upgrade behavior.
-- Normal catalog/help responses must not run package-wide checks.
+- Use `awesome-updater` for install, discover, check, config, backup, rollback, and auto-upgrade behavior.
+- Normal catalog/help responses must not run extra package-wide checks beyond the shared managed preamble.
 - If the user asks to check updates, use `awesome-updater` instructions or tooling when available.
 - If the user asks for a pure explanation, do not run update commands.
 
