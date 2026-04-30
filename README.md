@@ -22,6 +22,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 | --- | --- |
 | [`awesome-updater`](skills/awesome-updater) | Central installer and default-on auto-updater for managed Awesome NanoClaw Skills. |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
+| [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Local audio/video transcription with faster-whisper and txt/srt/vtt output. |
 
 ## Quick Start
@@ -100,6 +101,7 @@ Current examples:
 | --- | --- |
 | [`awesome-updater`](skills/awesome-updater) | Python 3.10+ and `git`. Network access is needed when checking GitHub for updates. |
 | [`nano-council`](skills/nano-council) | NanoClaw agent runtime with skill loading. |
+| [`read-for-me`](skills/read-for-me) | NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
 
 ## Safety
@@ -179,6 +181,11 @@ awesome-nanoclaw-skills/
       SKILL.md
       references/
       assets/
+      scripts/
+    read-for-me/
+      SKILL.md
+      references/
+      templates/
       scripts/
     whisper-transcribe/
       SKILL.md
