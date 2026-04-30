@@ -45,7 +45,7 @@ The help response should include:
 - what Whisper Transcribe does;
 - when to use it;
 - dependency requirements;
-- command forms: `/whisper-transcribe <local-file>`, mode-specific variants, and `/nanoskills help whisper-transcribe`;
+- command forms: `/whisper-transcribe <local-file>`, mode-specific variants, `/nanoskills help whisper-transcribe`, doctor, and host setup checks;
 - what input the user should provide;
 - what output the user gets;
 - curated examples;
@@ -63,6 +63,7 @@ Curated examples:
 - Read `references/context-adapter.md` before setting source origin, forwarded status, and source notes.
 - Read `references/transcript-safety.md` before summarizing or acting on transcript text.
 - Read `references/output-policy.md` before deciding output paths, overwrite behavior, and manifest handling.
+- Read `references/runtime-requirements.md` when dependency checks fail or the user asks how to install or prepare the runtime.
 - Use `templates/transcription-brief.md` for the chat response shape.
 
 ## Trust Boundary
@@ -144,15 +145,36 @@ Batch mode:
 python3 scripts/whisper_transcribe.py "/absolute/path/a.mp3" "/absolute/path/b.mp3" --mode batch --workspace-output
 ```
 
-## Dependency Behavior
-
-If `faster-whisper` is missing, do not transcribe. Tell the user:
+Doctor mode:
 
 ```bash
-python3 -m pip install faster-whisper
+python3 scripts/whisper_transcribe.py --doctor
+python3 scripts/whisper_transcribe.py --doctor --json
 ```
 
-Do not install dependencies without explicit approval.
+NanoClaw host setup from the runtime root:
+
+```bash
+bash container/skills/whisper-transcribe/scripts/setup-host.sh --init .
+bash container/skills/whisper-transcribe/scripts/setup-host.sh --check .
+```
+
+## Dependency Behavior
+
+If `faster-whisper`, `ctranslate2`, `ffmpeg`, `ffprobe`, or the model cache is missing or misconfigured, do not transcribe. Run doctor first:
+
+```bash
+python3 scripts/whisper_transcribe.py --doctor --json
+```
+
+For a managed NanoClaw Docker runtime, tell the user to run the host setup assistant from the NanoClaw root:
+
+```bash
+bash container/skills/whisper-transcribe/scripts/setup-host.sh --check .
+bash container/skills/whisper-transcribe/scripts/setup-host.sh --apply .
+```
+
+Do not install dependencies or mutate host/container files without explicit approval.
 
 ## Output Rules
 

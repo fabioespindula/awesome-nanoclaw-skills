@@ -5,6 +5,7 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from types import SimpleNamespace
 from pathlib import Path
 
@@ -178,6 +179,78 @@ class WhisperTranscribeTests(unittest.TestCase):
         self.assertEqual(args.sources, ["a.mp3", "b.mp3"])
         self.assertEqual(args.mode, "batch")
         self.assertTrue(args.word_timestamps)
+
+    def test_parser_accepts_doctor_without_sources(self) -> None:
+        args = MODULE.build_parser().parse_args(["--doctor", "--json"])
+        self.assertTrue(args.doctor)
+        self.assertTrue(args.json)
+        self.assertEqual(args.sources, [])
+
+    def test_validate_host_manifest_accepts_namespaced_whisper_config(self) -> None:
+        manifest = {
+            "schema_version": 1,
+            "runtime": "nanoclaw",
+            "compose_file": "docker-compose.yml",
+            "service": "nanoclaw",
+            "dockerfile": "container/Dockerfile",
+            "skills_dir": "container/skills",
+            "skills": {
+                "whisper-transcribe": {
+                    "host_cache_dir": "/var/lib/nanoclaw/whisper-cache",
+                    "container_hf_home": "/workspace/.cache/huggingface",
+                    "model": "small",
+                }
+            },
+        }
+        self.assertEqual(MODULE.validate_host_manifest(manifest), [])
+
+    def test_validate_host_manifest_rejects_flat_whisper_config(self) -> None:
+        manifest = {
+            "schema_version": 1,
+            "runtime": "nanoclaw",
+            "compose_file": "docker-compose.yml",
+            "service": "nanoclaw",
+            "dockerfile": "container/Dockerfile",
+            "skills_dir": "container/skills",
+            "host_cache_dir": "/var/lib/nanoclaw/whisper-cache",
+            "container_hf_home": "/workspace/.cache/huggingface",
+            "model": "small",
+        }
+        errors = MODULE.validate_host_manifest(manifest)
+        self.assertIn("skills must be an object", errors)
+
+    def test_doctor_ready_inside_container_returns_zero(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            args = SimpleNamespace(model="small", device="auto")
+            with mock.patch.dict(os.environ, {"HF_HOME": tmp}, clear=False), \
+                mock.patch.object(MODULE, "is_container_runtime", return_value=True), \
+                mock.patch.object(
+                    MODULE,
+                    "package_version",
+                    side_effect=lambda package: {
+                        "faster-whisper": MODULE.REQUIRED_FASTER_WHISPER_VERSION,
+                        "ctranslate2": MODULE.REQUIRED_CTRANSLATE2_VERSION,
+                    }[package],
+                ), \
+                mock.patch.object(MODULE.shutil, "which", side_effect=lambda command: f"/usr/bin/{command}"), \
+                mock.patch.object(MODULE, "disk_free_gb", return_value=10.0):
+                report = MODULE.run_doctor(args)
+        self.assertTrue(report["ok"])
+        self.assertEqual(report["exit_code"], MODULE.EXIT_READY)
+
+    def test_doctor_local_missing_dependency_returns_missing_required(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            args = SimpleNamespace(model="small", device="auto")
+            with mock.patch.dict(os.environ, {"HF_HOME": tmp}, clear=False), \
+                mock.patch.object(MODULE, "is_container_runtime", return_value=False), \
+                mock.patch.object(MODULE, "package_version", return_value=None), \
+                mock.patch.object(MODULE.shutil, "which", return_value=None), \
+                mock.patch.object(MODULE, "disk_free_gb", return_value=10.0):
+                report = MODULE.run_doctor(args)
+        self.assertFalse(report["ok"])
+        self.assertEqual(report["exit_code"], MODULE.EXIT_MISSING_REQUIRED)
+        self.assertEqual(report["runtime"]["mode"], "local-degraded")
+        self.assertIn("local-degraded-doctor", [item["code"] for item in report["warnings"]])
 
 
 if __name__ == "__main__":
