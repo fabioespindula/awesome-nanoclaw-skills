@@ -22,6 +22,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 | --- | --- |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
+| [`think-big`](skills/think-big) | Strategic exploration of broad themes through signals, scenarios, contrarian pressure, and opportunity scans. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
 
 ## Quick Start
@@ -100,6 +101,7 @@ Current examples:
 | --- | --- |
 | [`nano-council`](skills/nano-council) | NanoClaw agent runtime with skill loading. |
 | [`read-for-me`](skills/read-for-me) | NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
+| [`think-big`](skills/think-big) | NanoClaw agent runtime with browsing or research tools when current sources are needed. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
 
 Managed updates use [`awesome-updater`](skills/awesome-updater), which requires Python 3.10+, `git`, and network access for GitHub checks.
@@ -189,6 +191,9 @@ awesome-nanoclaw-skills/
       references/
       templates/
       scripts/
+    think-big/
+      SKILL.md
+      references/
     whisper-transcribe/
       SKILL.md
       scripts/
