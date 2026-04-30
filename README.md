@@ -22,6 +22,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 | --- | --- |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
+| [`rethink`](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
 | [`think-big`](skills/think-big) | Strategic future scans with signals, scenarios, risks, and opportunities. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
 
@@ -101,6 +102,7 @@ Current examples:
 | --- | --- |
 | [`nano-council`](skills/nano-council) | NanoClaw agent runtime with skill loading. |
 | [`read-for-me`](skills/read-for-me) | NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
+| [`rethink`](skills/rethink) | NanoClaw runtime; browser or research tools only when the decision depends on current facts. |
 | [`think-big`](skills/think-big) | NanoClaw runtime; browser or research tools for current sources. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
 
@@ -191,6 +193,9 @@ awesome-nanoclaw-skills/
       references/
       templates/
       scripts/
+    rethink/
+      SKILL.md
+      references/
     think-big/
       SKILL.md
       references/

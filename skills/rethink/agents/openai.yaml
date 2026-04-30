@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rethink"
+  short_description: "Reframe decisions before committing"
+  default_prompt: "Use $rethink to pressure-test this plan before I commit to it."
