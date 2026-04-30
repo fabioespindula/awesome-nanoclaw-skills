@@ -20,6 +20,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 
 | Skill | Description |
 | --- | --- |
+| [`nanoskills`](skills/nanoskills) | Package-level catalog and help for all Awesome NanoClaw Skills. |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
 | [`rethink`](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
@@ -54,6 +55,7 @@ Restart NanoClaw if your runtime requires it.
 Try it:
 
 ```txt
+/nanoskills
 /council Should we ship the first version this week or wait until onboarding is better?
 ```
 
@@ -64,6 +66,14 @@ For local testing, you can copy every skill:
 ```bash
 mkdir -p /path/to/nanoclaw/container/skills
 rsync -a skills/ /path/to/nanoclaw/container/skills/
+```
+
+Discover and learn skills from inside chat:
+
+```txt
+/nanoskills
+/nanoskills help think-big
+/council help
 ```
 
 ## What Is a Skill?
@@ -100,6 +110,7 @@ Current examples:
 
 | Skill | Requirements |
 | --- | --- |
+| [`nanoskills`](skills/nanoskills) | NanoClaw agent runtime with skill loading. |
 | [`nano-council`](skills/nano-council) | NanoClaw agent runtime with skill loading. |
 | [`read-for-me`](skills/read-for-me) | NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
 | [`rethink`](skills/rethink) | NanoClaw runtime; browser or research tools only when the decision depends on current facts. |
@@ -117,6 +128,8 @@ For production runtimes, install only the skills the agent needs and test each o
 ## Auto Updates
 
 [`awesome-updater`](skills/awesome-updater) is the management tool for installing, validating, backing up, and auto-updating managed skills. It is infrastructure for this collection, not a user-facing skill in the list above.
+
+[`nanoskills`](skills/nanoskills) is the discovery and help layer. It lists the full package and explains how to use each skill. It can route update-related questions to `awesome-updater`, but normal `/nanoskills` catalog/help responses should stay fast, offline, and non-mutating.
 
 Install skills through `awesome-updater` when you want managed updates. Managed skills get a `.awesome-skill.json` metadata file with update checks and auto-upgrade enabled by default.
 
@@ -183,6 +196,11 @@ awesome-nanoclaw-skills/
       SKILL.md
       scripts/
       tests/
+    nanoskills/
+      SKILL.md
+      references/
+      templates/
+      scripts/
     nano-council/
       SKILL.md
       references/

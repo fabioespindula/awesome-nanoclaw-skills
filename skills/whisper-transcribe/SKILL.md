@@ -3,6 +3,7 @@ name: whisper-transcribe
 description: Use when the user wants to transcribe, caption, subtitle, batch process, or convert speech to text from local audio/video files using faster-whisper. Supports explicit modes, txt/srt/vtt/transcript-md output, manifest.json, optional language codes, forwarding metadata, workspace output, and concise chat summaries.
 user-invocable: true
 metadata:
+  slash-command: /whisper-transcribe
   output: txt-srt-vtt-transcript-md
   engine: faster-whisper
 ---
@@ -33,6 +34,27 @@ Run this skill when the user asks to:
 - "transcreve esse audio", "gera legenda", or equivalent Portuguese intent
 
 If the user does not provide a local file path and no attached file path is available in the conversation, ask one short question for the path.
+
+## Help Mode
+
+If the user invokes `/whisper-transcribe help`, `/whisper-transcribe ajuda`, `/whisper-transcribe examples`, `/whisper-transcribe exemplos`, or asks how to use this skill, explain usage instead of transcribing media.
+
+The help response should include:
+
+- what Whisper Transcribe does;
+- when to use it;
+- dependency requirements;
+- command forms: `/whisper-transcribe <local-file>`, mode-specific variants, and `/nanoskills help whisper-transcribe`;
+- what input the user should provide;
+- what output the user gets;
+- curated examples;
+- contextual examples when the visible conversation includes a useful local media path, language, meeting, caption, or archive goal.
+
+Curated examples:
+
+- `/whisper-transcribe /absolute/path/to/audio.mp3`
+- `/whisper-transcribe /absolute/path/to/video.mp4 --mode captions`
+- `/whisper-transcribe Transcreve esse audio em portugues e gera srt. /absolute/path/audio.m4a`
 
 ## Load References
 

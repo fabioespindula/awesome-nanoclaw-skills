@@ -10,6 +10,10 @@ description: >-
   calibrate ambition, classify the operating mode, surface risks, and recommend
   a next move. Do not use for broad future exploration without a concrete
   decision; that belongs to a think-big or research-style skill.
+user-invocable: true
+metadata:
+  slash-command: /rethink
+  output: decision-review
 ---
 
 # Rethink
@@ -46,6 +50,27 @@ If the user gives only a broad theme, route conceptually to a future-exploration
 - Concrete commitment: "rethink whether I should build a CRM for agents"
 
 Ask at most 1-2 short questions only when the missing context would materially change the answer. Otherwise, state assumptions and proceed.
+
+## Help Mode
+
+If the user invokes `/rethink help`, `/rethink ajuda`, `/rethink examples`, `/rethink exemplos`, or asks how to use this skill, explain usage instead of reviewing the decision.
+
+The help response should include:
+
+- what Rethink does;
+- when to use it;
+- when not to use it;
+- command forms: `/rethink <plan-or-decision>` and `/nanoskills help rethink`;
+- what input the user should provide;
+- what output the user gets;
+- curated examples;
+- contextual examples when the visible conversation gives enough concrete context for a current decision, plan, or tradeoff.
+
+Curated examples:
+
+- `/rethink Should I build the global skill catalog as a separate skill or inside the updater?`
+- `/rethink Esse plano de launch esta grande demais para a primeira versao?`
+- `/rethink Help me decide between hiring now or keeping the team small.`
 
 ## Context And Confidence Gate
 
