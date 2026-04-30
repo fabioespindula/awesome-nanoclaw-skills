@@ -32,7 +32,7 @@ require_pattern 'slash-command: /nanoskills' "$ROOT/SKILL.md"
 require_pattern 'references/catalog.md' "$ROOT/SKILL.md"
 require_pattern 'templates/help-response.md' "$ROOT/SKILL.md"
 require_pattern 'Contextual examples' "$ROOT/SKILL.md" "$ROOT/templates/help-response.md"
-require_pattern 'Do not run package-wide update checks during normal catalog or help responses' "$ROOT/SKILL.md"
+require_pattern 'Do not run extra package-wide update checks during normal catalog or help responses' "$ROOT/SKILL.md"
 
 for skill in "$REPO_ROOT"/skills/*; do
   test -d "$skill" || continue

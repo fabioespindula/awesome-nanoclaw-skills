@@ -43,6 +43,16 @@ class AwesomeSkillsTests(unittest.TestCase):
         # Direct unit tests call functions for result-sensitive checks.
         return {}
 
+    def write_source_skill(self, name: str, content: str) -> None:
+        source = self.repo / "skills" / name
+        source.mkdir(parents=True, exist_ok=True)
+        (source / "SKILL.md").write_text(content)
+
+    def commit_repo(self, message: str) -> str:
+        subprocess.run(["git", "add", "."], cwd=self.repo, check=True)
+        subprocess.run(["git", "commit", "-m", message], cwd=self.repo, check=True, stdout=subprocess.PIPE)
+        return subprocess.run(["git", "rev-parse", "HEAD"], cwd=self.repo, check=True, text=True, stdout=subprocess.PIPE).stdout.strip()
+
     def install_demo(self) -> dict[str, object]:
         args = type("Args", (), {
             "skill": "demo",
@@ -133,6 +143,127 @@ class AwesomeSkillsTests(unittest.TestCase):
         self.assertEqual(result["status"], "configured")
         metadata = json.loads((self.skills_dir / "demo" / ".awesome-skill.json").read_text())
         self.assertFalse(metadata["auto_upgrade"])
+
+    def test_discover_installs_new_source_skills(self) -> None:
+        self.install_demo()
+        self.write_source_skill("new-skill", "# New Skill\n")
+        latest = self.commit_repo("add new skill")
+        args = type("Args", (), {
+            "skills_dir": str(self.skills_dir),
+            "source_dir": str(self.repo),
+            "repo": str(self.repo),
+            "branch": "main",
+            "auto": True,
+            "force": True,
+        })()
+        result = MODULE.discover_skills(args)
+        self.assertEqual(result["status"], "discovered")
+        self.assertIn("new-skill", result["installed"])
+        self.assertEqual((self.skills_dir / "new-skill" / "SKILL.md").read_text(), "# New Skill\n")
+        metadata = json.loads((self.skills_dir / "new-skill" / ".awesome-skill.json").read_text())
+        self.assertEqual(metadata["installed_commit"], latest)
+        self.assertTrue(metadata["discover_new"])
+
+    def test_discover_checks_existing_managed_skills(self) -> None:
+        self.install_demo()
+        (self.repo / "skills" / "demo" / "SKILL.md").write_text("# Demo\nnew\n")
+        latest = self.commit_repo("update demo")
+        args = type("Args", (), {
+            "skills_dir": str(self.skills_dir),
+            "source_dir": str(self.repo),
+            "repo": str(self.repo),
+            "branch": "main",
+            "auto": True,
+            "force": True,
+        })()
+        result = MODULE.discover_skills(args)
+        self.assertEqual(result["status"], "discovered")
+        self.assertEqual((self.skills_dir / "demo" / "SKILL.md").read_text(), "# Demo\nnew\n")
+        checked = {item["skill"]: item for item in result["checked"]}
+        self.assertEqual(checked["demo"]["status"], "upgraded")
+        self.assertEqual(checked["demo"]["previous_commit"], self.first_commit)
+        self.assertEqual(checked["demo"]["installed_commit"], latest)
+
+    def test_discover_respects_disabled_auto_upgrade_without_auto_flag(self) -> None:
+        self.install_demo()
+        config_args = type("Args", (), {
+            "skill": "demo",
+            "skills_dir": str(self.skills_dir),
+            "set_values": ["auto_upgrade=false"],
+        })()
+        MODULE.config_skill(config_args)
+        (self.repo / "skills" / "demo" / "SKILL.md").write_text("# Demo\nnew\n")
+        latest = self.commit_repo("update demo disabled")
+        args = type("Args", (), {
+            "skills_dir": str(self.skills_dir),
+            "source_dir": str(self.repo),
+            "repo": str(self.repo),
+            "branch": "main",
+            "auto": False,
+            "force": True,
+        })()
+        result = MODULE.discover_skills(args)
+        checked = {item["skill"]: item for item in result["checked"]}
+        self.assertEqual(checked["demo"]["status"], "update_available")
+        self.assertEqual(checked["demo"]["latest_commit"], latest)
+        self.assertEqual((self.skills_dir / "demo" / "SKILL.md").read_text(), "# Demo\nold\n")
+
+    def test_discover_is_throttled_by_updater_metadata(self) -> None:
+        self.write_source_skill("awesome-updater", "# Updater\n")
+        self.commit_repo("add updater")
+        args = type("Args", (), {
+            "skill": "awesome-updater",
+            "source_dir": str(self.repo),
+            "skills_dir": str(self.skills_dir),
+            "repo": str(self.repo),
+            "branch": "main",
+            "force": False,
+        })()
+        MODULE.install_skill(args)
+        discover_args = type("Args", (), {
+            "skills_dir": str(self.skills_dir),
+            "source_dir": str(self.repo),
+            "repo": str(self.repo),
+            "branch": "main",
+            "auto": True,
+            "force": True,
+        })()
+        MODULE.discover_skills(discover_args)
+        discover_args.force = False
+        result = MODULE.discover_skills(discover_args)
+        self.assertEqual(result["status"], "throttled")
+
+    def test_discover_can_be_disabled_from_updater_config(self) -> None:
+        self.write_source_skill("awesome-updater", "# Updater\n")
+        self.commit_repo("add updater")
+        install_args = type("Args", (), {
+            "skill": "awesome-updater",
+            "source_dir": str(self.repo),
+            "skills_dir": str(self.skills_dir),
+            "repo": str(self.repo),
+            "branch": "main",
+            "force": False,
+        })()
+        MODULE.install_skill(install_args)
+        config_args = type("Args", (), {
+            "skill": "awesome-updater",
+            "skills_dir": str(self.skills_dir),
+            "set_values": ["discover_new=false"],
+        })()
+        MODULE.config_skill(config_args)
+        self.write_source_skill("new-skill", "# New Skill\n")
+        self.commit_repo("add disabled new skill")
+        discover_args = type("Args", (), {
+            "skills_dir": str(self.skills_dir),
+            "source_dir": str(self.repo),
+            "repo": str(self.repo),
+            "branch": "main",
+            "auto": True,
+            "force": True,
+        })()
+        result = MODULE.discover_skills(discover_args)
+        self.assertEqual(result["status"], "skipped")
+        self.assertFalse((self.skills_dir / "new-skill").exists())
 
 
 if __name__ == "__main__":

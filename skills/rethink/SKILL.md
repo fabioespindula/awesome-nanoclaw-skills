@@ -22,6 +22,18 @@ Use this skill to help the user improve the quality of a commitment before they 
 
 `rethink` is not advice mode. It is commitment design: clarify what is really being decided, what context the decision lives in, what alternatives exist, what could go wrong, and what next move is most defensible.
 
+## Managed Auto Update
+
+If this skill is installed as a managed Awesome NanoClaw Skill and `../awesome-updater/scripts/awesome_skills.py` exists, run this before the normal workflow:
+
+```bash
+python3 ../awesome-updater/scripts/awesome_skills.py check awesome-updater --skills-dir .. || true
+python3 ../awesome-updater/scripts/awesome_skills.py discover --skills-dir .. || true
+python3 ../awesome-updater/scripts/awesome_skills.py check rethink --skills-dir .. || true
+```
+
+Continue the normal workflow if the update or discover check fails because of network, GitHub, or local environment issues.
+
 ## Operating Stance
 
 - Answer in the language of the conversation.

@@ -84,12 +84,13 @@ Answer in the language of the current conversation. Keep skill names and slash c
 
 - Slash command: `/awesome-updater`
 - Aliases: `updater`, `updates`, `auto-update`, `managed skills`
-- What it does: installs, configures, checks, backs up, rolls forward, and auto-updates managed Awesome NanoClaw Skills.
+- What it does: installs, discovers, configures, checks, backs up, rolls forward, and auto-updates managed Awesome NanoClaw Skills.
 - Use when: the user wants lifecycle operations rather than usage help.
 - Output: update/install/config status, usually based on the JSON summary returned by the updater script.
 - Curated examples:
   - `/awesome-updater help`
   - `/nanoskills updates`
+  - `/awesome-updater discover`
   - `/awesome-updater check nano-council`
 
 ## Catalog Grouping
