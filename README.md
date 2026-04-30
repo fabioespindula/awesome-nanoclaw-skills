@@ -23,7 +23,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 | [`awesome-updater`](skills/awesome-updater) | Central installer and default-on auto-updater for managed Awesome NanoClaw Skills. |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
-| [`whisper-transcribe`](skills/whisper-transcribe) | Local audio/video transcription with faster-whisper, explicit modes, manifest.json, and txt/srt/vtt/transcript-md output. |
+| [`whisper-transcribe`](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
 
 ## Quick Start
 
