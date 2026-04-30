@@ -52,6 +52,8 @@ for command in \
   '/nanoskills' \
   '/council' \
   '/read-for-me' \
+  '/readthis' \
+  '/read' \
   '/rethink' \
   '/think-big' \
   '/whisper-transcribe' \

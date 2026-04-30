@@ -27,6 +27,10 @@
     {
       "aliases": [
         "read",
+        "readthis",
+        "read-this",
+        "/read",
+        "/readthis",
         "summarize this",
         "read this",
         "analisa esse link",
@@ -35,8 +39,9 @@
       "description": "Use when the user sends one or more URLs, asks to read, summarize, explain, triage, or analyze a link, or asks whether a link matters to them. Fetches accessible content, summarizes it, states access/confidence, personalizes relevance from available context, categorizes it, and suggests a non-destructive next action.",
       "examples": [
         "/read-for-me https://example.com/article",
+        "/readthis https://example.com/article",
         "Read this and tell me whether it matters for our launch plan: https://example.com/post",
-        "/read-for-me Analisa esse link e me diz o que muda para o projeto. https://example.com"
+        "/read Analisa esse link e me diz o que muda para o projeto. https://example.com"
       ],
       "expected_output": "Link brief with title, source, date, access level, confidence, relevance score, categories, and next action.",
       "group": "user-facing",
@@ -168,5 +173,5 @@
       "use_when": "The user wants lifecycle operations rather than usage help."
     }
   ],
-  "source_hash": "46cdd2f0d2884be424590a9c8150536ac746216f7fd1b650199d7a3c73b0c121"
+  "source_hash": "2bfcb46e0e894d0bffafc99e2ba97c113e84c4cf717b63cb70c449229bbf33ad"
 }
