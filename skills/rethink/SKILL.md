@@ -52,6 +52,12 @@ python3 ../awesome-updater/scripts/awesome_skills.py check rethink --skills-dir 
 
 Continue the normal workflow if the update or discover check fails because of network, GitHub, or local environment issues.
 
+## Load References
+
+- Read `references/context-adapter.md` before using visible conversation context in the decision review.
+- For complex, high-stakes, or repeated decisions, read `references/decision-lenses.md` and apply only the relevant lenses.
+- Use `references/sample-runs.md` as public example coverage for help, documentation, and validation. Do not load sample runs for every normal rethink.
+
 ## Operating Stance
 
 - Answer in the language of the conversation.
@@ -95,6 +101,7 @@ The help response should include:
 - what output the user gets;
 - curated examples;
 - contextual examples when the visible conversation gives enough concrete context for a current decision, plan, or tradeoff.
+- public example patterns from `references/sample-runs.md` when useful.
 
 Curated examples:
 
@@ -279,7 +286,7 @@ For many expansion candidates, rank the top 3-5 by impact and reversibility. Do 
 
 ## Optional Reference
 
-For complex, high-stakes, or repeated decisions, read `references/decision-lenses.md` and apply only the relevant lenses. Do not load it for every simple prompt.
+For complex, high-stakes, or repeated decisions, use `references/decision-lenses.md` and apply only the relevant lenses. Do not load it for every simple prompt.
 
 ## Completion
 
