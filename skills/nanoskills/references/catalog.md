@@ -10,7 +10,7 @@ Answer in the language of the current conversation. Keep skill names and slash c
 
 - Slash command: `/board`
 - Aliases: `board`, `feba-board`, `/board`, `/feba-board`, `/council`, `second opinion`, `conselho`, `me ajuda a decidir`, `pressure-test`
-- What it does: FEBA Board gives five VC-style perspectives for important decisions, plans, and tradeoffs.
+- What it does: Five VC perspectives for important decisions, plans, and tradeoffs.
 - Use when: The user has a meaningful decision, plan, tradeoff, investment question, product question, or asks for a second opinion from a board.
 - Output: Compact chat-friendly recommendation with board tensions, next action, optional advisor expansion, and transcript saving only on request.
 - Curated examples:

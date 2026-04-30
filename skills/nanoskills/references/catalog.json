@@ -24,7 +24,7 @@
       "name": "feba-board",
       "order": 10,
       "output": "chat-friendly-board-review",
-      "readme_description": "FEBA Board gives five VC-style perspectives for important decisions, plans, and tradeoffs.",
+      "readme_description": "Five VC perspectives for important decisions, plans, and tradeoffs.",
       "readme_include": true,
       "slash_command": "/board",
       "use_when": "The user has a meaningful decision, plan, tradeoff, investment question, product question, or asks for a second opinion from a board."
@@ -178,5 +178,5 @@
       "use_when": "The user wants lifecycle operations rather than usage help."
     }
   ],
-  "source_hash": "953141985a1cb065b27cd84109884a6c1c5a617e44cbab119bfa7e5248215018"
+  "source_hash": "2cf19c727e5f59832d01af205cbbafbc4ad08c87c0a2aad58df4f1939cdfbc24"
 }

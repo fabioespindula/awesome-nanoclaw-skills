@@ -21,7 +21,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 <!-- BEGIN GENERATED AVAILABLE SKILLS -->
 | Skill | Description |
 | --- | --- |
-| [`feba-board`](skills/feba-board) | FEBA Board gives five VC-style perspectives for important decisions, plans, and tradeoffs. |
+| [`feba-board`](skills/feba-board) | Five VC perspectives for important decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
 | [`rethink`](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
 | [`think-big`](skills/think-big) | Strategic future scans with signals, scenarios, risks, and opportunities. |
