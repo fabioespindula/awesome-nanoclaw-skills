@@ -3,6 +3,7 @@ name: awesome-updater
 description: Use when installing, checking, configuring, or auto-updating Awesome NanoClaw Skills. Provides safe default-on auto-upgrades with metadata, throttling, backups, validation, and rollback.
 user-invocable: true
 metadata:
+  slash-command: /awesome-updater
   default_auto_upgrade: true
   default_update_check: true
   source: fabioespindula/awesome-nanoclaw-skills
@@ -22,6 +23,27 @@ The updater is intentionally central: individual skills should not each reimplem
 - throttle: one update check per skill per hour unless `--force` is used
 
 Auto-upgrade is on by default for security: fixes to unsafe instructions, dependencies, validation logic, or install procedures should reach installed agents without requiring manual action.
+
+## Help Mode
+
+If the user invokes `/awesome-updater help`, `/awesome-updater ajuda`, `/awesome-updater examples`, `/awesome-updater exemplos`, or asks how to use this skill, explain usage instead of installing, checking, or configuring anything.
+
+The help response should include:
+
+- what Awesome Updater does;
+- when to use it;
+- what it can modify;
+- command forms for install, check, config, and `/nanoskills updates`;
+- what input the user should provide;
+- what output the user gets;
+- curated examples;
+- contextual examples when the visible conversation includes a useful skill name or runtime skills directory.
+
+Curated examples:
+
+- `/awesome-updater help`
+- `/nanoskills updates`
+- `/awesome-updater check nano-council`
 
 ## Safety Model
 

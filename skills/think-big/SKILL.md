@@ -87,6 +87,27 @@ Do not use `think-big` as the main frame when the user is asking to review a con
 
 Ask at most 1-2 short questions only when the theme is too ambiguous to begin. Otherwise choose a mode and start.
 
+## Help Mode
+
+If the user invokes `/think-big help`, `/think-big ajuda`, `/think-big examples`, `/think-big exemplos`, or asks how to use this skill, explain usage instead of running a strategic exploration.
+
+The help response should include:
+
+- what Think Big does;
+- when to use it;
+- when not to use it;
+- command forms: `/think-big <theme>` and `/nanoskills help think-big`;
+- what input the user should provide;
+- what output the user gets;
+- curated examples;
+- contextual examples when the visible conversation gives enough concrete context for a broad theme.
+
+Curated examples:
+
+- `/think-big future of AI-first CRMs`
+- `/think-big pensar grande sobre marketplaces de agentes`
+- `/think-big What happens to checkout experiences when agents buy for users?`
+
 ## Mode Router
 
 Choose the mode automatically from the prompt. If more than one mode applies, blend them and say the blend in one short line.

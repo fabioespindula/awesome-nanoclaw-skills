@@ -54,6 +54,27 @@ Answer in the dominant language of the user's input. If the input is Portuguese,
 
 For mixed Portuguese/English input, default to Portuguese when the surrounding prose is Portuguese. Use Brazilian Portuguese unless the user clearly uses another variant.
 
+## Help Mode
+
+If the user invokes `/council help`, `/council ajuda`, `/council examples`, `/council exemplos`, or asks how to use this skill, explain usage instead of running the council.
+
+The help response should include:
+
+- what Nano Council does;
+- when to use it;
+- when not to use it;
+- command forms: `/council <question>` and `/nanoskills help council`;
+- what input the user should provide;
+- what output the user gets;
+- curated examples;
+- contextual examples when the visible conversation gives enough concrete context.
+
+Curated examples:
+
+- `/council Should we ship the first version this week or wait until onboarding is better?`
+- `/council Quero decidir se faco launch agora ou espero melhorar onboarding.`
+- `/council Pressure-test this architecture before we build it.`
+
 ## Protocol
 
 1. Restate the user question neutrally in one paragraph.
