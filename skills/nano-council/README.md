@@ -1,16 +1,16 @@
 # Awesome NanoClaw Skills
 
 ```txt
-███╗   ██╗ █████╗ ███╗   ██╗ ██████╗  ██████╗██╗      █████╗ ██╗    ██╗
-████╗  ██║██╔══██╗████╗  ██║██╔═══██╗██╔════╝██║     ██╔══██╗██║    ██║
-██╔██╗ ██║███████║██╔██╗ ██║██║   ██║██║     ██║     ███████║██║ █╗ ██║
-██║╚██╗██║██╔══██║██║╚██╗██║██║   ██║██║     ██║     ██╔══██║██║███╗██║
-██║ ╚████║██║  ██║██║ ╚████║╚██████╔╝╚██████╗███████╗██║  ██║╚███╔███╔╝
-╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝
-                         S K I L L S
+░█▀█░█░█░█▀▀░█▀▀░█▀█░█▄█░█▀▀
+░█▀█░█▄█░█▀▀░▀▀█░█░█░█░█░█▀▀
+░▀░▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀
+
+░█▀█░█▀█░█▀█░█▀█░█▀▀░█░░░█▀█░█░█░░░█▀▀░█░█░▀█▀░█░░░█░░░█▀▀
+░█░█░█▀█░█░█░█░█░█░░░█░░░█▀█░█▄█░░░▀▀█░█▀▄░░█░░█░░░█░░░▀▀█
+░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀
 ```
 
-Curated, security-conscious AI skills for NanoClaw.
+Curated, security-conscious AI skills for NanoClaw agents.
 
 This repository curates modular skills for building sharper, more useful AI agents. Each skill is a small, portable bundle of instructions, prompts, references, and templates that gives an agent a specific capability.
 
