@@ -2,10 +2,14 @@
 from __future__ import annotations
 
 import argparse
+import importlib.metadata as importlib_metadata
 import json
 import os
+import platform
 import re
+import shutil
 import sys
+import tempfile
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -15,6 +19,73 @@ from typing import Iterable
 SUPPORTED_FORMATS = {"txt", "srt", "vtt", "transcript-md"}
 ALL_FORMATS = ["txt", "srt", "vtt", "transcript-md"]
 SUPPORTED_MODES = {"quick", "captions", "archive", "meeting", "batch", "debug"}
+SKILL_NAME = "whisper-transcribe"
+REQUIRED_FASTER_WHISPER_VERSION = "1.2.1"
+REQUIRED_CTRANSLATE2_VERSION = "4.7.1"
+DEFAULT_MODEL = "small"
+DEFAULT_CONTAINER_HF_HOME = Path("/workspace/.cache/huggingface")
+EXIT_READY = 0
+EXIT_WARNING = 1
+EXIT_MISSING_REQUIRED = 2
+EXIT_INVALID_CONFIG = 3
+EXIT_HOST_SETUP_REQUIRED = 4
+EXIT_MODEL_CACHE_FAILURE = 5
+MODEL_FREE_SPACE_GB = {
+    "tiny": 1.0,
+    "base": 1.0,
+    "small": 2.0,
+    "medium": 4.0,
+    "large-v2": 8.0,
+    "large-v3": 8.0,
+    "turbo": 4.0,
+    "distil-large-v3": 5.0,
+}
+ERROR_GUIDE = {
+    "missing-faster-whisper": {
+        "cause": "The faster-whisper Python package is not installed in this runtime.",
+        "next_command": "bash scripts/setup-host.sh --check /path/to/nanoclaw",
+    },
+    "wrong-python-package-version": {
+        "cause": "The installed faster-whisper or ctranslate2 version does not match the pinned skill runtime.",
+        "next_command": "bash scripts/setup-host.sh --apply /path/to/nanoclaw",
+    },
+    "missing-ffmpeg": {
+        "cause": "ffmpeg or ffprobe is missing from the NanoClaw image.",
+        "next_command": "bash scripts/setup-host.sh --apply /path/to/nanoclaw",
+    },
+    "unwritable-hf-home": {
+        "cause": "HF_HOME is missing, not a directory, or not writable by the effective container user.",
+        "next_command": "Fix the cache bind mount or run bash scripts/setup-host.sh --apply /path/to/nanoclaw",
+    },
+    "insufficient-disk": {
+        "cause": "The selected model needs more free cache disk than is currently available.",
+        "next_command": "Free disk in the Whisper cache path or choose a smaller --model.",
+    },
+    "huggingface-network": {
+        "cause": "The runtime could not reach Hugging Face because of DNS, timeout, or network policy.",
+        "next_command": "Retry bash scripts/setup-host.sh --warm-cache /path/to/nanoclaw <model>",
+    },
+    "model-unavailable": {
+        "cause": "The selected model is unavailable locally and could not be downloaded.",
+        "next_command": "Check the model name or warm the cache with a known model such as small.",
+    },
+    "media-decode-failure": {
+        "cause": "The media file could not be decoded by the runtime.",
+        "next_command": "Run doctor, confirm ffmpeg is installed, or convert the media to mp3/mp4.",
+    },
+    "output-exists": {
+        "cause": "A transcript output path already exists and --overwrite was not requested.",
+        "next_command": "Choose a new output folder or rerun with --overwrite.",
+    },
+    "output-permission-denied": {
+        "cause": "The runtime cannot write transcript artifacts to the target directory.",
+        "next_command": "Use --workspace-output or choose a writable --output-dir.",
+    },
+    "unsupported-gpu": {
+        "cause": "CUDA/GPU was requested but is unavailable or unsupported in this runtime.",
+        "next_command": "Use --device cpu or rebuild the runtime with compatible CUDA libraries.",
+    },
+}
 MODE_DEFAULT_FORMATS = {
     "quick": ["txt"],
     "captions": ["srt", "vtt"],
@@ -41,6 +112,250 @@ class Segment:
     end: float
     text: str
     words: list[Word] = field(default_factory=list)
+
+
+def package_version(package: str) -> str | None:
+    try:
+        return importlib_metadata.version(package)
+    except importlib_metadata.PackageNotFoundError:
+        return None
+
+
+def command_available(name: str) -> bool:
+    return shutil.which(name) is not None
+
+
+def is_container_runtime() -> bool:
+    if Path("/.dockerenv").exists():
+        return True
+    try:
+        cgroup = Path("/proc/1/cgroup").read_text(encoding="utf-8", errors="ignore")
+    except OSError:
+        return False
+    return any(marker in cgroup for marker in ("docker", "containerd", "kubepods", "podman"))
+
+
+def validate_host_manifest(data: dict) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(data, dict):
+        return ["manifest must be a JSON object"]
+    if data.get("schema_version") != 1:
+        errors.append("schema_version must be 1")
+    if data.get("runtime") != "nanoclaw":
+        errors.append("runtime must be nanoclaw")
+    for key in ("compose_file", "service", "dockerfile", "skills_dir"):
+        if not isinstance(data.get(key), str) or not data.get(key):
+            errors.append(f"{key} must be a non-empty string")
+    skills = data.get("skills")
+    if not isinstance(skills, dict):
+        errors.append("skills must be an object")
+        return errors
+    whisper = skills.get(SKILL_NAME)
+    if not isinstance(whisper, dict):
+        errors.append(f"skills.{SKILL_NAME} must be an object")
+        return errors
+    for key in ("host_cache_dir", "container_hf_home", "model"):
+        if not isinstance(whisper.get(key), str) or not whisper.get(key):
+            errors.append(f"skills.{SKILL_NAME}.{key} must be a non-empty string")
+    return errors
+
+
+def closest_existing_parent(path: Path) -> Path | None:
+    current = path
+    while not current.exists():
+        if current.parent == current:
+            return None
+        current = current.parent
+    return current if current.is_dir() else current.parent
+
+
+def writable_directory(path: Path) -> tuple[bool, str | None]:
+    if not path.exists():
+        return False, "path does not exist"
+    if not path.is_dir():
+        return False, "path is not a directory"
+    try:
+        with tempfile.NamedTemporaryFile(prefix=".whisper-doctor-", dir=path):
+            pass
+    except OSError as exc:
+        return False, str(exc)
+    return True, None
+
+
+def disk_free_gb(path: Path) -> float | None:
+    target = closest_existing_parent(path)
+    if target is None:
+        return None
+    try:
+        usage = shutil.disk_usage(target)
+    except OSError:
+        return None
+    return usage.free / (1024**3)
+
+
+def model_required_space_gb(model: str) -> float:
+    return MODEL_FREE_SPACE_GB.get(model, 8.0 if "large" in model else 4.0)
+
+
+def issue(code: str, message: str) -> dict:
+    guide = ERROR_GUIDE.get(code, {})
+    return {
+        "code": code,
+        "message": message,
+        "cause": guide.get("cause", message),
+        "next_command": guide.get("next_command", "Run doctor after fixing the environment."),
+    }
+
+
+def doctor_exit_code(report: dict) -> int:
+    issues = report["issues"]
+    if not issues:
+        return EXIT_WARNING if report["warnings"] else EXIT_READY
+    model_cache_codes = {"insufficient-disk", "huggingface-network", "model-unavailable"}
+    if any(item["code"] in model_cache_codes for item in issues):
+        return EXIT_MODEL_CACHE_FAILURE
+    if report["runtime"]["inside_container"]:
+        return EXIT_HOST_SETUP_REQUIRED
+    return EXIT_MISSING_REQUIRED
+
+
+def run_doctor(args: argparse.Namespace) -> dict:
+    model = args.model or os.environ.get("WHISPER_MODEL", DEFAULT_MODEL)
+    inside_container = is_container_runtime()
+    hf_home = Path(os.environ.get("HF_HOME", str(Path.home() / ".cache" / "huggingface"))).expanduser()
+    requested_device = getattr(args, "device", "auto")
+    checks: list[dict] = []
+    issues: list[dict] = []
+    warnings: list[dict] = []
+
+    runtime = {
+        "inside_container": inside_container,
+        "platform": sys.platform,
+        "machine": platform.machine(),
+        "python": sys.version.split()[0],
+        "mode": "container" if inside_container else "local-degraded",
+    }
+    if not inside_container:
+        warnings.append(
+            {
+                "code": "local-degraded-doctor",
+                "message": "Local doctor: CPU validation only, GPU/Metal not tested.",
+            }
+        )
+
+    capabilities: dict[str, dict] = {}
+    packages = {
+        "faster-whisper": REQUIRED_FASTER_WHISPER_VERSION,
+        "ctranslate2": REQUIRED_CTRANSLATE2_VERSION,
+    }
+    for package, required in packages.items():
+        installed = package_version(package)
+        ok = installed == required
+        capabilities[package.replace("-", "_")] = {
+            "ok": ok,
+            "installed": installed,
+            "required": required,
+        }
+        checks.append({"name": package, "ok": ok, "installed": installed, "required": required})
+        if installed is None and package == "faster-whisper":
+            issues.append(issue("missing-faster-whisper", f"{package} is not installed"))
+        elif installed is None:
+            issues.append(issue("wrong-python-package-version", f"{package} is not installed"))
+        elif installed != required:
+            issues.append(
+                issue("wrong-python-package-version", f"{package}=={installed} does not match required {required}")
+            )
+
+    for command in ("ffmpeg", "ffprobe"):
+        path = shutil.which(command)
+        ok = path is not None
+        capabilities[command] = {"ok": ok, "path": path}
+        checks.append({"name": command, "ok": ok, "path": path})
+        if not ok:
+            issues.append(issue("missing-ffmpeg", f"{command} is not available on PATH"))
+
+    writable, write_error = writable_directory(hf_home)
+    capabilities["hf_home"] = {
+        "ok": writable,
+        "path": str(hf_home),
+        "source": "env" if os.environ.get("HF_HOME") else "default",
+        "error": write_error,
+    }
+    checks.append({"name": "HF_HOME", "ok": writable, "path": str(hf_home), "error": write_error})
+    if not writable:
+        issues.append(issue("unwritable-hf-home", f"HF_HOME is not writable: {hf_home} ({write_error})"))
+
+    free_gb = disk_free_gb(hf_home)
+    required_gb = model_required_space_gb(model)
+    disk_ok = free_gb is not None and free_gb >= required_gb
+    capabilities["model_disk"] = {
+        "ok": disk_ok,
+        "model": model,
+        "free_gb": round(free_gb, 2) if free_gb is not None else None,
+        "required_gb": required_gb,
+    }
+    checks.append({"name": "model_disk", **capabilities["model_disk"]})
+    if not disk_ok:
+        issues.append(
+            issue(
+                "insufficient-disk",
+                f"model {model} needs about {required_gb:g}GB free in cache; available: {free_gb}",
+            )
+        )
+
+    if requested_device == "cuda":
+        cuda_ok = False
+        cuda_error = None
+        try:
+            import ctranslate2
+
+            cuda_ok = ctranslate2.get_cuda_device_count() > 0
+        except Exception as exc:
+            cuda_error = str(exc)
+        capabilities["cuda"] = {"ok": cuda_ok, "error": cuda_error}
+        checks.append({"name": "cuda", "ok": cuda_ok, "error": cuda_error})
+        if not cuda_ok:
+            issues.append(issue("unsupported-gpu", "CUDA was requested but no usable CUDA device was detected"))
+
+    report = {
+        "ok": False,
+        "exit_code": EXIT_READY,
+        "skill": SKILL_NAME,
+        "model": model,
+        "runtime": runtime,
+        "capabilities": capabilities,
+        "checks": checks,
+        "issues": issues,
+        "warnings": warnings,
+    }
+    report["exit_code"] = doctor_exit_code(report)
+    report["ok"] = report["exit_code"] == EXIT_READY
+    return report
+
+
+def format_doctor_report(report: dict) -> str:
+    lines = [
+        "Whisper Transcribe doctor",
+        f"Status: {'ready' if report['ok'] else 'not ready'}",
+        f"Runtime: {report['runtime']['mode']} ({report['runtime']['platform']}, {report['runtime']['machine']})",
+        f"Model: {report['model']}",
+        "",
+        "Checks:",
+    ]
+    for item in report["checks"]:
+        state = "OK" if item.get("ok") else "FAIL"
+        detail = item.get("installed") or item.get("path") or item.get("error") or ""
+        lines.append(f"- {state}: {item['name']} {detail}".rstrip())
+    if report["warnings"]:
+        lines.extend(["", "Warnings:"])
+        lines.extend(f"- {item['message']}" for item in report["warnings"])
+    if report["issues"]:
+        lines.extend(["", "Issues:"])
+        for item in report["issues"]:
+            lines.append(f"- {item['message']}")
+            lines.append(f"  Cause: {item['cause']}")
+            lines.append(f"  Next: {item['next_command']}")
+    return "\n".join(lines) + "\n"
 
 
 def safe_stem(path: Path) -> str:
@@ -201,7 +516,9 @@ def load_faster_whisper():
         from faster_whisper import WhisperModel
     except ImportError as exc:
         raise RuntimeError(
-            "faster-whisper is not installed. Install it with: python3 -m pip install faster-whisper"
+            "faster-whisper is not installed in this runtime. Run: "
+            "python3 scripts/whisper_transcribe.py --doctor --json. "
+            "For NanoClaw containers, run: bash scripts/setup-host.sh --check /path/to/nanoclaw"
         ) from exc
     return WhisperModel
 
@@ -421,7 +738,10 @@ def transcribe(args: argparse.Namespace) -> dict:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Transcribe local audio/video files with faster-whisper.")
-    parser.add_argument("sources", nargs="+", help="One or more local audio or video file paths.")
+    parser.add_argument("sources", nargs="*", help="One or more local audio or video file paths.")
+    parser.add_argument("--doctor", action="store_true", help="Run runtime dependency diagnostics instead of transcribing.")
+    parser.add_argument("--json", action="store_true", help="Print machine-readable JSON for doctor output.")
+    parser.add_argument("--validate-host-manifest", help=argparse.SUPPRESS)
     parser.add_argument("--mode", choices=sorted(SUPPORTED_MODES), help="Workflow mode.")
     parser.add_argument("--formats", help="Comma-separated output formats: txt,srt,vtt,transcript-md,all.")
     parser.add_argument("--language", help="Optional Whisper language code such as pt, en, es, fr, or it.")
@@ -453,6 +773,25 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
+    if args.validate_host_manifest:
+        try:
+            data = json.loads(Path(args.validate_host_manifest).read_text(encoding="utf-8"))
+        except Exception as exc:
+            print(json.dumps({"ok": False, "errors": [str(exc)]}, ensure_ascii=False), file=sys.stderr)
+            return EXIT_INVALID_CONFIG
+        errors = validate_host_manifest(data)
+        result = {"ok": not errors, "errors": errors}
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return EXIT_READY if not errors else EXIT_INVALID_CONFIG
+    if args.doctor:
+        report = run_doctor(args)
+        if args.json:
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+        else:
+            print(format_doctor_report(report), end="")
+        return int(report["exit_code"])
+    if not args.sources:
+        parser.error("at least one source file is required unless --doctor is used")
     try:
         summary = transcribe(args)
     except Exception as exc:
