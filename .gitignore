@@ -2,7 +2,7 @@
 .DS_Store
 
 # Local dry-run transcripts
-**/council/
+**/board/
 
 # Logs and local environment
 *.log

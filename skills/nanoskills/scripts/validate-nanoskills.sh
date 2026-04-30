@@ -50,6 +50,7 @@ done
 
 for command in \
   '/nanoskills' \
+  '/board' \
   '/council' \
   '/read-for-me' \
   '/readthis' \
