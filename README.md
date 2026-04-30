@@ -20,7 +20,6 @@ Use this repository to add focused capabilities to an agent without turning the 
 
 | Skill | Description |
 | --- | --- |
-| [`awesome-updater`](skills/awesome-updater) | Central installer and default-on auto-updater for managed Awesome NanoClaw Skills. |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
@@ -99,10 +98,11 @@ Current examples:
 
 | Skill | Requirements |
 | --- | --- |
-| [`awesome-updater`](skills/awesome-updater) | Python 3.10+ and `git`. Network access is needed when checking GitHub for updates. |
 | [`nano-council`](skills/nano-council) | NanoClaw agent runtime with skill loading. |
 | [`read-for-me`](skills/read-for-me) | NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
+
+Managed updates use [`awesome-updater`](skills/awesome-updater), which requires Python 3.10+, `git`, and network access for GitHub checks.
 
 ## Safety
 
@@ -112,7 +112,9 @@ For production runtimes, install only the skills the agent needs and test each o
 
 ## Auto Updates
 
-Install skills through [`awesome-updater`](skills/awesome-updater) when you want managed updates. Managed skills get a `.awesome-skill.json` metadata file with update checks and auto-upgrade enabled by default.
+[`awesome-updater`](skills/awesome-updater) is the management tool for installing, validating, backing up, and auto-updating managed skills. It is infrastructure for this collection, not a user-facing skill in the list above.
+
+Install skills through `awesome-updater` when you want managed updates. Managed skills get a `.awesome-skill.json` metadata file with update checks and auto-upgrade enabled by default.
 
 Default behavior:
 
