@@ -21,7 +21,7 @@ Use this repository to add focused capabilities to an agent without turning the 
 <!-- BEGIN GENERATED AVAILABLE SKILLS -->
 | Skill | Description |
 | --- | --- |
-| [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
+| [`feba-board`](skills/feba-board) | FEBA Board gives five VC-style perspectives for important decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
 | [`rethink`](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
 | [`think-big`](skills/think-big) | Strategic future scans with signals, scenarios, risks, and opportunities. |
@@ -41,7 +41,7 @@ cd awesome-nanoclaw-skills
 Choose a skill and review it before installing:
 
 ```bash
-SKILL=nano-council
+SKILL=feba-board
 less "skills/$SKILL/SKILL.md"
 ```
 
@@ -58,7 +58,7 @@ Try it:
 
 ```txt
 /nanoskills
-/council Should we ship the first version this week or wait until onboarding is better?
+/board Should we ship the first version this week or wait until onboarding is better?
 ```
 
 To install another skill, change `SKILL` to the folder name you want.
@@ -75,7 +75,7 @@ Discover and learn skills from inside chat:
 ```txt
 /nanoskills
 /nanoskills help think-big
-/council help
+/board help
 ```
 
 ## What Is a Skill?
@@ -113,7 +113,7 @@ Current examples:
 | Skill | Requirements |
 | --- | --- |
 | [`nanoskills`](skills/nanoskills) | NanoClaw agent runtime with skill loading. |
-| [`nano-council`](skills/nano-council) | NanoClaw agent runtime with skill loading. |
+| [`feba-board`](skills/feba-board) | NanoClaw agent runtime with skill loading. |
 | [`read-for-me`](skills/read-for-me) | NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
 | [`rethink`](skills/rethink) | NanoClaw runtime; browser or research tools only when the decision depends on current facts. |
 | [`think-big`](skills/think-big) | NanoClaw runtime; browser or research tools for current sources. |
@@ -133,7 +133,7 @@ For production runtimes, install only the skills the agent needs and test each o
 
 [`nanoskills`](skills/nanoskills) is the discovery and help layer. It lists the full package and explains how to use each skill. It can route update-related questions to `awesome-updater`, but the catalog/help logic itself stays fast, offline, and non-mutating.
 
-Install skills through `awesome-updater` when you want managed updates. Managed skills get a `.awesome-skill.json` metadata file with update checks and auto-upgrade enabled by default.
+Install skills through `awesome-updater` when you want managed updates. Managed skills get a `.awesome-skill.json` metadata file with update checks, content hashes, and auto-upgrade enabled by default.
 
 Default behavior:
 
@@ -144,6 +144,7 @@ Default behavior:
 | `discover_new` | `true` | Installs newly added first-party skills from this curated package. |
 | `throttle_seconds` | `3600` | Avoids repeated network checks during frequent skill use. |
 | `discover_throttle_seconds` | `3600` | Avoids repeated package-wide discovery during frequent skill use. |
+| `hash_algorithm` | `sha256` | Detects updates by exact per-skill content rather than whole-repo commits. |
 
 Bootstrap the updater first. This makes the central updater managed too, so it can update itself:
 
@@ -157,7 +158,7 @@ python3 skills/awesome-updater/scripts/awesome_skills.py install awesome-updater
 Then install any managed skill through the updater:
 
 ```bash
-python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" install nano-council \
+python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" install feba-board \
   --source-dir "$PWD" \
   --skills-dir "$SKILLS_DIR"
 ```
@@ -172,12 +173,31 @@ python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" discover \
 Check and auto-upgrade an installed skill:
 
 ```bash
-python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" check nano-council \
+python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" check feba-board \
   --skills-dir "$SKILLS_DIR" \
   --auto
 ```
 
-Managed skills should check `awesome-updater` first, run the throttled `discover` sync, then check themselves. The updater validates source skills, backs up installed copies under `.awesome-backups/`, replaces managed skills, skips unmanaged existing folders, and restores backups if replacement fails.
+Preview an update without writing files:
+
+```bash
+python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" check feba-board \
+  --skills-dir "$SKILLS_DIR" \
+  --source-dir "$PWD" \
+  --auto \
+  --force \
+  --dry-run
+```
+
+Inspect managed and unmanaged skill state:
+
+```bash
+python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" status \
+  --skills-dir "$SKILLS_DIR" \
+  --source-dir "$PWD"
+```
+
+Managed skills should check `awesome-updater` first, run the throttled `discover` sync, then check themselves. The updater validates source skills, compares exact skill content hashes, backs up installed copies under `.awesome-backups/`, replaces only changed managed skills, skips unmanaged existing folders, and restores the failed skill's backup if replacement fails.
 
 For host-level automatic discovery, run the same `discover` command from cron, launchd, or your scheduler about once per hour. The command is throttled, so preamble and host triggers can coexist safely.
 
@@ -214,7 +234,7 @@ awesome-nanoclaw-skills/
       references/
       templates/
       scripts/
-    nano-council/
+    feba-board/
       SKILL.md
       references/
       assets/

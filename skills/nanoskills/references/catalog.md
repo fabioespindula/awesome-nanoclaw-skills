@@ -6,17 +6,17 @@ Answer in the language of the current conversation. Keep skill names and slash c
 
 ## User-Facing Skills
 
-### nano-council
+### feba-board
 
-- Slash command: `/council`
-- Aliases: `council`, `conselho`, `pressure-test`, `testa essa decisao`
-- What it does: Five-advisor council for pressure-testing decisions, plans, and tradeoffs.
-- Use when: The user wants disagreement, a decision pressure test, a plan review, or a sharper recommendation before acting.
-- Output: Telegram-friendly Markdown with recommendation, agreement, disagreement, blind spots, advisor snapshots, and next action.
+- Slash command: `/board`
+- Aliases: `board`, `feba-board`, `/board`, `/feba-board`, `/council`, `second opinion`, `conselho`, `me ajuda a decidir`, `pressure-test`
+- What it does: FEBA Board gives five VC-style perspectives for important decisions, plans, and tradeoffs.
+- Use when: The user has a meaningful decision, plan, tradeoff, investment question, product question, or asks for a second opinion from a board.
+- Output: Compact chat-friendly recommendation with board tensions, next action, optional advisor expansion, and transcript saving only on request.
 - Curated examples:
-  - `/council Should we ship the first version this week or wait until onboarding is better?`
-  - `/council Quero decidir se faco launch agora ou espero melhorar onboarding.`
-  - `/council Pressure-test this architecture before we build it.`
+  - `/board Should we ship this week or wait until onboarding is better?`
+  - `/board Quero decidir se faco launch agora ou espero melhorar onboarding.`
+  - `me ajuda a decidir se devo aceitar esse cliente grande`
 
 ### read-for-me
 
@@ -78,7 +78,7 @@ Answer in the language of the current conversation. Keep skill names and slash c
 - Output: Language-matched package catalog or skill-specific help.
 - Curated examples:
   - `/nanoskills`
-  - `/nanoskills help council`
+  - `/nanoskills help board`
   - `/nanoskills help think-big`
 
 ### awesome-updater
@@ -92,13 +92,13 @@ Answer in the language of the current conversation. Keep skill names and slash c
   - `/awesome-updater help`
   - `/nanoskills updates`
   - `/awesome-updater discover`
-  - `/awesome-updater check nano-council`
+  - `/awesome-updater check feba-board`
 
 ## Catalog Grouping
 
 Show these skills under `User-Facing Skills`:
 
-- nano-council
+- feba-board
 - read-for-me
 - rethink
 - think-big

@@ -17,7 +17,7 @@ metadata:
     expected_output: Language-matched package catalog or skill-specific help.
     examples:
       - /nanoskills
-      - /nanoskills help council
+      - /nanoskills help board
       - /nanoskills help think-big
     readme_include: true
     readme_description: Package-level catalog and help for all Awesome NanoClaw Skills.
@@ -92,7 +92,7 @@ Choose the response from the user's command:
 
 Accept skill names, aliases, and slash commands when resolving help:
 
-- `council`, `/council`, `nano-council`
+- `board`, `/board`, `feba-board`, `/feba-board`, `/council`
 - `read`, `readthis`, `read-this`, `read-for-me`, `/read`, `/readthis`, `/read-for-me`
 - `rethink`, `/rethink`
 - `think-big`, `/think-big`
@@ -146,7 +146,7 @@ Help examples are hybrid:
 
 Examples:
 
-- If the conversation is about launch timing, `/council Devo lancar agora ou esperar melhorar onboarding?`
+- If the conversation is about launch timing, `/board Devo lancar agora ou esperar melhorar onboarding?`
 - If the conversation is about a repo architecture decision, `/rethink Essa arquitetura de comandos globais esta simples o suficiente?`
 - If the conversation includes a URL, `/readthis <url>`
 

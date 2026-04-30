@@ -44,3 +44,5 @@ coverage/
 .pytest_cache/
 .ruff_cache/
 
+# Local transcript exports
+board/

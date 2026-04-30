@@ -22,7 +22,7 @@ metadata:
       - /awesome-updater help
       - /nanoskills updates
       - /awesome-updater discover
-      - /awesome-updater check nano-council
+      - /awesome-updater check feba-board
     readme_include: false
     readme_description: Managed install, discovery, backup, rollback, and auto-update infrastructure.
 ---
@@ -31,7 +31,7 @@ metadata:
 
 Use this skill to install and keep Awesome NanoClaw Skills up to date.
 
-The updater is intentionally central: individual skills should not each reimplement update logic. Installed skills carry a `.awesome-skill.json` metadata file, and this skill's script reads that metadata to check for new versions, discover newly added first-party skills, apply updates, and preserve rollback backups.
+The updater is intentionally central: individual skills should not each reimplement update logic. Installed skills carry a `.awesome-skill.json` metadata file, and this skill's script reads that metadata to check for content-level skill updates, discover newly added first-party skills, apply updates, and preserve rollback backups.
 
 ## Defaults
 
@@ -39,10 +39,13 @@ The updater is intentionally central: individual skills should not each reimplem
 - `auto_upgrade`: `true`
 - `discover_new`: `true`
 - `branch`: `main`
+- hash algorithm: `sha256` over exact skill file bytes and normalized relative paths
 - update throttle: one update check per skill per hour unless `--force` is used
 - discover throttle: one package-wide discover per hour unless `--force` is used
 
 Auto-upgrade and first-party discovery are on by default for security: fixes to unsafe instructions, dependencies, validation logic, install procedures, or newly published curated skills should reach installed agents without requiring manual action.
+
+Update decisions are based on the managed skill's content hash, not only on the repository commit. A repository commit that changes another skill should update `last_seen_commit` provenance but must not replace or back up an unchanged skill.
 
 ## Help Mode
 
@@ -64,7 +67,7 @@ Curated examples:
 - `/awesome-updater help`
 - `/nanoskills updates`
 - `/awesome-updater discover`
-- `/awesome-updater check nano-council`
+- `/awesome-updater check feba-board`
 
 ## Safety Model
 
@@ -75,12 +78,12 @@ Before replacing a skill, the updater:
 3. rejects symlinks in the source skill
 4. backs up the installed skill under `.awesome-backups/`
 5. copies the new skill into place
-6. writes updated `.awesome-skill.json` metadata
+6. writes updated `.awesome-skill.json` metadata with `metadata_version: 2`, `hash_algorithm: sha256`, `installed_hash`, and `last_seen_hash`
 7. restores the backup if replacement fails
 
 The updater only manages skills that contain `.awesome-skill.json`. If a skill has no metadata, do not auto-update it; install it through this updater first.
 
-Discovery follows the trusted first-party package model: it syncs skills that are present in the configured Awesome NanoClaw Skills source repository. It does not install arbitrary third-party skills from unknown sources. Existing unmanaged skill folders are skipped instead of overwritten.
+Discovery follows the trusted first-party package model: it syncs skills that are present in the configured Awesome NanoClaw Skills source repository. It does not install arbitrary third-party skills from unknown sources. Existing unmanaged skill folders are skipped instead of overwritten. Discovery is best-effort: if one skill update fails, that skill is restored from its own backup and other successful skill updates are kept.
 
 ## Command Patterns
 
@@ -93,7 +96,7 @@ python3 scripts/awesome_skills.py install awesome-updater   --source-dir /path/t
 Install a skill into a NanoClaw runtime:
 
 ```bash
-python3 scripts/awesome_skills.py install nano-council   --source-dir /path/to/awesome-nanoclaw-skills   --skills-dir /path/to/nanoclaw/container/skills
+python3 scripts/awesome_skills.py install feba-board   --source-dir /path/to/awesome-nanoclaw-skills   --skills-dir /path/to/nanoclaw/container/skills
 ```
 
 Discover newly added curated skills and check existing managed skills:
@@ -105,19 +108,31 @@ python3 scripts/awesome_skills.py discover   --skills-dir /path/to/nanoclaw/cont
 Check and auto-upgrade one installed skill:
 
 ```bash
-python3 scripts/awesome_skills.py check nano-council   --skills-dir /path/to/nanoclaw/container/skills   --auto
+python3 scripts/awesome_skills.py check feba-board   --skills-dir /path/to/nanoclaw/container/skills   --auto
+```
+
+Preview an update without writing metadata, backups, or skill files:
+
+```bash
+python3 scripts/awesome_skills.py check feba-board   --skills-dir /path/to/nanoclaw/container/skills   --auto   --force   --dry-run
+```
+
+Show read-only managed skill status:
+
+```bash
+python3 scripts/awesome_skills.py status   --skills-dir /path/to/nanoclaw/container/skills   --source-dir /path/to/awesome-nanoclaw-skills
 ```
 
 Force a check, ignoring the one-hour throttle:
 
 ```bash
-python3 scripts/awesome_skills.py check nano-council   --skills-dir /path/to/nanoclaw/container/skills   --auto   --force
+python3 scripts/awesome_skills.py check feba-board   --skills-dir /path/to/nanoclaw/container/skills   --auto   --force
 ```
 
 Change config for one installed skill:
 
 ```bash
-python3 scripts/awesome_skills.py config nano-council   --skills-dir /path/to/nanoclaw/container/skills   --set auto_upgrade=false
+python3 scripts/awesome_skills.py config feba-board   --skills-dir /path/to/nanoclaw/container/skills   --set auto_upgrade=false
 ```
 
 Disable first-party skill discovery from the package config stored on `awesome-updater`:
@@ -141,6 +156,7 @@ If the check or discover step fails because of network or GitHub availability, c
 ## Output Rules
 
 - Return the JSON summary from the script when the user asks for update status.
-- Mention whether skills were discovered, already current, upgraded, throttled, skipped by config, skipped because unmanaged, or restored from backup.
+- Mention whether skills were discovered, already current, changed by content hash, would upgrade in dry-run, upgraded, throttled, skipped by config, skipped because unmanaged, or restored from backup.
+- Treat `status` and `--dry-run` as read-only inspection. They must not write metadata, create backups, or replace skills.
 - Do not expose tokens or environment variables.
 - Do not auto-update skills without `.awesome-skill.json` metadata.
