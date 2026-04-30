@@ -5,6 +5,22 @@ user-invocable: true
 metadata:
   slash-command: /nanoskills
   output: skill-catalog
+  catalog:
+    group: admin
+    order: 10
+    aliases:
+      - skills
+      - lista skills
+      - help skills
+      - catalog
+    use_when: The user wants to discover available skills, understand what each one does, or get help and examples for a specific skill.
+    expected_output: Language-matched package catalog or skill-specific help.
+    examples:
+      - /nanoskills
+      - /nanoskills help council
+      - /nanoskills help think-big
+    readme_include: true
+    readme_description: Package-level catalog and help for all Awesome NanoClaw Skills.
 ---
 
 # NanoSkills
@@ -12,6 +28,8 @@ metadata:
 Use this skill as the package-level catalog and help system for Awesome NanoClaw Skills.
 
 `/nanoskills` is discovery and documentation. It should be fast, friendly, offline-first, and written in the language of the current conversation.
+
+The catalog is generated from `skills/*/SKILL.md` frontmatter during repository validation. In a NanoClaw container, treat installed skill files as read-only: read the generated catalog when present and never regenerate it in place.
 
 ## Managed Auto Update
 
@@ -45,6 +63,13 @@ Run this skill when the user invokes or asks for:
 ## Load References
 
 - Read `references/catalog.md` before listing skills.
+- If `references/catalog.md` is missing and `${CLAUDE_SKILL_DIR}/scripts/generate_catalog.py` exists, generate a read-only fallback with:
+
+```bash
+python3 "${CLAUDE_SKILL_DIR}/scripts/generate_catalog.py" --stdout --skills-dir "${CLAUDE_SKILL_DIR}/.."
+```
+
+- Use fallback output only for the current response. Do not write generated catalog files in the NanoClaw runtime.
 - Use `templates/help-response.md` when explaining one skill.
 
 ## Language

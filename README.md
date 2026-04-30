@@ -18,14 +18,16 @@ Use this repository to add focused capabilities to an agent without turning the 
 
 ## Available Skills
 
+<!-- BEGIN GENERATED AVAILABLE SKILLS -->
 | Skill | Description |
 | --- | --- |
-| [`nanoskills`](skills/nanoskills) | Package-level catalog and help for all Awesome NanoClaw Skills. |
 | [`nano-council`](skills/nano-council) | Five-advisor council for pressure-testing decisions, plans, and tradeoffs. |
 | [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
 | [`rethink`](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
 | [`think-big`](skills/think-big) | Strategic future scans with signals, scenarios, risks, and opportunities. |
 | [`whisper-transcribe`](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
+| [`nanoskills`](skills/nanoskills) | Package-level catalog and help for all Awesome NanoClaw Skills. |
+<!-- END GENERATED AVAILABLE SKILLS -->
 
 ## Quick Start
 
