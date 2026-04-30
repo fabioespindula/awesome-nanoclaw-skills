@@ -25,6 +25,23 @@ user-invocable: true
 metadata:
   slash-command: /think-big
   output: strategic-exploration
+  catalog:
+    group: user-facing
+    order: 40
+    aliases:
+      - think big
+      - pensar grande
+      - future of
+      - where is this going
+      - opportunity scan
+    use_when: The user wants to open the possibility space around a broad market, product, technology, society, career, company, or behavior theme.
+    expected_output: Strategic exploration with framing, signals, scenarios, opportunities, risks, and useful provocations.
+    examples:
+      - /think-big future of AI-first CRMs
+      - /think-big pensar grande sobre marketplaces de agentes
+      - /think-big What happens to checkout experiences when agents buy for users?
+    readme_include: true
+    readme_description: Strategic future scans with signals, scenarios, risks, and opportunities.
 ---
 
 # Think Big

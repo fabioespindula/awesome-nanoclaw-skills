@@ -6,6 +6,22 @@ metadata:
   slash-command: /whisper-transcribe
   output: txt-srt-vtt-transcript-md
   engine: faster-whisper
+  catalog:
+    group: user-facing
+    order: 50
+    aliases:
+      - transcribe
+      - whisper
+      - gera legenda
+      - transcreve esse audio
+    use_when: The user has a local media file and wants transcription, captions, subtitles, meeting text, or archive-ready transcript artifacts.
+    expected_output: Saved transcript and caption artifacts plus a concise chat summary with mode, language, model, formats, output paths, manifest, and suggested next action.
+    examples:
+      - /whisper-transcribe /absolute/path/to/audio.mp3
+      - /whisper-transcribe /absolute/path/to/video.mp4 --mode captions
+      - /whisper-transcribe Transcreve esse audio em portugues e gera srt. /absolute/path/audio.m4a
+    readme_include: true
+    readme_description: Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output.
 ---
 
 # Whisper Transcribe

@@ -23,13 +23,20 @@ command -v rg >/dev/null 2>&1 || fail "ripgrep (rg) is required for validation"
 
 require_file "$ROOT/SKILL.md"
 require_file "$ROOT/references/catalog.md"
+require_file "$ROOT/references/catalog.json"
 require_file "$ROOT/templates/help-response.md"
+
+python3 -B "$ROOT/scripts/generate_catalog.py" --help >/dev/null
+python3 -B -m unittest "$ROOT/tests/test_generate_catalog.py"
+python3 -B "$ROOT/scripts/generate_catalog.py" --check --repo-root "$REPO_ROOT" --skills-dir "$REPO_ROOT/skills"
 
 require_pattern '^name: nanoskills$' "$ROOT/SKILL.md"
 require_pattern '^description: Use when ' "$ROOT/SKILL.md"
 require_pattern 'user-invocable: true' "$ROOT/SKILL.md"
 require_pattern 'slash-command: /nanoskills' "$ROOT/SKILL.md"
 require_pattern 'references/catalog.md' "$ROOT/SKILL.md"
+require_pattern 'generate_catalog.py' "$ROOT/SKILL.md"
+require_pattern 'read-only fallback' "$ROOT/SKILL.md" "$ROOT/references/catalog.md"
 require_pattern 'templates/help-response.md' "$ROOT/SKILL.md"
 require_pattern 'Contextual examples' "$ROOT/SKILL.md" "$ROOT/templates/help-response.md"
 require_pattern 'Do not run extra package-wide update checks during normal catalog or help responses' "$ROOT/SKILL.md"

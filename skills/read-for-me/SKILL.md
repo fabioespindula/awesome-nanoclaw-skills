@@ -5,6 +5,23 @@ user-invocable: true
 metadata:
   slash-command: /read-for-me
   output: link-brief
+  catalog:
+    group: user-facing
+    order: 20
+    aliases:
+      - read
+      - summarize this
+      - read this
+      - analisa esse link
+      - bare URLs
+    use_when: The user sends links, asks what a link says, asks whether a source matters, or wants a quick decision-ready summary.
+    expected_output: Link brief with title, source, date, access level, confidence, relevance score, categories, and next action.
+    examples:
+      - /read-for-me https://example.com/article
+      - Read this and tell me whether it matters for our launch plan: https://example.com/post
+      - /read-for-me Analisa esse link e me diz o que muda para o projeto. https://example.com
+    readme_include: true
+    readme_description: Context-aware URL briefs with confidence and safe next steps.
 ---
 
 # Read For Me

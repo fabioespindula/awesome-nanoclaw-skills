@@ -4,9 +4,27 @@ description: Use when installing, discovering, checking, configuring, or auto-up
 user-invocable: true
 metadata:
   slash-command: /awesome-updater
+  output: update-status
   default_auto_upgrade: true
   default_update_check: true
   source: fabioespindula/awesome-nanoclaw-skills
+  catalog:
+    group: admin
+    order: 20
+    aliases:
+      - updater
+      - updates
+      - auto-update
+      - managed skills
+    use_when: The user wants lifecycle operations rather than usage help.
+    expected_output: Update, install, config, backup, rollback, or discovery status based on the updater JSON summary.
+    examples:
+      - /awesome-updater help
+      - /nanoskills updates
+      - /awesome-updater discover
+      - /awesome-updater check nano-council
+    readme_include: false
+    readme_description: Managed install, discovery, backup, rollback, and auto-update infrastructure.
 ---
 
 # Awesome Updater

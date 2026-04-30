@@ -5,6 +5,22 @@ user-invocable: true
 metadata:
   slash-command: /council
   output: telegram-markdown
+  catalog:
+    group: user-facing
+    order: 10
+    aliases:
+      - council
+      - conselho
+      - pressure-test
+      - testa essa decisao
+    use_when: The user wants disagreement, a decision pressure test, a plan review, or a sharper recommendation before acting.
+    expected_output: Telegram-friendly Markdown with recommendation, agreement, disagreement, blind spots, advisor snapshots, and next action.
+    examples:
+      - /council Should we ship the first version this week or wait until onboarding is better?
+      - /council Quero decidir se faco launch agora ou espero melhorar onboarding.
+      - /council Pressure-test this architecture before we build it.
+    readme_include: true
+    readme_description: Five-advisor council for pressure-testing decisions, plans, and tradeoffs.
 ---
 
 # Nano Council
