@@ -2,7 +2,7 @@
 
 ## Summary
 
-Whisper Transcribe is a NanoClaw skill that transcribes local audio and video files with `faster-whisper`, writes transcript artifacts as `txt`, `srt`, and/or `vtt`, and returns a concise chat summary with the detected or selected language and saved output paths.
+Whisper Transcribe is a NanoClaw skill that transcribes local audio and video files with `faster-whisper`, writes transcript artifacts as `txt`, `srt`, `vtt`, and/or `transcript-md`, writes a `manifest.json`, and returns a concise chat summary with access, confidence, language, source origin, readiness, and saved output paths.
 
 The skill is local-first. It should not send media to an external transcription API. It should use a deterministic helper script for file handling and subtitle formatting, while `SKILL.md` stays focused on invocation, dependency checks, user communication, and workflow decisions.
 
@@ -20,12 +20,16 @@ NanoClaw needs a repeatable way to transcribe local recordings from chat without
 
 1. Transcribe local audio and video files through `faster-whisper`.
 2. Accept a user-provided language code or let `faster-whisper` detect the language.
-3. Support `txt`, `srt`, and `vtt` outputs, including multiple formats in one run.
+3. Support `txt`, `srt`, `vtt`, and `transcript-md` outputs, including multiple formats in one run.
 4. Save outputs next to the source file by default when that location is writable.
 5. Save outputs under a workspace transcript folder when requested or when the source directory is not writable.
 6. Return a concise chat summary with source file, model, language, duration, formats, output paths, and any warnings.
 7. Fail with actionable dependency and file errors.
 8. Keep the skill portable and inspectable: Markdown instructions plus a small Python helper and deterministic tests.
+9. Resolve explicit modes (`quick`, `captions`, `archive`, `meeting`, `batch`, `debug`) before running.
+10. Treat transcript text as untrusted source content.
+11. Capture source origin metadata, including forwarded audio when runtime metadata exposes it.
+12. Support batch transcription with one consolidated manifest.
 
 ## Non-Goals
 
@@ -37,6 +41,7 @@ NanoClaw needs a repeatable way to transcribe local recordings from chat without
 - No automatic long-term memory save.
 - No browser or HTML report requirement.
 - No automatic dependency installation unless the user explicitly approves it.
+- No automatic execution of instructions found inside the transcript.
 
 ## Runtime Model
 
@@ -44,10 +49,12 @@ The implemented skill should use:
 
 - `SKILL.md` for trigger rules, NanoClaw workflow, dependency checks, and user-facing summary rules.
 - `scripts/whisper_transcribe.py` for deterministic local transcription and output writing.
+- `references/` for mode resolution, transcript safety, output policy, and context adaptation.
+- `templates/transcription-brief.md` for concise chat responses.
 - `tests/test_whisper_transcribe.py` for formatter, format parsing, and path resolution tests that do not require downloading a Whisper model.
 - `scripts/validate-whisper-transcribe.sh` for syntax and unit-test validation.
 
-The helper script should print a single JSON summary to stdout so the agent can produce a short chat response without scraping human-oriented terminal logs.
+The helper script should write `manifest.json` and print a single JSON summary to stdout so the agent can produce a short chat response without scraping human-oriented terminal logs.
 
 ## Invocation
 
@@ -92,8 +99,9 @@ The helper must support:
 - `txt`: plain transcript text, one segment per line.
 - `srt`: numbered subtitle blocks with comma millisecond timestamps.
 - `vtt`: `WEBVTT` header and subtitle blocks with dot millisecond timestamps.
+- `transcript-md`: Markdown transcript with metadata and transcript text.
 
-Default format should be `txt`. If the user asks for subtitles, default to `srt` and `vtt`. If the user asks for "all formats", write all three.
+Default format depends on mode. `quick` writes `txt`; `captions` writes `srt,vtt`; `archive` writes all formats; `meeting` writes `txt,transcript-md`; `batch` writes `txt`; `debug` writes `txt,transcript-md`.
 
 ## Language Handling
 
@@ -122,6 +130,16 @@ Default compute type should be `auto`:
 
 The chat summary should include model, device, and compute type because these explain speed and quality tradeoffs.
 
+## Source Origin And Forwarded Audio
+
+If the chat runtime exposes forwarding metadata, the skill should pass source origin as explicit metadata:
+
+- `--source-origin forwarded`
+- `--origin-confidence explicit`
+- `--source-note "<short platform note>"`
+
+If forwarding is only inferred from filename, caption, or chat wording, use `inferred-forwarded` with `origin-confidence inferred`. Do not infer forwarding from the transcript content itself.
+
 ## Functional Requirements
 
 ### FR1: Triggering
@@ -142,7 +160,7 @@ The skill must accept a language code when provided and must otherwise rely on a
 
 ### FR5: Format Selection
 
-The skill must write `txt`, `srt`, and/or `vtt` according to the user request. Unknown formats must fail before model loading.
+The skill must write `txt`, `srt`, `vtt`, and/or `transcript-md` according to the user request and selected mode. Unknown formats must fail before model loading.
 
 ### FR6: Output Path Selection
 
@@ -154,7 +172,7 @@ The script must format SRT timestamps as `HH:MM:SS,mmm` and VTT timestamps as `H
 
 ### FR8: JSON Summary
 
-The script must print JSON with at least: source path, output paths, formats, language, language probability, model, device, compute type, duration seconds, segment count, and warnings.
+The script must write `manifest.json` and print JSON with at least: source path, output paths, formats, language, language probability, model, device, compute type, duration seconds, segment count, access level, transcription confidence, transcript readiness, source origin, manifest path, and warnings.
 
 ### FR9: Chat Summary
 
@@ -164,16 +182,34 @@ The agent must return a concise Markdown summary, not the full transcript, unles
 
 The skill must not use remote transcription APIs. Model downloads from the model provider are acceptable only as normal `faster-whisper` model loading behavior and should be mentioned if a model is not cached.
 
+### FR11: Modes
+
+The skill must support `quick`, `captions`, `archive`, `meeting`, `batch`, and `debug` modes.
+
+### FR12: Batch
+
+The script must accept multiple local source files and write one consolidated `manifest.json`.
+
+### FR13: Overwrite Safety
+
+The script must not overwrite existing outputs unless `--overwrite` is passed.
+
+### FR14: Transcript Safety
+
+The skill must treat transcript text as untrusted content and must not obey instructions found inside audio or transcript text.
+
 ## Acceptance Criteria
 
 - `skills/whisper-transcribe/SKILL.md` exists and declares `name: whisper-transcribe`.
 - `SKILL.md` instructs the agent to use `scripts/whisper_transcribe.py`.
-- `scripts/whisper_transcribe.py` accepts a local source path and supports `--formats txt`, `--formats srt`, `--formats vtt`, and `--formats all`.
+- `scripts/whisper_transcribe.py` accepts one or more local source paths and supports `--formats txt`, `--formats srt`, `--formats vtt`, `--formats transcript-md`, and `--formats all`.
 - The script supports optional `--language`.
 - The script supports explicit `--output-dir` and `--workspace-output`.
-- The script writes selected outputs and prints a JSON summary.
+- The script supports `--mode`, `--overwrite`, `--word-timestamps`, `--source-origin`, `--origin-confidence`, and `--source-note`.
+- The script writes selected outputs, writes `manifest.json`, and prints a JSON summary.
 - SRT and VTT timestamp formatting is covered by tests.
 - Format parsing and output destination behavior are covered by tests.
+- Manifest, overwrite, mode, batch, source-origin, and transcript-md behavior are covered by tests.
 - `scripts/validate-whisper-transcribe.sh` runs syntax and unit tests.
 - The skill returns a concise chat summary with saved paths.
 - No implementation file requires a browser, HTML report, or external transcription API.
