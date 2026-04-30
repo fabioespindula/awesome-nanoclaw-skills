@@ -5,6 +5,28 @@ user-invocable: true
 metadata:
   slash-command: /read-for-me
   output: link-brief
+  catalog:
+    group: user-facing
+    order: 20
+    aliases:
+      - read
+      - readthis
+      - read-this
+      - /read
+      - /readthis
+      - summarize this
+      - read this
+      - analisa esse link
+      - bare URLs
+    use_when: The user sends links, asks what a link says, asks whether a source matters, or wants a quick decision-ready summary.
+    expected_output: Link brief with title, source, date, access level, confidence, relevance score, categories, and next action.
+    examples:
+      - /read-for-me https://example.com/article
+      - /readthis https://example.com/article
+      - Read this and tell me whether it matters for our launch plan: https://example.com/post
+      - /read Analisa esse link e me diz o que muda para o projeto. https://example.com
+    readme_include: true
+    readme_description: Context-aware URL briefs with confidence and safe next steps.
 ---
 
 # Read For Me
@@ -30,7 +52,8 @@ Run this skill when the user:
 - sends a bare URL
 - sends multiple URLs
 - says `read this`, `summarize this`, `what is this`, `analyze this`, or equivalent intent
-- invokes `/read-for-me <url>`
+- says `readthis`, `read-this`, or `read <url>`
+- invokes `/read-for-me <url>`, `/readthis <url>`, or `/read <url>`
 - asks whether a link matters to them, their project, company, or current work
 
 Do not ask whether the user wants a summary. If a URL is present and readable tools are available, proceed.
@@ -41,14 +64,14 @@ Reply in the language of the current conversation, not necessarily the language 
 
 ## Help Mode
 
-If the user invokes `/read-for-me help`, `/read-for-me ajuda`, `/read-for-me examples`, `/read-for-me exemplos`, or asks how to use this skill, explain usage instead of reading a link.
+If the user invokes `/read-for-me help`, `/readthis help`, `/read help`, `/read-for-me ajuda`, `/read-for-me examples`, `/read-for-me exemplos`, or asks how to use this skill, explain usage instead of reading a link.
 
 The help response should include:
 
 - what Read For Me does;
 - when to use it;
 - when not to use it;
-- command forms: `/read-for-me <url>`, a bare URL, and `/nanoskills help read-for-me`;
+- command forms: `/read-for-me <url>`, `/readthis <url>`, `/read <url>`, a bare URL, and `/nanoskills help read-for-me`;
 - what input the user should provide;
 - what output the user gets;
 - curated examples;
@@ -57,8 +80,9 @@ The help response should include:
 Curated examples:
 
 - `/read-for-me https://example.com/article`
+- `/readthis https://example.com/article`
 - `Read this and tell me whether it matters for our launch plan: https://example.com/post`
-- `/read-for-me Analisa esse link e me diz o que muda para o projeto. https://example.com`
+- `/read Analisa esse link e me diz o que muda para o projeto. https://example.com`
 
 ## Trust Boundary
 

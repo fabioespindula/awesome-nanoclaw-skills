@@ -14,6 +14,24 @@ user-invocable: true
 metadata:
   slash-command: /rethink
   output: decision-review
+  catalog:
+    group: user-facing
+    order: 30
+    aliases:
+      - rethink
+      - step back
+      - gut-check
+      - pressure-test
+      - simplify this
+      - decide
+    use_when: The user has a specific decision, product idea, architecture plan, career or life choice, or company direction and wants better decision quality.
+    expected_output: Concise decision review with real question, assumptions, alternatives, risks, recommendation, and next move.
+    examples:
+      - /rethink Should I build the global skill catalog as a separate skill or inside the updater?
+      - /rethink Esse plano de launch esta grande demais para a primeira versao?
+      - /rethink Help me decide between hiring now or keeping the team small.
+    readme_include: true
+    readme_description: Reframe plans, ideas, and decisions before committing.
 ---
 
 # Rethink
