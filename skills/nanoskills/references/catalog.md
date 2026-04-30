@@ -21,14 +21,15 @@ Answer in the language of the current conversation. Keep skill names and slash c
 ### read-for-me
 
 - Slash command: `/read-for-me`
-- Aliases: `read`, `summarize this`, `read this`, `analisa esse link`, `bare URLs`
+- Aliases: `read`, `readthis`, `read-this`, `/read`, `/readthis`, `summarize this`, `read this`, `analisa esse link`, `bare URLs`
 - What it does: Context-aware URL briefs with confidence and safe next steps.
 - Use when: The user sends links, asks what a link says, asks whether a source matters, or wants a quick decision-ready summary.
 - Output: Link brief with title, source, date, access level, confidence, relevance score, categories, and next action.
 - Curated examples:
   - `/read-for-me https://example.com/article`
+  - `/readthis https://example.com/article`
   - `Read this and tell me whether it matters for our launch plan: https://example.com/post`
-  - `/read-for-me Analisa esse link e me diz o que muda para o projeto. https://example.com`
+  - `/read Analisa esse link e me diz o que muda para o projeto. https://example.com`
 
 ### rethink
 

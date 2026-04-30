@@ -93,7 +93,7 @@ Choose the response from the user's command:
 Accept skill names, aliases, and slash commands when resolving help:
 
 - `council`, `/council`, `nano-council`
-- `read`, `read-for-me`, `/read-for-me`
+- `read`, `readthis`, `read-this`, `read-for-me`, `/read`, `/readthis`, `/read-for-me`
 - `rethink`, `/rethink`
 - `think-big`, `/think-big`
 - `transcribe`, `whisper`, `whisper-transcribe`, `/whisper-transcribe`
@@ -148,7 +148,7 @@ Examples:
 
 - If the conversation is about launch timing, `/council Devo lancar agora ou esperar melhorar onboarding?`
 - If the conversation is about a repo architecture decision, `/rethink Essa arquitetura de comandos globais esta simples o suficiente?`
-- If the conversation includes a URL, `/read-for-me <url>`
+- If the conversation includes a URL, `/readthis <url>`
 
 ## Auto-Update Relationship
 
