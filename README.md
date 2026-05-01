@@ -21,12 +21,12 @@ Use this repository to add focused capabilities to an agent without turning the 
 <!-- BEGIN GENERATED AVAILABLE SKILLS -->
 | Skill | Description |
 | --- | --- |
-| [`feba-board`](skills/feba-board) | Five VC perspectives for important decisions, plans, and tradeoffs. |
-| [`read-for-me`](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
-| [`rethink`](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
-| [`think-big`](skills/think-big) | Strategic future scans with signals, scenarios, risks, and opportunities. |
-| [`whisper-transcribe`](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
-| [`nanoskills`](skills/nanoskills) | Package-level catalog and help for all Awesome NanoClaw Skills. |
+| [feba-board](skills/feba-board) | Five VC perspectives for important decisions, plans, and tradeoffs. |
+| [read-for-me](skills/read-for-me) | Context-aware URL briefs with confidence and safe next steps. |
+| [rethink](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
+| [think-big](skills/think-big) | Strategic future scans with signals, scenarios, risks, and opportunities. |
+| [whisper-transcribe](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
+| [nanoskills](skills/nanoskills) | Package-level catalog and help for all Awesome NanoClaw Skills. |
 <!-- END GENERATED AVAILABLE SKILLS -->
 
 ## Quick Start
@@ -108,16 +108,16 @@ This collection assumes a NanoClaw runtime that can load skill folders from `con
 
 Some skills may require local tools or model dependencies. Check each skill folder before installing it into a production runtime.
 
-Current examples:
+Current skill requirements:
 
 | Skill | Requirements |
 | --- | --- |
-| [`nanoskills`](skills/nanoskills) | NanoClaw agent runtime with skill loading. |
-| [`feba-board`](skills/feba-board) | NanoClaw agent runtime with skill loading. |
-| [`read-for-me`](skills/read-for-me) | NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
-| [`rethink`](skills/rethink) | NanoClaw runtime; browser or research tools only when the decision depends on current facts. |
-| [`think-big`](skills/think-big) | NanoClaw runtime; browser or research tools for current sources. |
-| [`whisper-transcribe`](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
+| [feba-board](skills/feba-board) | NanoClaw runtime with this skill installed; no external tools required. |
+| [read-for-me](skills/read-for-me) | NanoClaw runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required. |
+| [rethink](skills/rethink) | NanoClaw runtime; browser or research tools only when the decision depends on current facts. |
+| [think-big](skills/think-big) | NanoClaw runtime; browser or research tools for current sources. |
+| [whisper-transcribe](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
+| [nanoskills](skills/nanoskills) | NanoClaw runtime with skill loading and local access to this package's generated catalog. |
 
 Managed updates use [`awesome-updater`](skills/awesome-updater), which requires Python 3.10+, `git`, and network access for GitHub checks and first-party skill discovery.
 

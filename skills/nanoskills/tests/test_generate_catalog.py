@@ -192,14 +192,14 @@ class GenerateCatalogTests(unittest.TestCase):
             After
             """
         )
-        table = "| Skill | Description |\n| --- | --- |\n| [`demo`](skills/demo) | Demo. |"
+        table = "| Skill | Description |\n| --- | --- |\n| [demo](skills/demo) | Demo. |"
 
         updated = MODULE.update_readme_available_skills(readme, table)
 
         self.assertIn("Before", updated)
         self.assertIn("After", updated)
         self.assertNotIn("old table", updated)
-        self.assertIn("| [`demo`](skills/demo) | Demo. |", updated)
+        self.assertIn("| [demo](skills/demo) | Demo. |", updated)
 
     def test_stdout_mode_does_not_write_catalog_files(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

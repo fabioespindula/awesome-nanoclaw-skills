@@ -329,7 +329,7 @@ def render_readme_table(catalog: dict[str, Any]) -> str:
     rows = ["| Skill | Description |", "| --- | --- |"]
     for skill in catalog["skills"]:
         if skill["readme_include"]:
-            rows.append(f"| [`{skill['name']}`](skills/{skill['name']}) | {skill['readme_description']} |")
+            rows.append(f"| [{skill['name']}](skills/{skill['name']}) | {skill['readme_description']} |")
     return "\n".join(rows)
 
 
