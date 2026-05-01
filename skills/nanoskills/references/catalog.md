@@ -67,7 +67,7 @@ Answer in the language of the current conversation. Keep skill names and slash c
   - `/whisper-transcribe /absolute/path/to/video.mp4 --mode captions`
   - `/whisper-transcribe Transcreve esse audio em portugues e gera srt. /absolute/path/audio.m4a`
 
-## Admin And Package Skills
+## Admin / Package Skills
 
 ### nanoskills
 
@@ -104,7 +104,7 @@ Show these skills under `User-Facing Skills`:
 - think-big
 - whisper-transcribe
 
-Show these skills under `Admin And Package Skills`:
+Show these skills under `Admin / Package Skills`:
 
 - nanoskills
 - awesome-updater

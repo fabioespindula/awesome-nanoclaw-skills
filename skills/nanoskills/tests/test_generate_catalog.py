@@ -171,7 +171,7 @@ class GenerateCatalogTests(unittest.TestCase):
 
             self.assertLess(markdown.index("### user-skill"), markdown.index("### admin-skill"))
             self.assertIn("## User-Facing Skills", markdown)
-            self.assertIn("## Admin And Package Skills", markdown)
+            self.assertIn("## Admin / Package Skills", markdown)
             self.assertEqual(rendered["schema_version"], 1)
             self.assertEqual(len(rendered["source_hash"]), 64)
             self.assertEqual(json_text, MODULE.render_catalog_json(catalog))
@@ -192,13 +192,14 @@ class GenerateCatalogTests(unittest.TestCase):
             After
             """
         )
-        table = "| Skill | Description |\n| --- | --- |\n| [demo](skills/demo) | Demo. |"
+        table = "### User-Facing Skills\n\n| Skill | Description |\n| --- | --- |\n| [demo](skills/demo) | Demo. |"
 
         updated = MODULE.update_readme_available_skills(readme, table)
 
         self.assertIn("Before", updated)
         self.assertIn("After", updated)
         self.assertNotIn("old table", updated)
+        self.assertIn("### User-Facing Skills", updated)
         self.assertIn("| [demo](skills/demo) | Demo. |", updated)
 
     def test_stdout_mode_does_not_write_catalog_files(self) -> None:

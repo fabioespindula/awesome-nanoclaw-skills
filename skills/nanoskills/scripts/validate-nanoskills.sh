@@ -45,6 +45,7 @@ for skill in "$REPO_ROOT"/skills/*; do
   test -d "$skill" || continue
   name="$(basename "$skill")"
   require_file "$skill/SKILL.md"
+  require_file "$skill/README.md"
   require_pattern "$name" "$ROOT/references/catalog.md" "$ROOT/SKILL.md" "$REPO_ROOT/README.md"
 done
 

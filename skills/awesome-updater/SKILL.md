@@ -23,7 +23,7 @@ metadata:
       - /nanoskills updates
       - /awesome-updater discover
       - /awesome-updater check feba-board
-    readme_include: false
+    readme_include: true
     readme_description: Managed install, discovery, backup, rollback, and auto-update infrastructure.
 ---
 

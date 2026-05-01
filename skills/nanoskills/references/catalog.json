@@ -174,10 +174,10 @@
       "order": 20,
       "output": "update-status",
       "readme_description": "Managed install, discovery, backup, rollback, and auto-update infrastructure.",
-      "readme_include": false,
+      "readme_include": true,
       "slash_command": "/awesome-updater",
       "use_when": "The user wants lifecycle operations rather than usage help."
     }
   ],
-  "source_hash": "5a607596363a5e6e39cae6ac4e64176b38bbe109c614775603f58469c29ddc5e"
+  "source_hash": "4c078c810f20f2818f0b14c00f67f9d7f532514b2495cab6d453d68979c0427f"
 }

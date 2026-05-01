@@ -24,12 +24,16 @@ Natural language also works when the intent is clearly a decision review:
 me ajuda a decidir se devo aceitar esse cliente grande
 ```
 
-Compatible aliases:
+Compatible aliases and trigger phrases:
 
 ```txt
-/feba-board help
-/board help
-/council help
+/board
+/feba-board
+/council
+second opinion
+conselho
+me ajuda a decidir
+pressure-test
 ```
 
 ## Behavior

@@ -288,6 +288,13 @@
       margin-top: 18px;
     }
 
+    .group-heading {
+      margin-top: 30px;
+      margin-bottom: 4px;
+      color: var(--muted-strong);
+      font-size: 18px;
+    }
+
     .skill-section {
       min-width: 0;
       padding: 18px;
@@ -322,6 +329,20 @@
       max-width: 900px;
       color: var(--muted-strong);
       font-size: 17px;
+    }
+
+    .alias-line {
+      margin: -4px 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .alias-line strong {
+      color: var(--muted-strong);
+    }
+
+    .alias-line code {
+      white-space: nowrap;
     }
 
     .hero-figure {
@@ -616,19 +637,20 @@
 
         <section id="skills">
           <h2>Available Skills</h2>
-          <p>The images below are intentionally large in this preview. Each skill gets a full-width visual first, then the practical usage details: when to call it, what output to expect, and a starter prompt.</p>
+          <p>The images below are intentionally large in this preview. User-facing skills come first, followed by admin/package skills for discovery and lifecycle management.</p>
 
+          <h3 class="group-heading">User-Facing Skills</h3>
           <div class="skill-list">
             <section class="skill-section" id="feba-board">
               <div class="skill-header">
                 <div class="skill-heading">
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">FEBA Board</a></h3>
                   <span class="command-pill">/febaboard</span>
-                  <span class="command-pill">/board</span>
                   <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Five VC perspectives for important decisions, plans, and tradeoffs. Use it when a decision needs useful disagreement before a recommendation.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>/board</code>, <code>/feba-board</code>, <code>/council</code>, <code>second opinion</code>, <code>conselho</code>, <code>me ajuda a decidir</code>.</p>
               <figure class="hero-figure">
                 <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">
                   <img src="skills/feba-board.png" alt="FEBA Board diagram showing decision input, five board perspectives, and recommendation output">
@@ -666,11 +688,11 @@ me ajuda a decidir se devo aceitar esse cliente grande</code></pre>
                 <div class="skill-heading">
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">Read For Me</a></h3>
                   <span class="command-pill">/read-for-me</span>
-                  <span class="command-pill">/read</span>
                   <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Context-aware URL briefs with confidence and safe next steps. It turns links into decision-ready source notes without saving, posting, or modifying anything unless explicitly asked.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>/read</code>, <code>/readthis</code>, <code>readthis</code>, <code>read-this</code>, <code>summarize this</code>, <code>read this</code>, <code>analisa esse link</code>, bare URLs.</p>
               <figure class="hero-figure">
                 <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">
                   <img src="skills/read-for-me.png" alt="Read For Me diagram showing article input, source analysis, and link brief output">
@@ -713,6 +735,7 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 </div>
               </div>
               <p class="skill-summary">Reframe plans, ideas, and decisions before committing. It improves decision quality by clarifying the real question, assumptions, alternatives, risks, and next move.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>rethink</code>, <code>step back</code>, <code>gut-check</code>, <code>pressure-test</code>, <code>simplify this</code>, <code>decide</code>.</p>
               <figure class="hero-figure">
                 <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">
                   <img src="skills/rethink.png" alt="Rethink diagram showing a plan being reframed into assumptions, alternatives, risks, and a decision review">
@@ -754,6 +777,7 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 </div>
               </div>
               <p class="skill-summary">Strategic future scans with signals, scenarios, risks, and opportunities. It opens the possibility space while staying grounded in mechanisms and uncertainty.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>think big</code>, <code>pensar grande</code>, <code>future of</code>, <code>where is this going</code>, <code>opportunity scan</code>.</p>
               <figure class="hero-figure">
                 <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">
                   <img src="skills/think-big.png" alt="Think Big diagram showing broad theme input, strategic exploration, and future brief output">
@@ -795,6 +819,7 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 </div>
               </div>
               <p class="skill-summary">Local faster-whisper transcription with explicit modes, manifests, and <code>txt</code>, <code>srt</code>, <code>vtt</code>, and transcript Markdown outputs.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>transcribe</code>, <code>whisper</code>, <code>gera legenda</code>, <code>transcreve esse audio</code>.</p>
               <figure class="hero-figure">
                 <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">
                   <img src="skills/whisper-transcribe.png" alt="Whisper Transcribe diagram showing media input, local transcription, and transcript artifacts">
@@ -827,6 +852,10 @@ Read this and tell me whether it matters for our launch plan: https://example.co
               </div>
             </section>
 
+          </div>
+
+          <h3 class="group-heading" id="admin-package-skills">Admin / Package Skills</h3>
+          <div class="skill-list">
             <section class="skill-section" id="nanoskills">
               <div class="skill-header">
                 <div class="skill-heading">
@@ -836,6 +865,7 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 </div>
               </div>
               <p class="skill-summary">Package-level catalog and help for all Awesome NanoClaw Skills. It lists installed skills, explains what each one does, and provides language-matched help and examples.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>skills</code>, <code>lista skills</code>, <code>help skills</code>, <code>catalog</code>.</p>
               <figure class="hero-figure">
                 <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">
                   <img src="skills/nanoskills.png" alt="NanoSkills diagram showing a skill idea being created, packaged, validated, and shipped">
@@ -865,6 +895,49 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 <pre><code>/nanoskills
 /nanoskills help board
 /nanoskills help think-big</code></pre>
+              </div>
+            </section>
+
+            <section class="skill-section" id="awesome-updater">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">Awesome Updater</a></h3>
+                  <span class="command-pill">/awesome-updater</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary"><code>awesome-updater</code> installs, validates, backs up, discovers, and auto-updates managed skills. It is lifecycle infrastructure for this collection.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>updater</code>, <code>updates</code>, <code>auto-update</code>, <code>managed skills</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">
+                  <img src="skills/awesome-updater.png" alt="Awesome Updater diagram showing managed install, validation, backup, and upgrade flow">
+                </a>
+                <figcaption>Managed install, discovery, backup, rollback, validation, and update checks. Click the image to open the updater source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>Install a managed skill.</li>
+                    <li>Discover newly added first-party skills.</li>
+                    <li>Check, configure, back up, roll back, or auto-upgrade installed skills.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Update, install, config, backup, rollback, or discovery status based on the updater JSON summary.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Safety model</strong>
+                  <p>Validates source skills, compares exact content hashes, backs up installed copies, and restores a backup if replacement fails.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example commands</strong>
+                <pre><code>/awesome-updater help
+/nanoskills updates
+/awesome-updater discover
+/awesome-updater check feba-board</code></pre>
               </div>
             </section>
           </div>
@@ -982,6 +1055,10 @@ rsync -a skills/ /path/to/nanoclaw/container/skills/</code></pre>
                 <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">nanoskills</a></td>
                 <td>NanoClaw runtime with skill loading and local access to this package's generated catalog.</td>
               </tr>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">awesome-updater</a></td>
+                <td>Python 3.10+, <code>git</code>, and network access for GitHub checks and first-party skill discovery.</td>
+              </tr>
             </tbody>
           </table>
         </section>
@@ -996,48 +1073,6 @@ rsync -a skills/ /path/to/nanoclaw/container/skills/</code></pre>
 
         <section id="auto-updates">
           <h2>Auto Updates</h2>
-          <section class="skill-section" id="awesome-updater">
-            <div class="skill-header">
-              <div class="skill-heading">
-                <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">Awesome Updater</a></h3>
-                <span class="command-pill">/awesome-updater</span>
-                <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">View source</a>
-              </div>
-            </div>
-            <p class="skill-summary"><code>awesome-updater</code> installs, validates, backs up, discovers, and auto-updates managed skills. It is infrastructure for this collection, not a user-facing skill in the list above.</p>
-            <figure class="hero-figure">
-              <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">
-                <img src="skills/awesome-updater.png" alt="Awesome Updater diagram showing managed install, validation, backup, and upgrade flow">
-              </a>
-              <figcaption>Managed skills carry metadata, content hashes, throttling, backups, validation, and rollback support. Click the image to open the updater source.</figcaption>
-            </figure>
-            <div class="usage-grid">
-              <div class="usage-card">
-                <strong>When to use it</strong>
-                <ul>
-                  <li>Install a managed skill.</li>
-                  <li>Discover newly added first-party skills.</li>
-                  <li>Check, configure, back up, roll back, or auto-upgrade installed skills.</li>
-                </ul>
-              </div>
-              <div class="usage-card">
-                <strong>Expected outcome</strong>
-                <p>Update, install, config, backup, rollback, or discovery status based on the updater JSON summary.</p>
-              </div>
-              <div class="usage-card">
-                <strong>Defaults</strong>
-                <p><code>update_check=true</code>, <code>auto_upgrade=true</code>, <code>discover_new=true</code>, throttled hourly, with <code>sha256</code> content hashing.</p>
-              </div>
-            </div>
-            <div class="example-row">
-              <strong>Example commands</strong>
-              <pre><code>/awesome-updater help
-/nanoskills updates
-/awesome-updater discover
-/awesome-updater check feba-board</code></pre>
-            </div>
-          </section>
-
           <p>Install skills through <code>awesome-updater</code> when you want managed updates. Managed skills get a <code>.awesome-skill.json</code> metadata file with update checks, content hashes, and auto-upgrade enabled by default.</p>
 
           <table>
@@ -1063,6 +1098,16 @@ rsync -a skills/ /path/to/nanoclaw/container/skills/</code></pre>
                 <td><code>discover_new</code></td>
                 <td><code>true</code></td>
                 <td>Installs newly added first-party skills from this curated package.</td>
+              </tr>
+              <tr>
+                <td><code>throttle_seconds</code></td>
+                <td><code>3600</code></td>
+                <td>Avoids repeated network checks during frequent skill use.</td>
+              </tr>
+              <tr>
+                <td><code>discover_throttle_seconds</code></td>
+                <td><code>3600</code></td>
+                <td>Avoids repeated package-wide discovery during frequent skill use.</td>
               </tr>
               <tr>
                 <td><code>hash_algorithm</code></td>

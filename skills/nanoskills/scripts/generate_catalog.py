@@ -16,7 +16,7 @@ END_AVAILABLE = "<!-- END GENERATED AVAILABLE SKILLS -->"
 GROUP_ORDER = ["user-facing", "admin"]
 GROUP_LABELS = {
     "user-facing": "User-Facing Skills",
-    "admin": "Admin And Package Skills",
+    "admin": "Admin / Package Skills",
 }
 
 
@@ -326,11 +326,20 @@ def render_catalog_json(catalog: dict[str, Any]) -> str:
 
 
 def render_readme_table(catalog: dict[str, Any]) -> str:
-    rows = ["| Skill | Description |", "| --- | --- |"]
+    lines: list[str] = []
+    by_group: dict[str, list[dict[str, Any]]] = {group: [] for group in GROUP_ORDER}
     for skill in catalog["skills"]:
         if skill["readme_include"]:
-            rows.append(f"| [{skill['name']}](skills/{skill['name']}) | {skill['readme_description']} |")
-    return "\n".join(rows)
+            by_group[skill["group"]].append(skill)
+    for group in GROUP_ORDER:
+        if not by_group[group]:
+            continue
+        if lines:
+            lines.append("")
+        lines.extend([f"### {GROUP_LABELS[group]}", "", "| Skill | Description |", "| --- | --- |"])
+        for skill in by_group[group]:
+            lines.append(f"| [{skill['name']}](skills/{skill['name']}) | {skill['readme_description']} |")
+    return "\n".join(lines)
 
 
 def update_readme_available_skills(content: str, table: str) -> str:

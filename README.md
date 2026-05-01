@@ -19,6 +19,8 @@ Use this repository to add focused capabilities to an agent without turning the 
 ## Available Skills
 
 <!-- BEGIN GENERATED AVAILABLE SKILLS -->
+### User-Facing Skills
+
 | Skill | Description |
 | --- | --- |
 | [feba-board](skills/feba-board) | Five VC perspectives for important decisions, plans, and tradeoffs. |
@@ -26,7 +28,13 @@ Use this repository to add focused capabilities to an agent without turning the 
 | [rethink](skills/rethink) | Reframe plans, ideas, and decisions before committing. |
 | [think-big](skills/think-big) | Strategic future scans with signals, scenarios, risks, and opportunities. |
 | [whisper-transcribe](skills/whisper-transcribe) | Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output. |
+
+### Admin / Package Skills
+
+| Skill | Description |
+| --- | --- |
 | [nanoskills](skills/nanoskills) | Package-level catalog and help for all Awesome NanoClaw Skills. |
+| [awesome-updater](skills/awesome-updater) | Managed install, discovery, backup, rollback, and auto-update infrastructure. |
 <!-- END GENERATED AVAILABLE SKILLS -->
 
 ## Quick Start
@@ -118,6 +126,7 @@ Current skill requirements:
 | [think-big](skills/think-big) | NanoClaw runtime; browser or research tools for current sources. |
 | [whisper-transcribe](skills/whisper-transcribe) | Python 3.10+, `faster-whisper`, and local media codec support. Some video formats may also require `ffmpeg`. |
 | [nanoskills](skills/nanoskills) | NanoClaw runtime with skill loading and local access to this package's generated catalog. |
+| [awesome-updater](skills/awesome-updater) | Python 3.10+, `git`, and network access for GitHub checks and first-party skill discovery. |
 
 Managed updates use [`awesome-updater`](skills/awesome-updater), which requires Python 3.10+, `git`, and network access for GitHub checks and first-party skill discovery.
 
@@ -129,7 +138,7 @@ For production runtimes, install only the skills the agent needs and test each o
 
 ## Auto Updates
 
-[`awesome-updater`](skills/awesome-updater) is the management tool for installing, validating, backing up, and auto-updating managed skills. It is infrastructure for this collection, not a user-facing skill in the list above.
+[`awesome-updater`](skills/awesome-updater) is the management tool for installing, validating, backing up, and auto-updating managed skills. It is an admin/package skill for this collection, not a normal user-facing analysis skill.
 
 [`nanoskills`](skills/nanoskills) is the discovery and help layer. It lists the full package and explains how to use each skill. It can route update-related questions to `awesome-updater`, but the catalog/help logic itself stays fast, offline, and non-mutating.
 
