@@ -85,6 +85,7 @@
       min-width: 0;
       align-items: center;
       gap: 8px;
+      color: var(--muted);
       white-space: nowrap;
     }
 
@@ -92,6 +93,15 @@
       overflow: hidden;
       color: var(--text);
       text-overflow: ellipsis;
+    }
+
+    .repo-path:hover {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .repo-path:hover strong {
+      color: var(--link);
     }
 
     .readme-label {
@@ -172,6 +182,7 @@
     }
 
     .badge-row,
+    .cta-row,
     .quick-nav {
       display: flex;
       flex-wrap: wrap;
@@ -180,7 +191,9 @@
     }
 
     .badge,
+    .cta-link,
     .quick-nav a,
+    .source-link,
     .command-pill {
       display: inline-flex;
       align-items: center;
@@ -192,6 +205,31 @@
       color: var(--muted-strong);
       font-size: 13px;
       white-space: nowrap;
+    }
+
+    .badge:hover,
+    .cta-link:hover,
+    .source-link:hover {
+      border-color: rgba(88, 166, 255, 0.58);
+      background: rgba(47, 129, 247, 0.1);
+      text-decoration: none;
+    }
+
+    .cta-row {
+      margin-top: 22px;
+    }
+
+    .cta-link {
+      min-height: 36px;
+      padding: 6px 12px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .cta-link.primary {
+      border-color: rgba(47, 129, 247, 0.7);
+      background: rgba(47, 129, 247, 0.22);
+      color: #cae8ff;
     }
 
     .badge.is-green {
@@ -209,6 +247,12 @@
 
     .command-pill {
       font-family: ui-monospace, SFMono-Regular, SFMono, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+    }
+
+    .source-link {
+      border-color: rgba(88, 166, 255, 0.42);
+      color: var(--link);
       font-size: 12px;
     }
 
@@ -294,6 +338,19 @@
       max-width: 100%;
       height: auto;
       border-radius: 4px;
+    }
+
+    .figure-link {
+      display: block;
+    }
+
+    .figure-link:hover {
+      text-decoration: none;
+    }
+
+    .figure-link:hover img {
+      outline: 2px solid rgba(88, 166, 255, 0.55);
+      outline-offset: 2px;
     }
 
     figcaption {
@@ -484,6 +541,11 @@
         flex-direction: column;
       }
 
+      .cta-link {
+        width: 100%;
+        justify-content: center;
+      }
+
       .markdown-body {
         padding: 24px 14px 32px;
       }
@@ -504,12 +566,12 @@
   <main class="page">
     <div class="readme-shell">
       <div class="readme-topbar">
-        <div class="repo-path">
+        <a class="repo-path" href="https://github.com/fabioespindula/awesome-nanoclaw-skills" aria-label="Open the Awesome NanoClaw Skills GitHub repository">
           <span>fabioespindula</span>
           <span>/</span>
           <strong>awesome-nanoclaw-skills</strong>
-        </div>
-        <span class="readme-label">Visual README</span>
+        </a>
+        <a class="readme-label" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/README.md">README.md on GitHub</a>
       </div>
 
       <article class="markdown-body">
@@ -528,12 +590,18 @@
           <p>This repository curates small, portable skill folders that can be copied into a NanoClaw runtime. Each skill contains a <code>SKILL.md</code> file plus optional references, templates, scripts, and assets.</p>
           <p>Use this repository to add focused capabilities to an agent without turning the main system prompt into a giant instruction block.</p>
 
+          <div class="cta-row" aria-label="GitHub links">
+            <a class="cta-link primary" href="https://github.com/fabioespindula/awesome-nanoclaw-skills">View GitHub Repo</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills">Browse Skills</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills#quick-start">Install From README</a>
+          </div>
+
           <div class="badge-row" aria-label="Repository highlights">
-            <span class="badge is-blue">SKILL.md first</span>
-            <span class="badge is-green">Security-conscious</span>
-            <span class="badge">Prompt-native</span>
-            <span class="badge">Reviewable workflows</span>
-            <span class="badge">MIT licensed</span>
+            <a class="badge is-blue" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills">SKILL.md first</a>
+            <a class="badge is-green" href="https://github.com/fabioespindula/awesome-nanoclaw-skills#safety">Security-conscious</a>
+            <a class="badge" href="https://github.com/fabioespindula/awesome-nanoclaw-skills#what-is-a-skill">Prompt-native</a>
+            <a class="badge" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills">Reviewable workflows</a>
+            <a class="badge" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/LICENSE">MIT licensed</a>
           </div>
 
           <nav class="quick-nav" aria-label="README sections">
@@ -542,6 +610,7 @@
             <a href="#requirements">Requirements</a>
             <a href="#auto-updates">Auto Updates</a>
             <a href="#philosophy">Philosophy</a>
+            <a href="https://github.com/fabioespindula/awesome-nanoclaw-skills">GitHub Repo</a>
           </nav>
         </header>
 
@@ -556,12 +625,15 @@
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">FEBA Board</a></h3>
                   <span class="command-pill">/febaboard</span>
                   <span class="command-pill">/board</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Five VC perspectives for important decisions, plans, and tradeoffs. Use it when a decision needs useful disagreement before a recommendation.</p>
               <figure class="hero-figure">
-                <img src="skills/feba-board.png" alt="FEBA Board diagram showing decision input, five board perspectives, and recommendation output">
-                <figcaption>Decision or tradeoff in, five perspectives, practical recommendation out.</figcaption>
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">
+                  <img src="skills/feba-board.png" alt="FEBA Board diagram showing decision input, five board perspectives, and recommendation output">
+                </a>
+                <figcaption>Decision or tradeoff in, five perspectives, practical recommendation out. Click the image to open the skill source.</figcaption>
               </figure>
               <div class="usage-grid">
                 <div class="usage-card">
@@ -595,12 +667,15 @@ me ajuda a decidir se devo aceitar esse cliente grande</code></pre>
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">Read For Me</a></h3>
                   <span class="command-pill">/read-for-me</span>
                   <span class="command-pill">/read</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Context-aware URL briefs with confidence and safe next steps. It turns links into decision-ready source notes without saving, posting, or modifying anything unless explicitly asked.</p>
               <figure class="hero-figure">
-                <img src="skills/read-for-me.png" alt="Read For Me diagram showing article input, source analysis, and link brief output">
-                <figcaption>A source is checked for access, confidence, relevance, category, and next action.</figcaption>
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">
+                  <img src="skills/read-for-me.png" alt="Read For Me diagram showing article input, source analysis, and link brief output">
+                </a>
+                <figcaption>A source is checked for access, confidence, relevance, category, and next action. Click the image to open the skill source.</figcaption>
               </figure>
               <div class="usage-grid">
                 <div class="usage-card">
@@ -634,12 +709,15 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 <div class="skill-heading">
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">Rethink</a></h3>
                   <span class="command-pill">/rethink</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Reframe plans, ideas, and decisions before committing. It improves decision quality by clarifying the real question, assumptions, alternatives, risks, and next move.</p>
               <figure class="hero-figure">
-                <img src="skills/rethink.png" alt="Rethink diagram showing a plan being reframed into assumptions, alternatives, risks, and a decision review">
-                <figcaption>A concrete commitment goes through reframing before action.</figcaption>
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">
+                  <img src="skills/rethink.png" alt="Rethink diagram showing a plan being reframed into assumptions, alternatives, risks, and a decision review">
+                </a>
+                <figcaption>A concrete commitment goes through reframing before action. Click the image to open the skill source.</figcaption>
               </figure>
               <div class="usage-grid">
                 <div class="usage-card">
@@ -672,12 +750,15 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 <div class="skill-heading">
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">Think Big</a></h3>
                   <span class="command-pill">/think-big</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Strategic future scans with signals, scenarios, risks, and opportunities. It opens the possibility space while staying grounded in mechanisms and uncertainty.</p>
               <figure class="hero-figure">
-                <img src="skills/think-big.png" alt="Think Big diagram showing broad theme input, strategic exploration, and future brief output">
-                <figcaption>A broad theme becomes signals, scenarios, risks, opportunities, and useful provocations.</figcaption>
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">
+                  <img src="skills/think-big.png" alt="Think Big diagram showing broad theme input, strategic exploration, and future brief output">
+                </a>
+                <figcaption>A broad theme becomes signals, scenarios, risks, opportunities, and useful provocations. Click the image to open the skill source.</figcaption>
               </figure>
               <div class="usage-grid">
                 <div class="usage-card">
@@ -710,12 +791,15 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 <div class="skill-heading">
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">Whisper Transcribe</a></h3>
                   <span class="command-pill">/whisper-transcribe</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Local faster-whisper transcription with explicit modes, manifests, and <code>txt</code>, <code>srt</code>, <code>vtt</code>, and transcript Markdown outputs.</p>
               <figure class="hero-figure">
-                <img src="skills/whisper-transcribe.png" alt="Whisper Transcribe diagram showing media input, local transcription, and transcript artifacts">
-                <figcaption>Local media in, transcript and caption artifacts out.</figcaption>
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">
+                  <img src="skills/whisper-transcribe.png" alt="Whisper Transcribe diagram showing media input, local transcription, and transcript artifacts">
+                </a>
+                <figcaption>Local media in, transcript and caption artifacts out. Click the image to open the skill source.</figcaption>
               </figure>
               <div class="usage-grid">
                 <div class="usage-card">
@@ -748,12 +832,15 @@ Read this and tell me whether it matters for our launch plan: https://example.co
                 <div class="skill-heading">
                   <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">NanoSkills</a></h3>
                   <span class="command-pill">/nanoskills</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">View source</a>
                 </div>
               </div>
               <p class="skill-summary">Package-level catalog and help for all Awesome NanoClaw Skills. It lists installed skills, explains what each one does, and provides language-matched help and examples.</p>
               <figure class="hero-figure">
-                <img src="skills/nanoskills.png" alt="NanoSkills diagram showing a skill idea being created, packaged, validated, and shipped">
-                <figcaption>The discovery and help layer for a reusable skill collection.</figcaption>
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">
+                  <img src="skills/nanoskills.png" alt="NanoSkills diagram showing a skill idea being created, packaged, validated, and shipped">
+                </a>
+                <figcaption>The discovery and help layer for a reusable skill collection. Click the image to open the skill source.</figcaption>
               </figure>
               <div class="usage-grid">
                 <div class="usage-card">
@@ -914,12 +1001,15 @@ rsync -a skills/ /path/to/nanoclaw/container/skills/</code></pre>
               <div class="skill-heading">
                 <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">Awesome Updater</a></h3>
                 <span class="command-pill">/awesome-updater</span>
+                <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">View source</a>
               </div>
             </div>
             <p class="skill-summary"><code>awesome-updater</code> installs, validates, backs up, discovers, and auto-updates managed skills. It is infrastructure for this collection, not a user-facing skill in the list above.</p>
             <figure class="hero-figure">
-              <img src="skills/awesome-updater.png" alt="Awesome Updater diagram showing managed install, validation, backup, and upgrade flow">
-              <figcaption>Managed skills carry metadata, content hashes, throttling, backups, validation, and rollback support.</figcaption>
+              <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">
+                <img src="skills/awesome-updater.png" alt="Awesome Updater diagram showing managed install, validation, backup, and upgrade flow">
+              </a>
+              <figcaption>Managed skills carry metadata, content hashes, throttling, backups, validation, and rollback support. Click the image to open the updater source.</figcaption>
             </figure>
             <div class="usage-grid">
               <div class="usage-card">
@@ -1146,6 +1236,11 @@ python3 skills/awesome-updater/scripts/awesome_skills.py install awesome-updater
         <section id="license" class="footer-license">
           <h2>License</h2>
           <p>MIT. See <a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/LICENSE">LICENSE</a>.</p>
+          <div class="cta-row" aria-label="More GitHub links">
+            <a class="cta-link primary" href="https://github.com/fabioespindula/awesome-nanoclaw-skills">Open Repository</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/README.md">Read README</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/issues">Suggest a Skill</a>
+          </div>
         </section>
       </article>
     </div>
