@@ -1,9 +1,9 @@
 ---
 name: feba-board
-description: Use when the user invokes /board or /feba-board, uses the legacy /council alias, asks for a board, second opinion, advice, decision review, tradeoff analysis, planning pressure test, or strong natural-language help deciding something. FEBA Board gives five VC-style perspectives for important decisions and returns a compact chat-friendly recommendation with expansion and transcript saving only when requested.
+description: Use when the user invokes /febaboard or /feba-board, uses the compatible /board or legacy /council alias, asks for a board, second opinion, advice, decision review, tradeoff analysis, planning pressure test, or strong natural-language help deciding something. FEBA Board gives five VC-style perspectives for important decisions and returns a compact chat-friendly recommendation with expansion and transcript saving only when requested.
 user-invocable: true
 metadata:
-  slash-command: /board
+  slash-command: /febaboard
   output: chat-friendly-board-review
   catalog:
     group: user-facing
@@ -11,6 +11,7 @@ metadata:
     aliases:
       - board
       - feba-board
+      - /febaboard
       - /board
       - /feba-board
       - /council
@@ -21,8 +22,8 @@ metadata:
     use_when: The user has a meaningful decision, plan, tradeoff, investment question, product question, or asks for a second opinion from a board.
     expected_output: Compact chat-friendly recommendation with board tensions, next action, optional advisor expansion, and transcript saving only on request.
     examples:
-      - /board Should we ship this week or wait until onboarding is better?
-      - /board Quero decidir se faco launch agora ou espero melhorar onboarding.
+      - /febaboard Should we ship this week or wait until onboarding is better?
+      - /febaboard Quero decidir se faco launch agora ou espero melhorar onboarding.
       - me ajuda a decidir se devo aceitar esse cliente grande
     readme_include: true
     readme_description: Five VC perspectives for important decisions, plans, and tradeoffs.
@@ -59,8 +60,9 @@ Continue the board workflow if update checks fail because of network, GitHub, or
 
 Run this skill when the user invokes or strongly implies:
 
-- `/board <question>`
+- `/febaboard <question>`
 - `/feba-board <question>`
+- `/board <question>` as a compatible alias
 - `/council <question>` as a legacy alias
 - "board this"
 - "me ajuda a decidir"
@@ -75,13 +77,13 @@ Do not run this skill for simple factual questions, routine coding tasks, or cas
 
 ## Help Mode
 
-If the user invokes `/board help`, `/board ajuda`, `/board examples`, `/board exemplos`, `/feba-board help`, or the legacy `/council help`, explain usage instead of running the board.
+If the user invokes `/febaboard help`, `/febaboard ajuda`, `/febaboard examples`, `/febaboard exemplos`, `/feba-board help`, `/board help`, or the legacy `/council help`, explain usage instead of running the board.
 
 The help response should include:
 
 - what FEBA Board does;
 - when to use it;
-- command forms: `/board <question>`, `/feba-board <question>`, and legacy `/council <question>`;
+- command forms: `/febaboard <question>`, `/feba-board <question>`, compatible `/board <question>`, and legacy `/council <question>`;
 - that natural language also works for strong decision-review intent;
 - that the default answer is short;
 - that the user can ask to expand one advisor, compare options, or save the transcript.
@@ -90,9 +92,9 @@ The help response should include:
 
 Curated examples:
 
-- `/board Should we ship this week or wait until onboarding is better?`
-- `/board Quero decidir se faco launch agora ou espero melhorar onboarding.`
-- `/board Pressure-test this acquisition thesis before we send the memo.`
+- `/febaboard Should we ship this week or wait until onboarding is better?`
+- `/febaboard Quero decidir se faco launch agora ou espero melhorar onboarding.`
+- `/febaboard Pressure-test this acquisition thesis before we send the memo.`
 
 ## Language
 

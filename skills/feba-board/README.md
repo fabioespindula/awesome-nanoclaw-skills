@@ -15,7 +15,7 @@ It gives one compact recommendation from five VC-style perspectives:
 Primary command:
 
 ```txt
-/board Should we ship this week or wait until onboarding is better?
+/febaboard Should we ship this week or wait until onboarding is better?
 ```
 
 Natural language also works when the intent is clearly a decision review:
@@ -24,9 +24,11 @@ Natural language also works when the intent is clearly a decision review:
 me ajuda a decidir se devo aceitar esse cliente grande
 ```
 
-Legacy alias:
+Compatible aliases:
 
 ```txt
+/feba-board help
+/board help
 /council help
 ```
 

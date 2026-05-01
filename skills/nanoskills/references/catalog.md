@@ -8,14 +8,14 @@ Answer in the language of the current conversation. Keep skill names and slash c
 
 ### feba-board
 
-- Slash command: `/board`
-- Aliases: `board`, `feba-board`, `/board`, `/feba-board`, `/council`, `second opinion`, `conselho`, `me ajuda a decidir`, `pressure-test`
+- Slash command: `/febaboard`
+- Aliases: `board`, `feba-board`, `/febaboard`, `/board`, `/feba-board`, `/council`, `second opinion`, `conselho`, `me ajuda a decidir`, `pressure-test`
 - What it does: Five VC perspectives for important decisions, plans, and tradeoffs.
 - Use when: The user has a meaningful decision, plan, tradeoff, investment question, product question, or asks for a second opinion from a board.
 - Output: Compact chat-friendly recommendation with board tensions, next action, optional advisor expansion, and transcript saving only on request.
 - Curated examples:
-  - `/board Should we ship this week or wait until onboarding is better?`
-  - `/board Quero decidir se faco launch agora ou espero melhorar onboarding.`
+  - `/febaboard Should we ship this week or wait until onboarding is better?`
+  - `/febaboard Quero decidir se faco launch agora ou espero melhorar onboarding.`
   - `me ajuda a decidir se devo aceitar esse cliente grande`
 
 ### read-for-me

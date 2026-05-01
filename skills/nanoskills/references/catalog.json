@@ -5,6 +5,7 @@
       "aliases": [
         "board",
         "feba-board",
+        "/febaboard",
         "/board",
         "/feba-board",
         "/council",
@@ -13,10 +14,10 @@
         "me ajuda a decidir",
         "pressure-test"
       ],
-      "description": "Use when the user invokes /board or /feba-board, uses the legacy /council alias, asks for a board, second opinion, advice, decision review, tradeoff analysis, planning pressure test, or strong natural-language help deciding something. FEBA Board gives five VC-style perspectives for important decisions and returns a compact chat-friendly recommendation with expansion and transcript saving only when requested.",
+      "description": "Use when the user invokes /febaboard or /feba-board, uses the compatible /board or legacy /council alias, asks for a board, second opinion, advice, decision review, tradeoff analysis, planning pressure test, or strong natural-language help deciding something. FEBA Board gives five VC-style perspectives for important decisions and returns a compact chat-friendly recommendation with expansion and transcript saving only when requested.",
       "examples": [
-        "/board Should we ship this week or wait until onboarding is better?",
-        "/board Quero decidir se faco launch agora ou espero melhorar onboarding.",
+        "/febaboard Should we ship this week or wait until onboarding is better?",
+        "/febaboard Quero decidir se faco launch agora ou espero melhorar onboarding.",
         "me ajuda a decidir se devo aceitar esse cliente grande"
       ],
       "expected_output": "Compact chat-friendly recommendation with board tensions, next action, optional advisor expansion, and transcript saving only on request.",
@@ -26,7 +27,7 @@
       "output": "chat-friendly-board-review",
       "readme_description": "Five VC perspectives for important decisions, plans, and tradeoffs.",
       "readme_include": true,
-      "slash_command": "/board",
+      "slash_command": "/febaboard",
       "use_when": "The user has a meaningful decision, plan, tradeoff, investment question, product question, or asks for a second opinion from a board."
     },
     {
@@ -178,5 +179,5 @@
       "use_when": "The user wants lifecycle operations rather than usage help."
     }
   ],
-  "source_hash": "2cf19c727e5f59832d01af205cbbafbc4ad08c87c0a2aad58df4f1939cdfbc24"
+  "source_hash": "5a607596363a5e6e39cae6ac4e64176b38bbe109c614775603f58469c29ddc5e"
 }

@@ -56,8 +56,10 @@ for file in "${required_files[@]}"; do
 done
 
 require_pattern '^name: feba-board$' SKILL.md
-require_pattern 'slash-command: /board' SKILL.md
-require_pattern '/board' SKILL.md README.md references/sample-runs.md "$REPO_ROOT/README.md"
+require_pattern 'slash-command: /febaboard' SKILL.md
+require_pattern '/febaboard' SKILL.md README.md references/sample-runs.md "$REPO_ROOT/README.md"
+require_pattern '/feba-board' SKILL.md README.md docs/prd-feba-board.md
+require_pattern '/board' SKILL.md README.md docs/prd-feba-board.md
 require_pattern '/council' SKILL.md README.md docs/prd-feba-board.md
 require_pattern 'legacy alias' SKILL.md README.md docs/prd-feba-board.md
 require_pattern 'chat-friendly-board-review' SKILL.md

@@ -7,7 +7,7 @@ These examples show the intended tone and size. Do not treat them as fixed scrip
 User:
 
 ```txt
-/board Devo fazer launch agora ou esperar melhorar onboarding?
+/febaboard Devo fazer launch agora ou esperar melhorar onboarding?
 ```
 
 Assistant:
@@ -36,7 +36,7 @@ Reply with `expand <advisor>`, `compare options`, `make a plan`, or `save transc
 User:
 
 ```txt
-/board Pressure-test this acquisition thesis before we send the memo.
+/febaboard Pressure-test this acquisition thesis before we send the memo.
 ```
 
 Assistant:

@@ -4,7 +4,7 @@
 
 FEBA Board is a NanoClaw skill for high-signal decision review. It gives the user five VC-style perspectives, a compact recommendation, and optional expansion without turning every decision into a long report.
 
-The skill name is `feba-board`. The primary command is `/board`. The legacy `/council` alias remains supported only for compatibility.
+The skill name is `feba-board`. The primary command is `/febaboard`. `/feba-board` and `/board` remain supported as compatible aliases. The legacy `/council` alias remains supported only for compatibility.
 
 ## Goals
 
@@ -26,8 +26,9 @@ The skill name is `feba-board`. The primary command is `/board`. The legacy `/co
 
 ## User Triggers
 
-- `/board <question>`
+- `/febaboard <question>`
 - `/feba-board <question>`
+- `/board <question>` as a compatible alias
 - `/council <question>` as a legacy alias
 - "me ajuda a decidir"
 - "quero uma segunda opiniao"
@@ -89,7 +90,7 @@ If `/workspace/group/board/` is unavailable, use:
 ## Acceptance Criteria
 
 - `SKILL.md` declares `name: feba-board`.
-- `SKILL.md` declares `slash-command: /board`.
+- `SKILL.md` declares `slash-command: /febaboard`.
 - `/council` appears only as a documented legacy alias.
 - The roster contains The Skeptic, The Thesis, The Market, The Customer, and The Operator.
 - The default behavior is short, language-matched, and chat-friendly.

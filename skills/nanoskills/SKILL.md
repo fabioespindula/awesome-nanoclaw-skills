@@ -92,7 +92,7 @@ Choose the response from the user's command:
 
 Accept skill names, aliases, and slash commands when resolving help:
 
-- `board`, `/board`, `feba-board`, `/feba-board`, `/council`
+- `board`, `/febaboard`, `feba-board`, `/feba-board`, `/board`, `/council`
 - `read`, `readthis`, `read-this`, `read-for-me`, `/read`, `/readthis`, `/read-for-me`
 - `rethink`, `/rethink`
 - `think-big`, `/think-big`
@@ -146,7 +146,7 @@ Help examples are hybrid:
 
 Examples:
 
-- If the conversation is about launch timing, `/board Devo lancar agora ou esperar melhorar onboarding?`
+- If the conversation is about launch timing, `/febaboard Devo lancar agora ou esperar melhorar onboarding?`
 - If the conversation is about a repo architecture decision, `/rethink Essa arquitetura de comandos globais esta simples o suficiente?`
 - If the conversation includes a URL, `/readthis <url>`
 

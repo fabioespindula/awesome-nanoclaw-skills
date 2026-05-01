@@ -58,7 +58,7 @@ Try it:
 
 ```txt
 /nanoskills
-/board Should we ship the first version this week or wait until onboarding is better?
+/febaboard Should we ship the first version this week or wait until onboarding is better?
 ```
 
 To install another skill, change `SKILL` to the folder name you want.
@@ -75,7 +75,7 @@ Discover and learn skills from inside chat:
 ```txt
 /nanoskills
 /nanoskills help think-big
-/board help
+/febaboard help
 ```
 
 ## What Is a Skill?

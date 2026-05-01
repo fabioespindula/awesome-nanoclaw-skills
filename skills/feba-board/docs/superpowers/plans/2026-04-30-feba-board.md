@@ -2,11 +2,11 @@
 
 ## Summary
 
-Rename and harden the decision-review skill as FEBA Board. The runtime folder is `skills/feba-board`, the primary command is `/board`, and `/council` remains only as a documented legacy alias.
+Rename and harden the decision-review skill as FEBA Board. The runtime folder is `skills/feba-board`, the primary command is `/febaboard`, `/feba-board` remains compatible, and `/council` remains only as a documented legacy alias.
 
 ## Desired Behavior
 
-- Trigger from `/board`, `/feba-board`, legacy `/council`, or strong natural-language decision-review intent.
+- Trigger from `/febaboard`, `/feba-board`, compatible `/board`, legacy `/council`, or strong natural-language decision-review intent.
 - Match the dominant language of the conversation.
 - Prefer multiagent or swarm execution when available.
 - Fall back to disclosed solo board mode when multiagent execution is unavailable.
@@ -56,7 +56,7 @@ Expected:
 
 ## Manual Runbook
 
-1. `/board Should we ship this week or wait until onboarding is better?`
+1. `/febaboard Should we ship this week or wait until onboarding is better?`
 2. `me ajuda a decidir se devo aceitar esse cliente grande`
 3. `/council help`
 4. Ask to expand one advisor.
