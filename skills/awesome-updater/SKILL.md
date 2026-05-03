@@ -83,7 +83,7 @@ Before replacing a skill, the updater:
 
 The updater only manages skills that contain `.awesome-skill.json`. If a skill has no metadata, do not auto-update it; install it through this updater first.
 
-Discovery follows the trusted first-party package model: it syncs skills that are present in the configured Awesome NanoClaw Skills source repository. It does not install arbitrary third-party skills from unknown sources. Existing unmanaged skill folders are skipped instead of overwritten. Discovery is best-effort: if one skill update fails, that skill is restored from its own backup and other successful skill updates are kept.
+Discovery follows a trusted first-party package model: it syncs skills that are present in the configured Awesome NanoClaw Skills source repository. It does not install arbitrary third-party skills from unknown sources. Existing unmanaged skill folders are skipped instead of overwritten. Discovery is best-effort: if one skill update fails, that skill is restored from its own backup and other successful skill updates are kept.
 
 ## Command Patterns
 

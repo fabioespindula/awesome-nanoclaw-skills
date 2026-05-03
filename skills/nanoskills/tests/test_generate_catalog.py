@@ -176,6 +176,78 @@ class GenerateCatalogTests(unittest.TestCase):
             self.assertEqual(len(rendered["source_hash"]), 64)
             self.assertEqual(json_text, MODULE.render_catalog_json(catalog))
 
+    def test_catalog_markdown_hides_aliases_but_json_keeps_resolver_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            skills_dir = Path(tmp) / "skills"
+            write_skill(
+                skills_dir,
+                "feba-board",
+                """
+                name: feba-board
+                description: Decision board.
+                user-invocable: true
+                metadata:
+                  slash-command: /febaboard
+                  output: board-review
+                  catalog:
+                    group: user-facing
+                    order: 10
+                    aliases:
+                      - board
+                      - /board
+                      - /feba-board
+                      - /council
+                    use_when: Use for meaningful decisions.
+                    expected_output: Board recommendation.
+                    examples:
+                      - /febaboard Should we ship?
+                    readme_include: true
+                    readme_description: Decision board.
+                """,
+            )
+
+            catalog = MODULE.collect_catalog(skills_dir)
+            markdown = MODULE.render_catalog_markdown(catalog)
+            rendered = json.loads(MODULE.render_catalog_json(catalog))
+
+            self.assertNotIn("Aliases:", markdown)
+            self.assertNotIn("/board", markdown)
+            self.assertNotIn("/feba-board", markdown)
+            self.assertNotIn("/council", markdown)
+            self.assertEqual(rendered["skills"][0]["aliases"], ["board", "/board", "/feba-board", "/council"])
+
+    def test_catalog_markdown_declares_closed_first_party_source_boundary(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            skills_dir = Path(tmp) / "skills"
+            write_skill(
+                skills_dir,
+                "demo",
+                """
+                name: demo
+                description: Demo skill.
+                user-invocable: true
+                metadata:
+                  slash-command: /demo
+                  output: demo-output
+                  catalog:
+                    group: user-facing
+                    order: 10
+                    aliases:
+                      - demo
+                    use_when: Use demo.
+                    expected_output: Demo output.
+                    examples:
+                      - /demo
+                    readme_include: true
+                    readme_description: Demo skill.
+                """,
+            )
+
+            markdown = MODULE.render_catalog_markdown(MODULE.collect_catalog(skills_dir))
+
+            self.assertIn("Only list skills from this generated catalog", markdown)
+            self.assertIn("Do not merge global runtime skills", markdown)
+
     def test_update_readme_replaces_only_generated_block(self) -> None:
         readme = textwrap.dedent(
             """\
