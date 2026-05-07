@@ -79,6 +79,7 @@ for command in \
   '/read-for-me' \
   '/readthis' \
   '/read' \
+  '/xray' \
   '/visual-explain' \
   '/rethink' \
   '/think-big' \

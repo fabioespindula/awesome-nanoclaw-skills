@@ -726,6 +726,47 @@ Read this and tell me whether it matters for our launch plan: https://example.co
               </div>
             </section>
 
+            <section class="skill-section" id="xray">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/xray">XRay</a></h3>
+                  <span class="command-pill">/xray</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/xray">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary">Visual explanations with complete mental maps and short/long depth modes. It reveals structure, intent, assumptions, and practical meaning instead of producing a generic summary.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>/visual-explain</code>, <code>visual-explain</code>, <code>mental map</code>, <code>visual explanation</code>, <code>explain visually</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/xray">
+                  <img src="skills/xray.png" alt="XRay diagram showing source content transformed into a complete mental map and short or long visual explanation output">
+                </a>
+                <figcaption>Content in, complete mental map first, mode-aware explanation out. Click the image to open the skill source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>The user wants a mental map or visual explanation of content.</li>
+                    <li>The input is a prompt, spec, doc, website, transcript, PDF excerpt, article, code, or complex concept.</li>
+                    <li>The useful output is structure and meaning, not a generic summary.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Complete mental map plus mode-appropriate follow-up sections. <code>short</code> cuts later sections; <code>long</code> adds interpretation layers.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Core rule</strong>
+                  <p>The mental map is never weakened. Depth modes control what comes after the map, not the quality or completeness of the map.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example prompts</strong>
+                <pre><code>/xray short Paste this contract and show the structure.
+/xray long Explain this onboarding prompt.
+/xray https://example.com/spec</code></pre>
+              </div>
+            </section>
 
             <section class="skill-section" id="rethink">
               <div class="skill-header">
@@ -1041,6 +1082,10 @@ rsync -a skills/ /path/to/nanoclaw/container/skills/</code></pre>
                 <td>NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required.</td>
               </tr>
               <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/xray">xray</a></td>
+                <td>NanoClaw runtime with this skill installed. Browser, file, or PDF tools are useful only when the requested source requires them.</td>
+              </tr>
+              <tr>
                 <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">rethink</a></td>
                 <td>NanoClaw runtime; browser or research tools only when the decision depends on current facts.</td>
               </tr>
@@ -1230,6 +1275,10 @@ python3 skills/awesome-updater/scripts/awesome_skills.py install awesome-updater
       SKILL.md
       references/
       templates/
+      scripts/
+    xray/
+      SKILL.md
+      references/
       scripts/
     rethink/
       SKILL.md

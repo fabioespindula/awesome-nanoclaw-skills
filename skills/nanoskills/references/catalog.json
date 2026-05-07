@@ -59,6 +59,31 @@
     },
     {
       "aliases": [
+        "/visual-explain",
+        "visual-explain",
+        "mental map",
+        "visual explanation",
+        "explain visually",
+        "decode this content"
+      ],
+      "description": "Turn prompts, articles, specs, docs, websites, transcripts, PDFs, code, and complex content into scannable visual explanations. Use when the user invokes /xray or /visual-explain; asks for a mental map, visual explanation, prompt explanation, or easy-to-understand breakdown; or wants to reveal structure, intent, assumptions, and practical meaning.",
+      "examples": [
+        "/xray short Paste this contract and show the structure.",
+        "/xray long Explain this onboarding prompt.",
+        "/xray https://example.com/spec"
+      ],
+      "expected_output": "Visual explanation with a complete mental map, core idea, mode-appropriate follow-up sections, and faithful practical interpretation.",
+      "group": "user-facing",
+      "name": "xray",
+      "order": 25,
+      "output": "visual-explanation",
+      "readme_description": "Visual explanations with complete mental maps and short/long depth modes.",
+      "readme_include": true,
+      "slash_command": "/xray",
+      "use_when": "The user wants a visual explanation, mental map, or structural read of a prompt, document, website, article, transcript, spec, code, PDF, or complex concept."
+    },
+    {
+      "aliases": [
         "rethink",
         "step back",
         "gut-check",
@@ -175,5 +200,5 @@
       "use_when": "The user wants lifecycle operations rather than usage help."
     }
   ],
-  "source_hash": "7ce2208c55fec9822a2233e763ca4066f1de4af09aca09c5c8f218696d1ffb61"
+  "source_hash": "3f18cb7cd1150b22aaeb012ad83756de37655fcc973cbd8fd6a7c1ee1fd4ace1"
 }

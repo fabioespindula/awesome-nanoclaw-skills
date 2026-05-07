@@ -31,6 +31,17 @@ Answer in the language of the current conversation. Keep skill names and slash c
   - `Read this and tell me whether it matters for our launch plan: https://example.com/post`
   - `/read Analyze this link and tell me what changes for the project. https://example.com`
 
+### xray
+
+- Slash command: `/xray`
+- What it does: Visual explanations with complete mental maps and short/long depth modes.
+- Use when: The user wants a visual explanation, mental map, or structural read of a prompt, document, website, article, transcript, spec, code, PDF, or complex concept.
+- Output: Visual explanation with a complete mental map, core idea, mode-appropriate follow-up sections, and faithful practical interpretation.
+- Curated examples:
+  - `/xray short Paste this contract and show the structure.`
+  - `/xray long Explain this onboarding prompt.`
+  - `/xray https://example.com/spec`
+
 ### rethink
 
 - Slash command: `/rethink`
@@ -95,6 +106,7 @@ Show these skills under `User-Facing Skills`:
 
 - feba-board
 - read-for-me
+- xray
 - rethink
 - think-big
 - whisper-transcribe
