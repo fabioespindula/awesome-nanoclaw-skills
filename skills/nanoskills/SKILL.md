@@ -10,7 +10,6 @@ metadata:
     order: 10
     aliases:
       - skills
-      - skills list
       - help skills
       - catalog
     use_when: The user wants to discover available skills, understand what each one does, or get help and examples for a specific skill.
@@ -29,7 +28,7 @@ Use this skill as the package-level catalog and help system for Awesome NanoClaw
 
 `/nanoskills` is discovery and documentation. It should be fast, friendly, offline-first, and written in the language of the current conversation.
 
-The catalog is generated from `skills/*/SKILL.md` frontmatter during repository validation. In a NanoClaw container, treat installed skill files as read-only: read the generated catalog when present and never regenerate it in place.
+The catalog is generated from this package's `skills/*/SKILL.md` frontmatter during repository validation. In a NanoClaw container, treat installed skill files as read-only and only list first-party Awesome NanoClaw Skills from the generated catalog files.
 
 ## Managed Auto Update
 
@@ -51,25 +50,18 @@ Run this skill when the user invokes or asks for:
 
 - `/nanoskills`
 - `/nanoskills list`
-- `/nanoskills list`
 - `/nanoskills help`
 - `/nanoskills help <skill-or-command>`
-- `/nanoskills help <skill-or-command>`
 - "what skills are available?"
-- "what skills are available?"
-- "how do I use these skills?"
 - "help for the NanoClaw skills"
 
 ## Load References
 
 - Read `references/catalog.md` before listing skills.
-- If `references/catalog.md` is missing and `${CLAUDE_SKILL_DIR}/scripts/generate_catalog.py` exists, generate a read-only fallback with:
-
-```bash
-python3 "${CLAUDE_SKILL_DIR}/scripts/generate_catalog.py" --stdout --skills-dir "${CLAUDE_SKILL_DIR}/.."
-```
-
-- Use fallback output only for the current response. Do not write generated catalog files in the NanoClaw runtime.
+- Use `references/catalog.json` only as resolver metadata for skill-specific help.
+- Do not list aliases from `catalog.json` in normal catalog or normal help output. Aliases are private routing metadata.
+- If the generated catalog files are missing, fail closed: say the package catalog is unavailable and recommend updating or reinstalling `nanoskills`.
+- Never scan sibling runtime skill folders, global Claude/Codex skill folders, external package folders, memory, inferred capabilities, or chat history to build the catalog.
 - Use `templates/help-response.md` when explaining one skill.
 
 ## Language
@@ -92,13 +84,9 @@ Choose the response from the user's command:
 
 Accept skill names, aliases, and slash commands when resolving help:
 
-- `board`, `/febaboard`, `feba-board`, `/feba-board`, `/board`, `/council`
-- `read`, `readthis`, `read-this`, `read-for-me`, `/read`, `/readthis`, `/read-for-me`
-- `rethink`, `/rethink`
-- `think-big`, `/think-big`
-- `transcribe`, `whisper`, `whisper-transcribe`, `/whisper-transcribe`
-- `updater`, `awesome-updater`, `/awesome-updater`
-- `nanoskills`, `/nanoskills`
+- Prefer canonical skill names and primary slash commands from the generated catalog.
+- Use aliases from `references/catalog.json` only to resolve a user's requested help target.
+- If an alias resolves to a skill, explain the canonical command for that skill and do not promote the alias as a public command.
 
 If the target skill is ambiguous or unknown, show the catalog and ask the user to choose one by name or slash command.
 
@@ -119,6 +107,8 @@ For `/nanoskills`, produce a scannable catalog:
 
 Keep the catalog clear and visually pleasant, but do not use tables when the current chat surface is likely Telegram or mobile chat.
 
+The normal catalog output must include only primary slash commands from `references/catalog.md`. Do not add compatible aliases, legacy aliases, global commands, runtime commands, health-check commands, or capability summaries that are not present as primary commands in the generated catalog.
+
 ## Help Mode
 
 For `/nanoskills help <skill>`, use `templates/help-response.md`.
@@ -128,7 +118,7 @@ Detailed help must include:
 - what the skill does;
 - when to use it;
 - when not to use it, if important;
-- command forms;
+- command forms, using primary slash commands only unless the user explicitly asks about an alias;
 - expected input;
 - expected output;
 - curated examples;

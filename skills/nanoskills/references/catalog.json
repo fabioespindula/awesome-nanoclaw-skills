@@ -131,7 +131,6 @@
     {
       "aliases": [
         "skills",
-        "skills list",
         "help skills",
         "catalog"
       ],
@@ -176,5 +175,5 @@
       "use_when": "The user wants lifecycle operations rather than usage help."
     }
   ],
-  "source_hash": "2722a8f700d3d82f39e782fe60dba74a5e97e99c1eaae084d0853daa2a3a57db"
+  "source_hash": "7ce2208c55fec9822a2233e763ca4066f1de4af09aca09c5c8f218696d1ffb61"
 }

@@ -24,7 +24,6 @@ Aliases and trigger phrases:
 
 ```txt
 skills
-skills list
 help skills
 catalog
 ```
@@ -32,7 +31,8 @@ catalog
 ## Behavior
 
 - Reads the generated local catalog from `references/catalog.md`.
-- Generates a read-only fallback from local `SKILL.md` files only when the catalog is missing.
+- Uses `references/catalog.json` only as resolver metadata for skill-specific help.
+- Fails closed when generated catalog files are missing instead of scanning runtime or global skill folders.
 - Does not require network access for normal catalog or help output.
 - Routes lifecycle questions to `awesome-updater` without running update tooling unless the user clearly asks.
 

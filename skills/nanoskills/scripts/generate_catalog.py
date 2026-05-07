@@ -270,14 +270,12 @@ def collect_catalog(skills_dir: Path) -> dict[str, Any]:
 
 
 def render_skill_markdown(skill: dict[str, Any]) -> str:
-    aliases = ", ".join(f"`{alias}`" for alias in skill["aliases"])
     examples = "\n".join(f"  - `{example}`" for example in skill["examples"])
     return "\n".join(
         [
             f"### {skill['name']}",
             "",
             f"- Slash command: `{skill['slash_command']}`",
-            f"- Aliases: {aliases}",
             f"- What it does: {skill['readme_description']}",
             f"- Use when: {skill['use_when']}",
             f"- Output: {skill['expected_output']}",
@@ -292,6 +290,8 @@ def render_catalog_markdown(catalog: dict[str, Any]) -> str:
         "# NanoSkills Catalog",
         "",
         "This file is generated from `skills/*/SKILL.md` frontmatter. Do not edit it by hand.",
+        "",
+        "Only list skills from this generated catalog. Do not merge global runtime skills, external skills, or inferred capabilities.",
         "",
         "Answer in the language of the current conversation. Keep skill names and slash commands literal.",
         "",
@@ -314,7 +314,7 @@ def render_catalog_markdown(catalog: dict[str, Any]) -> str:
         lines.append("")
     lines.extend(
         [
-            "If this file is missing or stale in a NanoClaw container, `/nanoskills` may generate a read-only fallback from local `SKILL.md` files.",
+            "If this file is missing or stale in a NanoClaw container, `/nanoskills` should fail closed and ask for the package catalog to be updated or reinstalled.",
             "",
         ]
     )
