@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "aliases": [
+        "board",
+        "feba-board",
+        "/febaboard",
+        "/board",
+        "/feba-board",
+        "/council",
+        "second opinion",
+        "help me decide",
+        "pressure-test"
+      ],
+      "description": "Use when the user invokes /febaboard or /feba-board, uses the compatible /board or legacy /council alias, asks for a board, second opinion, advice, decision review, tradeoff analysis, planning pressure test, or strong natural-language help deciding something. FEBA Board gives five VC-style perspectives for important decisions and returns a compact chat-friendly recommendation with expansion and transcript saving only when requested.",
+      "examples": [
+        "/febaboard Should we ship this week or wait until onboarding is better?",
+        "/febaboard Help me decide whether to launch now or wait until onboarding is better.",
+        "help me decide whether to accept this large customer"
+      ],
+      "expected_output": "Compact chat-friendly recommendation with board tensions, next action, optional advisor expansion, and transcript saving only on request.",
+      "group": "user-facing",
+      "name": "feba-board",
+      "order": 10,
+      "output": "chat-friendly-board-review",
+      "readme_description": "Five VC perspectives for important decisions, plans, and tradeoffs.",
+      "readme_include": true,
+      "slash_command": "/febaboard",
+      "use_when": "The user has a meaningful decision, plan, tradeoff, investment question, product question, or asks for a second opinion from a board."
+    },
+    {
+      "aliases": [
+        "read",
+        "readthis",
+        "read-this",
+        "/read",
+        "/readthis",
+        "summarize this",
+        "read this",
+        "bare URLs"
+      ],
+      "description": "Use when the user sends one or more URLs, asks to read, summarize, explain, triage, or analyze a link, or asks whether a link matters to them. Fetches accessible content, summarizes it, states access/confidence, personalizes relevance from available context, categorizes it, and suggests a non-destructive next action.",
+      "examples": [
+        "/read-for-me https://example.com/article",
+        "/readthis https://example.com/article",
+        "Read this and tell me whether it matters for our launch plan: https://example.com/post",
+        "/read Analyze this link and tell me what changes for the project. https://example.com"
+      ],
+      "expected_output": "Link brief with title, source, date, access level, confidence, relevance score, categories, and next action.",
+      "group": "user-facing",
+      "name": "read-for-me",
+      "order": 20,
+      "output": "link-brief",
+      "readme_description": "Context-aware URL briefs with confidence and safe next steps.",
+      "readme_include": true,
+      "slash_command": "/read-for-me",
+      "use_when": "The user sends links, asks what a link says, asks whether a source matters, or wants a quick decision-ready summary."
+    },
+    {
+      "aliases": [
+        "rethink",
+        "step back",
+        "gut-check",
+        "pressure-test",
+        "simplify this",
+        "decide"
+      ],
+      "description": "Reframe a plan, idea, or decision before the user commits to it. Use when the user asks to rethink, step back, pressure-test, gut-check, decide, right-size, simplify, think bigger about, or evaluate a concrete plan or decision in product, strategy, technical architecture, career, life, company direction, or personal priorities. This skill improves decision quality before action: clarify the real question, challenge assumptions, compare alternatives, calibrate ambition, classify the operating mode, surface risks, and recommend a next move. Do not use for broad future exploration without a concrete decision; that belongs to a think-big or research-style skill.",
+      "examples": [
+        "/rethink Should I build the global skill catalog as a separate skill or inside the updater?",
+        "/rethink Is this launch plan too big for the first version?",
+        "/rethink Help me decide between hiring now or keeping the team small."
+      ],
+      "expected_output": "Concise decision review with real question, assumptions, alternatives, risks, recommendation, and next move.",
+      "group": "user-facing",
+      "name": "rethink",
+      "order": 30,
+      "output": "decision-review",
+      "readme_description": "Reframe plans, ideas, and decisions before committing.",
+      "readme_include": true,
+      "slash_command": "/rethink",
+      "use_when": "The user has a specific decision, product idea, architecture plan, career or life choice, or company direction and wants better decision quality."
+    },
+    {
+      "aliases": [
+        "think big",
+        "future of",
+        "where is this going",
+        "opportunity scan"
+      ],
+      "description": "Use this skill when the user asks to \"think-big\", think big, explore possible futures, map strategic possibilities, synthesize signals, generate scenarios, find second-order effects, identify opportunities, or challenge consensus around a broad theme in markets, products, technology, society, careers, companies, design, behavior, culture, or life. This skill is for disciplined strategic imagination: broad possibility exploration grounded in context, evidence, mechanisms, uncertainty, and useful provocations. Do not use it for generic brainstorming, generic research reports, automatic startup advice, detailed execution planning, or reviewing one concrete decision before commitment.",
+      "examples": [
+        "/think-big future of AI-first CRMs",
+        "/think-big future of agent marketplaces",
+        "/think-big What happens to checkout experiences when agents buy for users?"
+      ],
+      "expected_output": "Strategic exploration with framing, signals, scenarios, opportunities, risks, and useful provocations.",
+      "group": "user-facing",
+      "name": "think-big",
+      "order": 40,
+      "output": "strategic-exploration",
+      "readme_description": "Strategic future scans with signals, scenarios, risks, and opportunities.",
+      "readme_include": true,
+      "slash_command": "/think-big",
+      "use_when": "The user wants to open the possibility space around a broad market, product, technology, society, career, company, or behavior theme."
+    },
+    {
+      "aliases": [
+        "transcribe",
+        "whisper",
+        "generate captions",
+        "transcribe this audio"
+      ],
+      "description": "Use when the user wants to transcribe, caption, subtitle, batch process, or convert speech to text from local audio/video files using faster-whisper. Supports explicit modes, txt/srt/vtt/transcript-md output, manifest.json, optional language codes, forwarding metadata, workspace output, and concise chat summaries.",
+      "examples": [
+        "/whisper-transcribe /absolute/path/to/audio.mp3",
+        "/whisper-transcribe /absolute/path/to/video.mp4 --mode captions",
+        "/whisper-transcribe Transcribe this audio and generate SRT. /absolute/path/audio.m4a"
+      ],
+      "expected_output": "Saved transcript and caption artifacts plus a concise chat summary with mode, language, model, formats, output paths, manifest, and suggested next action.",
+      "group": "user-facing",
+      "name": "whisper-transcribe",
+      "order": 50,
+      "output": "txt-srt-vtt-transcript-md",
+      "readme_description": "Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output.",
+      "readme_include": true,
+      "slash_command": "/whisper-transcribe",
+      "use_when": "The user has a local media file and wants transcription, captions, subtitles, meeting text, or archive-ready transcript artifacts."
+    },
+    {
+      "aliases": [
+        "skills",
+        "skills list",
+        "help skills",
+        "catalog"
+      ],
+      "description": "Use when the user invokes /nanoskills, asks what NanoClaw skills are available, wants a package-level skill catalog, asks how to use a skill, or asks for help/examples for any Awesome NanoClaw Skill. Lists every skill in the package, explains what each one does, and provides language-matched help with curated and conversation-aware examples.",
+      "examples": [
+        "/nanoskills",
+        "/nanoskills help board",
+        "/nanoskills help think-big"
+      ],
+      "expected_output": "Language-matched package catalog or skill-specific help.",
+      "group": "admin",
+      "name": "nanoskills",
+      "order": 10,
+      "output": "skill-catalog",
+      "readme_description": "Package-level catalog and help for all Awesome NanoClaw Skills.",
+      "readme_include": true,
+      "slash_command": "/nanoskills",
+      "use_when": "The user wants to discover available skills, understand what each one does, or get help and examples for a specific skill."
+    },
+    {
+      "aliases": [
+        "updater",
+        "updates",
+        "auto-update",
+        "managed skills"
+      ],
+      "description": "Use when installing, discovering, checking, configuring, or auto-updating Awesome NanoClaw Skills. Provides safe default-on auto-upgrades and first-party skill discovery with metadata, throttling, backups, validation, and rollback.",
+      "examples": [
+        "/awesome-updater help",
+        "/nanoskills updates",
+        "/awesome-updater discover",
+        "/awesome-updater check feba-board"
+      ],
+      "expected_output": "Update, install, config, backup, rollback, or discovery status based on the updater JSON summary.",
+      "group": "admin",
+      "name": "awesome-updater",
+      "order": 20,
+      "output": "update-status",
+      "readme_description": "Managed install, discovery, backup, rollback, and auto-update infrastructure.",
+      "readme_include": true,
+      "slash_command": "/awesome-updater",
+      "use_when": "The user wants lifecycle operations rather than usage help."
+    }
+  ],
+  "source_hash": "2722a8f700d3d82f39e782fe60dba74a5e97e99c1eaae084d0853daa2a3a57db"
+}
