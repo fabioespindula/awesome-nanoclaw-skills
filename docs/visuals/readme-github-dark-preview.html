@@ -1,0 +1,1295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Awesome NanoClaw Skills</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #010409;
+      --canvas: #0d1117;
+      --canvas-subtle: #161b22;
+      --canvas-inset: #0b1017;
+      --border: #30363d;
+      --border-muted: #21262d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --muted-strong: #b1bac4;
+      --link: #58a6ff;
+      --accent: #2f81f7;
+      --accent-muted: rgba(47, 129, 247, 0.16);
+      --success: #3fb950;
+      --success-muted: rgba(63, 185, 80, 0.14);
+      --warning: #d29922;
+      --warning-muted: rgba(187, 128, 9, 0.12);
+      --code: #161b22;
+      --shadow: 0 16px 48px rgba(1, 4, 9, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-width: 0;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      width: min(100%, 1120px);
+      min-width: 0;
+      margin: 0 auto;
+      padding: 32px 16px 56px;
+    }
+
+    .readme-shell {
+      width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--canvas);
+      box-shadow: var(--shadow);
+    }
+
+    .readme-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--canvas-subtle);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .repo-path {
+      display: flex;
+      max-width: 100%;
+      min-width: 0;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .repo-path strong {
+      overflow: hidden;
+      color: var(--text);
+      text-overflow: ellipsis;
+    }
+
+    .repo-path:hover {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .repo-path:hover strong {
+      color: var(--link);
+    }
+
+    .readme-label {
+      flex: 0 0 auto;
+      padding: 2px 7px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--canvas);
+      color: var(--muted-strong);
+      font-size: 12px;
+    }
+
+    .markdown-body {
+      min-width: 0;
+      padding: 36px min(5vw, 48px) 48px;
+    }
+
+    .markdown-body > * {
+      min-width: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+      font-size: clamp(32px, 4.8vw, 46px);
+    }
+
+    h2 {
+      margin-top: 46px;
+      margin-bottom: 16px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--border-muted);
+      font-size: 24px;
+    }
+
+    h3 {
+      margin-top: 22px;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    ul {
+      margin: 0 0 16px;
+      padding-left: 1.5em;
+    }
+
+    li + li {
+      margin-top: 4px;
+    }
+
+    .lead {
+      max-width: 820px;
+      color: var(--muted-strong);
+      font-size: 20px;
+    }
+
+    .ascii-lockup {
+      margin: 16px 0 18px;
+      padding: 16px 18px;
+      border: 1px solid var(--border-muted);
+      border-radius: 6px;
+      background: var(--canvas-inset);
+      color: #c9d1d9;
+      font-size: clamp(9px, 1.25vw, 12px);
+      line-height: 1.18;
+      overflow-x: auto;
+    }
+
+    .badge-row,
+    .cta-row,
+    .quick-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 0;
+    }
+
+    .badge,
+    .cta-link,
+    .quick-nav a,
+    .source-link,
+    .command-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 3px 9px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--canvas-subtle);
+      color: var(--muted-strong);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .badge:hover,
+    .cta-link:hover,
+    .source-link:hover {
+      border-color: rgba(88, 166, 255, 0.58);
+      background: rgba(47, 129, 247, 0.1);
+      text-decoration: none;
+    }
+
+    .cta-row {
+      margin-top: 22px;
+    }
+
+    .cta-link {
+      min-height: 36px;
+      padding: 6px 12px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .cta-link.primary {
+      border-color: rgba(47, 129, 247, 0.7);
+      background: rgba(47, 129, 247, 0.22);
+      color: #cae8ff;
+    }
+
+    .badge.is-green {
+      border-color: rgba(63, 185, 80, 0.45);
+      background: var(--success-muted);
+      color: #aff5b4;
+    }
+
+    .badge.is-blue,
+    .command-pill {
+      border-color: rgba(47, 129, 247, 0.48);
+      background: var(--accent-muted);
+      color: #cae8ff;
+    }
+
+    .command-pill {
+      font-family: ui-monospace, SFMono-Regular, SFMono, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+    }
+
+    .source-link {
+      border-color: rgba(88, 166, 255, 0.42);
+      color: var(--link);
+      font-size: 12px;
+    }
+
+    .quick-nav a:hover {
+      border-color: rgba(88, 166, 255, 0.58);
+      background: rgba(47, 129, 247, 0.1);
+      text-decoration: none;
+    }
+
+    .callout,
+    .note {
+      margin: 18px 0;
+      padding: 14px 16px;
+      border-radius: 6px;
+      color: var(--muted-strong);
+    }
+
+    .callout {
+      border: 1px solid rgba(47, 129, 247, 0.35);
+      border-left: 4px solid var(--accent);
+      background: rgba(47, 129, 247, 0.08);
+    }
+
+    .note {
+      border: 1px solid rgba(210, 153, 34, 0.35);
+      border-left: 4px solid var(--warning);
+      background: var(--warning-muted);
+    }
+
+    .skill-list {
+      display: grid;
+      gap: 28px;
+      margin-top: 18px;
+    }
+
+    .group-heading {
+      margin-top: 30px;
+      margin-bottom: 4px;
+      color: var(--muted-strong);
+      font-size: 18px;
+    }
+
+    .skill-section {
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--canvas-subtle);
+    }
+
+    .skill-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px 16px;
+      margin-bottom: 14px;
+    }
+
+    .skill-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .skill-heading h3 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    .skill-summary {
+      max-width: 900px;
+      color: var(--muted-strong);
+      font-size: 17px;
+    }
+
+    .alias-line {
+      margin: -4px 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .alias-line strong {
+      color: var(--muted-strong);
+    }
+
+    .alias-line code {
+      white-space: nowrap;
+    }
+
+    .hero-figure {
+      margin: 18px 0 0;
+      padding: 10px;
+      border: 1px solid var(--border-muted);
+      border-radius: 6px;
+      background: #f6f8fa;
+    }
+
+    .hero-figure img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .figure-link {
+      display: block;
+    }
+
+    .figure-link:hover {
+      text-decoration: none;
+    }
+
+    .figure-link:hover img {
+      outline: 2px solid rgba(88, 166, 255, 0.55);
+      outline-offset: 2px;
+    }
+
+    figcaption {
+      margin-top: 8px;
+      color: #57606a;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .usage-card {
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid var(--border-muted);
+      border-radius: 6px;
+      background: rgba(13, 17, 23, 0.72);
+    }
+
+    .usage-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .usage-card p,
+    .usage-card li {
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .usage-card ul {
+      margin-bottom: 0;
+      padding-left: 1.2em;
+    }
+
+    .example-row {
+      margin-top: 16px;
+    }
+
+    pre {
+      max-width: 100%;
+      min-width: 0;
+      margin: 12px 0 18px;
+      padding: 16px;
+      border: 1px solid var(--border-muted);
+      border-radius: 6px;
+      background: var(--code);
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, SFMono, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 85%;
+    }
+
+    pre code {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    :not(pre) > code {
+      padding: 0.2em 0.4em;
+      border-radius: 6px;
+      background: rgba(110, 118, 129, 0.4);
+      color: var(--text);
+    }
+
+    .quick-start-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .step {
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--canvas-subtle);
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+      gap: 18px;
+      align-items: start;
+      margin: 18px 0;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--canvas-subtle);
+    }
+
+    .panel h3 {
+      margin-top: 0;
+    }
+
+    table {
+      display: block;
+      width: 100%;
+      margin: 16px 0 20px;
+      border-spacing: 0;
+      border-collapse: collapse;
+      overflow-x: auto;
+    }
+
+    th,
+    td {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--canvas-subtle);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+    }
+
+    td {
+      color: var(--muted-strong);
+    }
+
+    details {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--canvas-subtle);
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 12px 14px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    details > div {
+      padding: 0 14px 14px;
+    }
+
+    .footer-license {
+      margin-top: 42px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border-muted);
+      color: var(--muted-strong);
+    }
+
+    @media (max-width: 900px) {
+      .usage-grid,
+      .quick-start-grid,
+      .split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        padding: 12px 8px 32px;
+      }
+
+      .readme-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .cta-link {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .markdown-body {
+        padding: 24px 14px 32px;
+      }
+
+      .skill-section,
+      .panel,
+      .step {
+        padding: 12px;
+      }
+
+      .hero-figure {
+        padding: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="readme-shell">
+      <div class="readme-topbar">
+        <a class="repo-path" href="https://github.com/fabioespindula/awesome-nanoclaw-skills" aria-label="Open the Awesome NanoClaw Skills GitHub repository">
+          <span>fabioespindula</span>
+          <span>/</span>
+          <strong>awesome-nanoclaw-skills</strong>
+        </a>
+        <a class="readme-label" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/README.md">README.md on GitHub</a>
+      </div>
+
+      <article class="markdown-body">
+        <header>
+          <h1>Awesome NanoClaw Skills</h1>
+          <p class="lead">Curated, security-conscious AI skills for NanoClaw agents.</p>
+
+          <pre class="ascii-lockup" aria-label="ASCII logo">░█▀█░█░█░█▀▀░█▀▀░█▀█░█▄█░█▀▀
+░█▀█░█▄█░█▀▀░▀▀█░█░█░█░█░█▀▀
+░▀░▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀
+
+░█▀█░█▀█░█▀█░█▀█░█▀▀░█░░░█▀█░█░█░░░█▀▀░█░█░▀█▀░█░░░█░░░█▀▀
+░█░█░█▀█░█░█░█░█░█░░░█░░░█▀█░█▄█░░░▀▀█░█▀▄░░█░░█░░░█░░░▀▀█
+░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀</pre>
+
+          <p>This repository curates small, portable skill folders that can be copied into a NanoClaw runtime. Each skill contains a <code>SKILL.md</code> file plus optional references, templates, scripts, and assets.</p>
+          <p>Use this repository to add focused capabilities to an agent without turning the main system prompt into a giant instruction block.</p>
+
+          <div class="cta-row" aria-label="GitHub links">
+            <a class="cta-link primary" href="https://github.com/fabioespindula/awesome-nanoclaw-skills">View GitHub Repo</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills">Browse Skills</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills#quick-start">Install From README</a>
+          </div>
+
+          <div class="badge-row" aria-label="Repository highlights">
+            <a class="badge is-blue" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills">SKILL.md first</a>
+            <a class="badge is-green" href="https://github.com/fabioespindula/awesome-nanoclaw-skills#safety">Security-conscious</a>
+            <a class="badge" href="https://github.com/fabioespindula/awesome-nanoclaw-skills#what-is-a-skill">Prompt-native</a>
+            <a class="badge" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills">Reviewable workflows</a>
+            <a class="badge" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/LICENSE">MIT licensed</a>
+          </div>
+
+          <nav class="quick-nav" aria-label="README sections">
+            <a href="#skills">Skills</a>
+            <a href="#quick-start">Quick Start</a>
+            <a href="#requirements">Requirements</a>
+            <a href="#auto-updates">Auto Updates</a>
+            <a href="#philosophy">Philosophy</a>
+            <a href="https://github.com/fabioespindula/awesome-nanoclaw-skills">GitHub Repo</a>
+          </nav>
+        </header>
+
+        <section id="skills">
+          <h2>Available Skills</h2>
+          <p>The images below are intentionally large in this preview. User-facing skills come first, followed by admin/package skills for discovery and lifecycle management.</p>
+
+          <h3 class="group-heading">User-Facing Skills</h3>
+          <div class="skill-list">
+            <section class="skill-section" id="feba-board">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">FEBA Board</a></h3>
+                  <span class="command-pill">/febaboard</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary">Five VC perspectives for important decisions, plans, and tradeoffs. Use it when a decision needs useful disagreement before a recommendation.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>/board</code>, <code>/feba-board</code>, <code>/council</code>, <code>second opinion</code>, <code>help me decide</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">
+                  <img src="skills/feba-board.png" alt="FEBA Board diagram showing decision input, five board perspectives, and recommendation output">
+                </a>
+                <figcaption>Decision or tradeoff in, five perspectives, practical recommendation out. Click the image to open the skill source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>Launch, pricing, hiring, partnership, or product tradeoffs.</li>
+                    <li>When the user asks for a board, second opinion, or pressure test.</li>
+                    <li>When natural-language decision help is clearer than a rigid command.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Compact board review with the main tensions, five advisor perspectives, one recommendation, and a next action.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Interaction model</strong>
+                  <p>Short by default. Expand one advisor, compare options, or save/export a transcript only when requested.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example prompts</strong>
+                <pre><code>/febaboard Should we ship this week or wait until onboarding is better?
+/febaboard Help me decide whether to launch now or wait until onboarding is better.
+help me decide whether to accept this large customer</code></pre>
+              </div>
+            </section>
+
+            <section class="skill-section" id="read-for-me">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">Read For Me</a></h3>
+                  <span class="command-pill">/read-for-me</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary">Context-aware URL briefs with confidence and safe next steps. It turns links into decision-ready source notes without saving, posting, or modifying anything unless explicitly asked.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>/read</code>, <code>/readthis</code>, <code>readthis</code>, <code>read-this</code>, <code>summarize this</code>, <code>read this</code>, bare URLs.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">
+                  <img src="skills/read-for-me.png" alt="Read For Me diagram showing article input, source analysis, and link brief output">
+                </a>
+                <figcaption>A source is checked for access, confidence, relevance, category, and next action. Click the image to open the skill source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>A bare URL appears in chat.</li>
+                    <li>The user asks to read, summarize, triage, or analyze a link.</li>
+                    <li>The user asks whether a source matters to a project or decision.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Link brief with title, source, date, access level, confidence, relevance score, categories, summary, and next action.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Safety posture</strong>
+                  <p>Webpage, transcript, metadata, and social content are untrusted. The skill summarizes and recommends; it does not execute page instructions.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example prompts</strong>
+                <pre><code>/read-for-me https://example.com/article
+/readthis https://example.com/article
+Read this and tell me whether it matters for our launch plan: https://example.com/post
+/read Analyze this link and tell me what changes for the project. https://example.com</code></pre>
+              </div>
+            </section>
+
+
+            <section class="skill-section" id="rethink">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">Rethink</a></h3>
+                  <span class="command-pill">/rethink</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary">Reframe plans, ideas, and decisions before committing. It improves decision quality by clarifying the real question, assumptions, alternatives, risks, and next move.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>rethink</code>, <code>step back</code>, <code>gut-check</code>, <code>pressure-test</code>, <code>simplify this</code>, <code>decide</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">
+                  <img src="skills/rethink.png" alt="Rethink diagram showing a plan being reframed into assumptions, alternatives, risks, and a decision review">
+                </a>
+                <figcaption>A concrete commitment goes through reframing before action. Click the image to open the skill source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>A concrete plan, product idea, architecture, career choice, or company direction needs review.</li>
+                    <li>The user asks to step back, gut-check, pressure-test, simplify, or decide.</li>
+                    <li>The decision is real enough that a better frame changes action.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Concise decision review with the real question, assumptions, alternatives, risks, recommendation, and next move.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Boundary</strong>
+                  <p>Not broad future exploration. If the topic is a wide possibility space rather than a concrete commitment, route to Think Big instead.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example prompts</strong>
+                <pre><code>/rethink Should I build the global skill catalog as a separate skill or inside the updater?
+/rethink Is this launch plan too big for the first version?
+/rethink Help me decide between hiring now or keeping the team small.</code></pre>
+              </div>
+            </section>
+
+            <section class="skill-section" id="think-big">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">Think Big</a></h3>
+                  <span class="command-pill">/think-big</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary">Strategic future scans with signals, scenarios, risks, and opportunities. It opens the possibility space while staying grounded in mechanisms and uncertainty.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>think big</code>, <code>future of</code>, <code>where is this going</code>, <code>opportunity scan</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">
+                  <img src="skills/think-big.png" alt="Think Big diagram showing broad theme input, strategic exploration, and future brief output">
+                </a>
+                <figcaption>A broad theme becomes signals, scenarios, risks, opportunities, and useful provocations. Click the image to open the skill source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>The user asks to think big, map possible futures, or explore strategic possibilities.</li>
+                    <li>The object is a broad theme: market, product, technology, society, career, company, or behavior.</li>
+                    <li>The useful output is perspective, not execution planning.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Strategic exploration with framing, signals, mechanisms, scenarios, opportunities, risks, and provocations.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Operating stance</strong>
+                  <p>Disciplined imagination. Prefer mechanisms over slogans, synthesis over link-by-link summaries, and a few sharp ideas over many generic ones.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example prompts</strong>
+                <pre><code>/think-big future of AI-first CRMs
+/think-big future of agent marketplaces
+/think-big What happens to checkout experiences when agents buy for users?</code></pre>
+              </div>
+            </section>
+
+            <section class="skill-section" id="whisper-transcribe">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">Whisper Transcribe</a></h3>
+                  <span class="command-pill">/whisper-transcribe</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary">Local faster-whisper transcription with explicit modes, manifests, and <code>txt</code>, <code>srt</code>, <code>vtt</code>, and transcript Markdown outputs.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>transcribe</code>, <code>whisper</code>, <code>generate captions</code>, <code>transcribe this audio</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">
+                  <img src="skills/whisper-transcribe.png" alt="Whisper Transcribe diagram showing media input, local transcription, and transcript artifacts">
+                </a>
+                <figcaption>Local media in, transcript and caption artifacts out. Click the image to open the skill source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>The user has a local audio or video file.</li>
+                    <li>The user needs transcription, captions, subtitles, meeting text, or archive-ready artifacts.</li>
+                    <li>The work should stay local rather than using an external transcription API.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Saved transcript and caption files plus a chat summary with mode, language, model, formats, output paths, manifest, and next action.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Requirements</strong>
+                  <p>Python 3.10+, <code>faster-whisper</code>, and local media codec support. Some video formats may also require <code>ffmpeg</code>.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example prompts</strong>
+                <pre><code>/whisper-transcribe /absolute/path/to/audio.mp3
+/whisper-transcribe /absolute/path/to/video.mp4 --mode captions
+/whisper-transcribe Transcribe this audio and generate SRT. /absolute/path/audio.m4a</code></pre>
+              </div>
+            </section>
+
+          </div>
+
+          <h3 class="group-heading" id="admin-package-skills">Admin / Package Skills</h3>
+          <div class="skill-list">
+            <section class="skill-section" id="nanoskills">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">NanoSkills</a></h3>
+                  <span class="command-pill">/nanoskills</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary">Package-level catalog and help for all Awesome NanoClaw Skills. It lists installed skills, explains what each one does, and provides language-matched help and examples.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>skills</code>, <code>help skills</code>, <code>catalog</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">
+                  <img src="skills/nanoskills.png" alt="NanoSkills diagram showing a skill idea being created, packaged, validated, and shipped">
+                </a>
+                <figcaption>The discovery and help layer for a reusable skill collection. Click the image to open the skill source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>The user asks what skills are available.</li>
+                    <li>The user wants help or examples for one skill.</li>
+                    <li>The user invokes <code>/nanoskills</code>, <code>/nanoskills help</code>, or <code>/nanoskills help &lt;skill&gt;</code>.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Language-matched package catalog or skill-specific help, based on local catalog files and without requiring network access.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Role in the package</strong>
+                  <p>Discovery and documentation. It can route update questions to <code>awesome-updater</code>, but normal help stays fast and non-mutating.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example prompts</strong>
+                <pre><code>/nanoskills
+/nanoskills help board
+/nanoskills help think-big</code></pre>
+              </div>
+            </section>
+
+            <section class="skill-section" id="awesome-updater">
+              <div class="skill-header">
+                <div class="skill-heading">
+                  <h3><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">Awesome Updater</a></h3>
+                  <span class="command-pill">/awesome-updater</span>
+                  <a class="source-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">View source</a>
+                </div>
+              </div>
+              <p class="skill-summary"><code>awesome-updater</code> installs, validates, backs up, discovers, and auto-updates managed skills. It is lifecycle infrastructure for this collection.</p>
+              <p class="alias-line"><strong>Aliases:</strong> <code>updater</code>, <code>updates</code>, <code>auto-update</code>, <code>managed skills</code>.</p>
+              <figure class="hero-figure">
+                <a class="figure-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">
+                  <img src="skills/awesome-updater.png" alt="Awesome Updater diagram showing managed install, validation, backup, and upgrade flow">
+                </a>
+                <figcaption>Managed install, discovery, backup, rollback, validation, and update checks. Click the image to open the updater source.</figcaption>
+              </figure>
+              <div class="usage-grid">
+                <div class="usage-card">
+                  <strong>When to use it</strong>
+                  <ul>
+                    <li>Install a managed skill.</li>
+                    <li>Discover newly added first-party skills.</li>
+                    <li>Check, configure, back up, roll back, or auto-upgrade installed skills.</li>
+                  </ul>
+                </div>
+                <div class="usage-card">
+                  <strong>Expected outcome</strong>
+                  <p>Update, install, config, backup, rollback, or discovery status based on the updater JSON summary.</p>
+                </div>
+                <div class="usage-card">
+                  <strong>Safety model</strong>
+                  <p>Validates source skills, compares exact content hashes, backs up installed copies, and restores a backup if replacement fails.</p>
+                </div>
+              </div>
+              <div class="example-row">
+                <strong>Example commands</strong>
+                <pre><code>/awesome-updater help
+/nanoskills updates
+/awesome-updater discover
+/awesome-updater check feba-board</code></pre>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section id="quick-start">
+          <h2>Quick Start</h2>
+          <p>Clone the repository, review the skill you want, and copy it into a NanoClaw container runtime.</p>
+
+          <div class="quick-start-grid">
+            <div class="step">
+              <strong>1. Clone</strong>
+              <span>Get the package locally.</span>
+            </div>
+            <div class="step">
+              <strong>2. Review</strong>
+              <span>Inspect <code>SKILL.md</code> before installing.</span>
+            </div>
+            <div class="step">
+              <strong>3. Install</strong>
+              <span>Copy one skill, restart if needed, then try it.</span>
+            </div>
+          </div>
+
+          <pre><code>git clone https://github.com/fabioespindula/awesome-nanoclaw-skills.git
+cd awesome-nanoclaw-skills</code></pre>
+
+          <pre><code>SKILL=feba-board
+less "skills/$SKILL/SKILL.md"</code></pre>
+
+          <pre><code>mkdir -p /path/to/nanoclaw/container/skills
+rsync -a "skills/$SKILL/" "/path/to/nanoclaw/container/skills/$SKILL/"</code></pre>
+
+          <p>Restart NanoClaw if your runtime requires it.</p>
+
+          <pre><code>/nanoskills
+/febaboard Should we ship the first version this week or wait until onboarding is better?</code></pre>
+
+          <details>
+            <summary>Copy every skill for local testing</summary>
+            <div>
+              <pre><code>mkdir -p /path/to/nanoclaw/container/skills
+rsync -a skills/ /path/to/nanoclaw/container/skills/</code></pre>
+            </div>
+          </details>
+
+          <p>Discover and learn skills from inside chat:</p>
+
+          <pre><code>/nanoskills
+/nanoskills help think-big
+/febaboard help</code></pre>
+        </section>
+
+        <section id="what-is-a-skill">
+          <h2>What Is a Skill?</h2>
+          <div class="split">
+            <div>
+              <p>A NanoClaw skill is a folder that gives an agent a focused capability.</p>
+              <p><code>SKILL.md</code> defines when the skill should trigger and how the agent should behave. Optional folders can include examples, templates, prompts, scripts, and supporting material.</p>
+              <p>Skills are prompt-native. No compilation step is required.</p>
+            </div>
+            <pre><code>skill-name/
+  SKILL.md
+  references/
+  assets/
+  scripts/</code></pre>
+          </div>
+
+          <div class="panel">
+            <h3>Each skill should make clear</h3>
+            <ul>
+              <li>what it does</li>
+              <li>when to use it</li>
+              <li>how to install or run it</li>
+              <li>what requirements it has</li>
+              <li>one or more example prompts</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="requirements">
+          <h2>Requirements</h2>
+          <p>This collection assumes a NanoClaw runtime that can load skill folders from <code>container/skills/</code>.</p>
+          <p>Some skills may require local tools or model dependencies. Check each skill folder before installing it into a production runtime.</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th>Requirements</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board">feba-board</a></td>
+                <td>NanoClaw runtime with this skill installed; no external tools required.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me">read-for-me</a></td>
+                <td>NanoClaw agent runtime with URL fetching or browsing tools. Optional memory/profile tools improve personalization but are not required.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink">rethink</a></td>
+                <td>NanoClaw runtime; browser or research tools only when the decision depends on current facts.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big">think-big</a></td>
+                <td>NanoClaw runtime; browser or research tools for current sources.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe">whisper-transcribe</a></td>
+                <td>Python 3.10+, <code>faster-whisper</code>, and local media codec support. Some video formats may also require <code>ffmpeg</code>.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills">nanoskills</a></td>
+                <td>NanoClaw runtime with skill loading and local access to this package's generated catalog.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater">awesome-updater</a></td>
+                <td>Python 3.10+, <code>git</code>, and network access for GitHub checks and first-party skill discovery.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="safety">
+          <h2>Safety</h2>
+          <div class="note">
+            <p>Review each <code>SKILL.md</code> before installing it. Skills may instruct agents to use tools, read files, run scripts, or follow workflows depending on your NanoClaw setup.</p>
+            <p>For production runtimes, install only the skills the agent needs and test each one before adding more.</p>
+          </div>
+        </section>
+
+        <section id="auto-updates">
+          <h2>Auto Updates</h2>
+          <p>Install skills through <code>awesome-updater</code> when you want managed updates. Managed skills get a <code>.awesome-skill.json</code> metadata file with update checks, content hashes, and auto-upgrade enabled by default.</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Default</th>
+                <th>Effect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>update_check</code></td>
+                <td><code>true</code></td>
+                <td>Checks for newer commits, throttled to once per hour per skill.</td>
+              </tr>
+              <tr>
+                <td><code>auto_upgrade</code></td>
+                <td><code>true</code></td>
+                <td>Applies available updates without asking, after validation and backup.</td>
+              </tr>
+              <tr>
+                <td><code>discover_new</code></td>
+                <td><code>true</code></td>
+                <td>Installs newly added first-party skills from this curated package.</td>
+              </tr>
+              <tr>
+                <td><code>throttle_seconds</code></td>
+                <td><code>3600</code></td>
+                <td>Avoids repeated network checks during frequent skill use.</td>
+              </tr>
+              <tr>
+                <td><code>discover_throttle_seconds</code></td>
+                <td><code>3600</code></td>
+                <td>Avoids repeated package-wide discovery during frequent skill use.</td>
+              </tr>
+              <tr>
+                <td><code>hash_algorithm</code></td>
+                <td><code>sha256</code></td>
+                <td>Detects updates by exact per-skill content rather than whole-repo commits.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <details>
+            <summary>Bootstrap and managed update commands</summary>
+            <div>
+              <pre><code>SKILLS_DIR=/path/to/nanoclaw/container/skills
+python3 skills/awesome-updater/scripts/awesome_skills.py install awesome-updater \
+  --source-dir "$PWD" \
+  --skills-dir "$SKILLS_DIR"</code></pre>
+
+              <pre><code>python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" install feba-board \
+  --source-dir "$PWD" \
+  --skills-dir "$SKILLS_DIR"</code></pre>
+
+              <pre><code>python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" discover \
+  --skills-dir "$SKILLS_DIR"</code></pre>
+
+              <pre><code>python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" check feba-board \
+  --skills-dir "$SKILLS_DIR" \
+  --auto</code></pre>
+
+              <pre><code>python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" check feba-board \
+  --skills-dir "$SKILLS_DIR" \
+  --source-dir "$PWD" \
+  --auto \
+  --force \
+  --dry-run</code></pre>
+
+              <pre><code>python3 "$SKILLS_DIR/awesome-updater/scripts/awesome_skills.py" status \
+  --skills-dir "$SKILLS_DIR" \
+  --source-dir "$PWD"</code></pre>
+            </div>
+          </details>
+        </section>
+
+        <section id="skill-backlog">
+          <h2>Skill Backlog</h2>
+          <p>These are candidate skills. If you want one of them next, open an issue or comment with your use case.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>skill-auditor</code></td>
+                <td>Audits NanoClaw and OpenClaw skills for unsafe commands, secret exfiltration, risky install steps, and undocumented network access.</td>
+              </tr>
+              <tr>
+                <td><code>web-clipper</code></td>
+                <td>Saves, summarizes, tags, and organizes links sent from chat channels such as Telegram and WhatsApp.</td>
+              </tr>
+              <tr>
+                <td><code>morning-briefing</code></td>
+                <td>Generates a daily briefing from saved context, priorities, calendars, tasks, and relevant external signals.</td>
+              </tr>
+              <tr>
+                <td><code>meeting-assistant</code></td>
+                <td>Turns meeting audio, transcripts, notes, and chat context into summaries, decisions, action items, and follow-ups.</td>
+              </tr>
+              <tr>
+                <td><code>firecrawl-research</code></td>
+                <td>Uses Firecrawl-backed crawling and extraction to produce sourced research briefs from websites and docs.</td>
+              </tr>
+              <tr>
+                <td><code>self-improving-agent</code></td>
+                <td>Captures mistakes, preferences, and lessons learned so future agent runs can improve with reviewable updates.</td>
+              </tr>
+              <tr>
+                <td><code>mcp-bridge</code></td>
+                <td>Helps connect NanoClaw skills to MCP servers and external tool providers through safe setup workflows.</td>
+              </tr>
+              <tr>
+                <td><code>skill-porting-kit</code></td>
+                <td>Converts or adapts OpenClaw, Claude Code, Codex, Cursor, and other <code>SKILL.md</code>-compatible skills for NanoClaw.</td>
+              </tr>
+              <tr>
+                <td><code>notion-knowledge-base</code></td>
+                <td>Reads, writes, searches, and organizes Notion pages, tasks, and lightweight knowledge bases.</td>
+              </tr>
+              <tr>
+                <td><code>context7-docs</code></td>
+                <td>Pulls current developer documentation into coding workflows using Context7-style doc retrieval.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="repository-structure">
+          <h2>Repository Structure</h2>
+          <pre><code>awesome-nanoclaw-skills/
+  README.md
+  LICENSE
+  skills/
+    awesome-updater/
+      SKILL.md
+      scripts/
+      tests/
+    nanoskills/
+      SKILL.md
+      references/
+      templates/
+      scripts/
+    feba-board/
+      SKILL.md
+      references/
+      assets/
+      scripts/
+    read-for-me/
+      SKILL.md
+      references/
+      templates/
+      scripts/
+    rethink/
+      SKILL.md
+      references/
+    think-big/
+      SKILL.md
+      references/
+    whisper-transcribe/
+      SKILL.md
+      scripts/
+      tests/</code></pre>
+        </section>
+
+        <section id="project-status">
+          <h2>Project Status</h2>
+          <p>These skills are usable today, but the collection is still early. Interfaces, prompts, scripts, and folder conventions may change before a v1.0 release.</p>
+        </section>
+
+        <section id="philosophy">
+          <h2>Philosophy</h2>
+          <p>Good agents do not need one giant prompt. They need focused capabilities with clear boundaries.</p>
+          <p>The collection is built around a few principles:</p>
+          <ul>
+            <li>small skills over monolithic agents</li>
+            <li>explicit workflows over vague instructions</li>
+            <li>useful disagreement over automatic agreement</li>
+            <li>local-first tools when possible</li>
+            <li>readable Markdown over hidden complexity</li>
+          </ul>
+        </section>
+
+        <section id="contributing">
+          <h2>Contributing</h2>
+          <p>Issues and suggestions are welcome.</p>
+          <p>Pull requests are welcome for documentation fixes, new examples, and improvements to existing skills.</p>
+          <p>New skill proposals should be opened as an issue first.</p>
+
+          <div class="panel">
+            <h3>Good skills should be</h3>
+            <ul>
+              <li>focused on one capability</li>
+              <li>easy to inspect</li>
+              <li>useful without private context</li>
+              <li>documented with examples</li>
+              <li>safe to run in a normal agent workflow</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="license" class="footer-license">
+          <h2>License</h2>
+          <p>MIT. See <a href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/LICENSE">LICENSE</a>.</p>
+          <div class="cta-row" aria-label="More GitHub links">
+            <a class="cta-link primary" href="https://github.com/fabioespindula/awesome-nanoclaw-skills">Open Repository</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/blob/main/README.md">Read README</a>
+            <a class="cta-link" href="https://github.com/fabioespindula/awesome-nanoclaw-skills/issues">Suggest a Skill</a>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+</body>
+</html>
