@@ -1,0 +1,209 @@
+{
+  "name": "awesome-nanoclaw-skills",
+  "description": "Curated, security-conscious AI skills for NanoClaw and Claude Code agents.",
+  "owner": {
+    "name": "Fabio Espindula"
+  },
+  "plugins": [
+    {
+      "name": "feba-board",
+      "source": "./skills/feba-board",
+      "description": "Five VC perspectives for important decisions, plans, and tradeoffs.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/feba-board",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "decision-making",
+        "strategy",
+        "board",
+        "vc"
+      ],
+      "category": "productivity",
+      "tags": [
+        "decision-making",
+        "strategy",
+        "advisory"
+      ],
+      "strict": false,
+      "skills": "./"
+    },
+    {
+      "name": "read-for-me",
+      "source": "./skills/read-for-me",
+      "description": "Context-aware URL briefs with confidence and safe next steps.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/read-for-me",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "urls",
+        "summarization",
+        "reading",
+        "briefing"
+      ],
+      "category": "productivity",
+      "tags": [
+        "urls",
+        "summarization",
+        "briefing"
+      ],
+      "strict": false,
+      "skills": "./"
+    },
+    {
+      "name": "xray",
+      "source": "./skills/xray",
+      "description": "Visual explanations with complete mental maps and short/long depth modes.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/xray",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "visual-explanation",
+        "mental-map",
+        "analysis",
+        "xray"
+      ],
+      "category": "productivity",
+      "tags": [
+        "visual-explanation",
+        "mental-map",
+        "analysis"
+      ],
+      "strict": false,
+      "skills": "./"
+    },
+    {
+      "name": "rethink",
+      "source": "./skills/rethink",
+      "description": "Reframe plans, ideas, and decisions before committing.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/rethink",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "planning",
+        "critique",
+        "decision-making",
+        "strategy"
+      ],
+      "category": "productivity",
+      "tags": [
+        "planning",
+        "critique",
+        "strategy"
+      ],
+      "strict": false,
+      "skills": "./"
+    },
+    {
+      "name": "think-big",
+      "source": "./skills/think-big",
+      "description": "Strategic future scans with signals, scenarios, risks, and opportunities.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/think-big",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "strategy",
+        "future-scan",
+        "scenarios",
+        "opportunities"
+      ],
+      "category": "productivity",
+      "tags": [
+        "strategy",
+        "future-scan",
+        "scenarios"
+      ],
+      "strict": false,
+      "skills": "./"
+    },
+    {
+      "name": "whisper-transcribe",
+      "source": "./skills/whisper-transcribe",
+      "description": "Local faster-whisper transcription with modes, manifest, and txt/srt/vtt/md output.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/whisper-transcribe",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "transcription",
+        "whisper",
+        "subtitles",
+        "audio"
+      ],
+      "category": "productivity",
+      "tags": [
+        "transcription",
+        "whisper",
+        "subtitles"
+      ],
+      "strict": false,
+      "skills": "./"
+    },
+    {
+      "name": "nanoskills",
+      "source": "./skills/nanoskills",
+      "description": "Package-level catalog and help for all Awesome NanoClaw Skills.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/nanoskills",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "catalog",
+        "skills",
+        "help",
+        "documentation"
+      ],
+      "category": "development",
+      "tags": [
+        "catalog",
+        "skills",
+        "documentation"
+      ],
+      "strict": false,
+      "skills": "./"
+    },
+    {
+      "name": "awesome-updater",
+      "source": "./skills/awesome-updater",
+      "description": "Managed install, discovery, backup, rollback, and auto-update infrastructure.",
+      "author": {
+        "name": "Fabio Espindula"
+      },
+      "homepage": "https://github.com/fabioespindula/awesome-nanoclaw-skills/tree/main/skills/awesome-updater",
+      "repository": "https://github.com/fabioespindula/awesome-nanoclaw-skills",
+      "license": "MIT",
+      "keywords": [
+        "updates",
+        "installer",
+        "skills",
+        "automation"
+      ],
+      "category": "development",
+      "tags": [
+        "updates",
+        "installer",
+        "automation"
+      ],
+      "strict": false,
+      "skills": "./"
+    }
+  ]
+}

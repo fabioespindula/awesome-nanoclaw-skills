@@ -87,6 +87,27 @@ Discover and learn skills from inside chat:
 /febaboard help
 ```
 
+## Claude Code Marketplace
+
+This repository also exposes a Claude Code plugin marketplace manifest at `.claude-plugin/marketplace.json`.
+
+Add this marketplace in Claude Code:
+
+```txt
+https://github.com/fabioespindula/awesome-nanoclaw-skills
+```
+
+Slash-command equivalent:
+
+```txt
+/plugin marketplace add https://github.com/fabioespindula/awesome-nanoclaw-skills
+/plugin install xray@awesome-nanoclaw-skills
+```
+
+Then install individual plugins such as `xray`, `read-for-me`, `feba-board`, `think-big`, `rethink`, `whisper-transcribe`, `nanoskills`, or `awesome-updater`.
+
+Claude Code namespaces marketplace-installed plugin skills by plugin name. The NanoClaw/Codex commands documented in this repository remain unchanged.
+
 ## What Is a Skill?
 
 A NanoClaw skill is a folder that gives an agent a focused capability:
